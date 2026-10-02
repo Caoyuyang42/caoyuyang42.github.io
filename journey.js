@@ -4,7 +4,7 @@
  const person=id=>counties.find(c=>c.id===id);
  const caseA=person(example.a.id),caseB=person(example.b.id);
  const casePanel=document.createElement('section');casePanel.id='caseJourney';casePanel.className='caseJourney';
- casePanel.innerHTML=`<div class="caseTop"><div><div class="eyebrow">ONE QUESTION / 一组真实反差</div><h2>光照相近，为什么排序相距甚远？</h2><p>从新疆两县出发，沿着指标、协调度与综合排序，读懂一张地图。</p></div><button id="startCase" class="casePrimary">开始三分钟案例 ↗</button></div><div id="caseStage" hidden><div class="caseSteps" role="group" aria-label="案例章节">${['看资源','看协调','看排序','看边界'].map((x,i)=>`<button data-case-step="${i}" aria-pressed="false"><small>0${i+1}</small>${x}</button>`).join('')}</div><div class="caseScene"><div><p class="caseKicker" id="caseKicker"></p><h3 id="caseTitle"></h3><p id="caseText"></p><div class="caseNavigation"><button id="casePrev">← 上一步</button><button id="caseNext">下一步 →</button><button id="caseCompare">完整比较两县</button></div></div><div id="caseChart"></div></div><details class="caseMethod"><summary>这个案例如何选出？展开计算依据</summary><p>${esc(example.rule)} 共 ${example.eligiblePairs.toLocaleString()} 组满足条件；${esc(example.note)}</p><div id="caseMath"></div></details></div>`;
+ casePanel.innerHTML=`<div class="caseTop"><div><div class="eyebrow">ONE QUESTION / 一组真实反差</div><h2>光照相近，为什么排序不同？</h2><p>从同省两县出发，沿着指标、协调度与综合排序，读懂一张地图。</p></div><button id="startCase" class="casePrimary">展开故事 ↗</button></div><div id="caseStage" hidden><div class="caseSteps" role="group" aria-label="案例章节">${['看资源','看协调','看排序','看边界'].map((x,i)=>`<button data-case-step="${i}" aria-pressed="false"><small>0${i+1}</small>${x}</button>`).join('')}</div><div class="caseScene"><div><p class="caseKicker" id="caseKicker"></p><h3 id="caseTitle"></h3><p id="caseText"></p><div class="caseNavigation"><button id="casePrev">← 上一步</button><button id="caseNext">下一步 →</button><button id="caseCompare">完整比较两县</button></div></div><div id="caseChart"></div></div><details class="caseMethod"><summary>这个案例如何选出？展开计算依据</summary><p>${esc(example.rule)} 共 ${example.eligiblePairs.toLocaleString()} 组满足条件；${esc(example.note)}</p><div id="caseMath"></div></details></div>`;
  $('atlas').before(casePanel);
  const caseSteps=[
   {metric:'radiation',title:'相近的阳光，不同的起点。',text:`${caseA.name}的辐射指数为 ${caseA.radiation.toFixed(3)}，${caseB.name}为 ${caseB.radiation.toFixed(3)}，绝对差仅 ${Math.abs(caseA.radiation-caseB.radiation).toFixed(3)}。这里只比较归一化辐射，不把它当作发电量。`,key:'radiation',label:'太阳辐射指数',note:'共同刻度 0–1 · 2016 年',kicker:'01 / 资源问题'},
@@ -29,7 +29,7 @@
   setComparison(caseA.id,caseB.id);$('caseJourney').scrollIntoView({behavior:'smooth',block:'start'});
  }
  function exitCase(){
-  if(!caseActive)return;caseActive=false;$('caseStage').hidden=true;$('startCase').textContent='开始三分钟案例 ↗';
+  if(!caseActive)return;caseActive=false;$('caseStage').hidden=true;$('startCase').textContent='展开故事 ↗';
   if(restoreState){({metric,mode,pid,selected,selectedProv,view,protectedView}=restoreState);$('province').value=pid;$('showLinks').checked=restoreState.links;$('showReserves').checked=restoreState.reserves;setMetric(metric);render();setView();setComparison(restoreState.compareA,restoreState.compareB);restoreState=null;}
  }
  $('startCase').onclick=()=>caseActive?exitCase():showCase(0);
@@ -78,7 +78,7 @@
  $('saveResultCard').onclick=()=>{const {canvas,a,b}=makeCard();canvas.toBlob(blob=>{if(!blob){$('compareStatus').textContent='图片生成未完成，请重试。';return;}const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='逐光-对照结论-'+a.id+'-'+b.id+'.png';link.click();setTimeout(()=>URL.revokeObjectURL(url),5000);$('compareStatus').textContent='已生成含指标、年份和口径的结论卡。';},'image/png');};
  $('printResultCard').onclick=()=>{const {canvas}=makeCard();let sheet=$('printSheet');if(!sheet){sheet=document.createElement('div');sheet.id='printSheet';document.body.append(sheet);}const img=new Image();img.alt='逐光县域对照结论卡';img.onload=()=>window.print();img.src=canvas.toDataURL('image/png');sheet.replaceChildren(img);};
  // Optional projection layout and intentional offline preparation.
- const stageTools=document.createElement('div');stageTools.className='stageTools';stageTools.innerHTML='<button id="projectionToggle" aria-pressed="false">投影模式</button><button id="prepareOffline">准备离线演示</button><a href="downloads/逐光-离线演示.html" download>下载独立离线版 ↓</a><span id="offlineStatus" role="status"></span>';casePanel.before(stageTools);
+ const stageTools=document.createElement('div');stageTools.className='stageTools';stageTools.innerHTML='<button id="projectionToggle" aria-pressed="false">投影模式</button><button id="prepareOffline">准备离线演示</button><a href="downloads/逐光-离线演示.html" download>下载独立离线版 ↓</a><span id="offlineStatus" role="status"></span>';$('atlas').after(stageTools);
  $('projectionToggle').onclick=()=>{const active=document.body.classList.toggle('projectionMode');$('projectionToggle').setAttribute('aria-pressed',String(active));$('projectionToggle').textContent=active?'退出投影模式':'投影模式';requestAnimationFrame(()=>{if(caseActive)framePair(caseA,caseB);else fit();});};
  function revealSection(element){let parent=element.closest('details');while(parent){parent.open=true;parent=parent.parentElement?.closest('details');}element.scrollIntoView({behavior:'smooth',block:'start'});}
  for(const [id,label] of [['contextSection','研究背景与政策坐标'],['modelSection','模型验证与计算依据'],['passport','数据口径与来源说明']]){const node=$(id),fold=document.createElement('details');fold.className='supportingFold';const summary=document.createElement('summary');summary.textContent=label+' · 展开阅读';node.before(fold);fold.append(summary,node);}
@@ -101,4 +101,34 @@
  if(person(qa)&&person(qb)){setComparison(qa,qb);requestAnimationFrame(()=>revealSection($('compareSection')));}else updateConclusion();
  if(location.protocol==='file:'){const link=stageTools.querySelector('a');link.href=location.href;$('offlineStatus').textContent='独立离线版 · 已内置全国县界与保护区';}
  window.ATLAS_JOURNEY_READY=true;
+})();
+// Map-first presentation, fixed map semantics and province field examples.
+(() => {
+ const legend=document.querySelector('.legend'),canvas=document.querySelector('.mapCanvas');
+ const hud=document.createElement('div');hud.className='mapHUD';hud.innerHTML='<div class="hudTop"><strong id="hudLayer"></strong><span id="hudMeta"></span></div>';
+ hud.append(legend);canvas.append(hud);
+ const meaning=document.createElement('div');meaning.id='mapMeaning';meaning.className='mapMeaning';canvas.append(meaning);
+ const years={priority:'多年份综合模型',score:'多年份综合模型',coord:'多年份综合模型',solar:'源表未统一标年',radiation:'2016 年',slope:'源表未统一标年',land3:'源表未统一标年',gdp:'多年份统计 · 缺失补估',carbonTotal:'2023 年 / 部分 2022 年',land6:'源表未统一标年',protected:'所给保护区版本 · 未统一标年'};
+ const originalMap=renderMap;
+ renderMap=function(){originalMap();$('hudLayer').textContent=$('mapTitle').textContent;
+   $('hudMeta').textContent=(metric==='priority'?(mode==='county'?'等级 1–5':'最高等级县域占比 %'):defs[metric][2]==='percent'?'单位：%':isTotal(metric)?'单位：吨 CO₂':'单位：归一化指数')+' · '+years[metric];
+   meaning.textContent=metric==='land3'?'金色 = 不可用土地占比较低，土地约束较少':metric==='protected'?(protectedView==='footprint'?'橙金色 = 所给保护区实际边界范围':'橙金色 = 保护区覆盖比例较高'):metric==='priority'?(mode==='county'?'金色 = 综合开发优先级最高（5级）':'金色 = 本省5级县域占比较高'):'金色 = 当前指标数值较高';
+ };
+ const examples={
+  '620000':{name:'甘肃',file:'gansu.png',title:'开阔地表上的光伏阵列',text:'照片可见大面积开阔地表、连续阵列及远处山地。平缓开阔地形便于观察集中式光伏的空间布局；光照条件应结合本省辐射指标判断。'},
+  '520000':{name:'贵州',file:'guizhou.png',title:'山地坡面上的光伏阵列',text:'照片可见起伏山地、沿坡铺设的阵列和植被。地形影响布置与施工条件；云量、降雨和辐射水平需结合长期数据分析，照片中的云不能证明全年日照较少。'}
+ };
+ const photoURL=e=>window.ATLAS_PHOTOS?.[e.file]||'photos/'+e.file;
+ let photo=$('provincePhoto');if(!photo){photo=document.createElement('section');photo.id='provincePhoto';photo.hidden=true;$('detail').after(photo);}
+ const originalDetail=renderDetail;
+ renderDetail=function(){originalDetail();const id=selected?.pid||selectedProv?.id||pid,e=examples[id];photo.hidden=!e;if(!e){photo.replaceChildren();return;}
+   photo.innerHTML='<div class="photoHeading"><span>省域实景 / '+e.name+'</span><small>团队提供示例</small></div><button class="photoOpen" aria-label="放大查看'+e.name+'光伏实景"><img loading="lazy" src="'+photoURL(e)+'" alt="'+e.name+'光伏阵列示例：'+e.title+'"><span>查看大图 ↗</span></button><h3>'+e.title+'</h3><p>'+e.text+'</p><small class="photoSource">地区按团队提供信息标注；具体电站名称与拍摄来源待补充。</small>';
+   photo.querySelector('button').onclick=()=>{const dialog=$('photoDialog');dialog.querySelector('img').src=photoURL(e);dialog.querySelector('img').alt=e.name+'光伏实景示例';dialog.querySelector('h2').textContent=e.name+' · '+e.title;dialog.showModal();};
+ };
+ const dialog=document.createElement('dialog');dialog.id='photoDialog';dialog.innerHTML='<div class="dialogHead"><h2></h2><button aria-label="关闭实景照片">×</button></div><img alt="省域光伏实景">';document.body.append(dialog);dialog.querySelector('button').onclick=()=>dialog.close();dialog.onclick=e=>{if(e.target===dialog)dialog.close();};
+ const controls=document.querySelector('.left');const fold=document.createElement('details');fold.className='mobileLayers';fold.innerHTML='<summary>切换指标与筛选地区</summary>';controls.before(fold);
+ function responsive(){if(innerWidth<900){fold.append(controls);fold.hidden=false;}else{fold.before(controls);fold.hidden=true;}canvas.style.height=Math.max(280,innerHeight-canvas.getBoundingClientRect().top-window.scrollY-18)+'px';}
+ window.addEventListener('resize',responsive);
+ document.querySelector('.guidedEntry')?.remove();document.querySelector('.versionBar').hidden=true;
+ responsive();renderMap();renderDetail();
 })();

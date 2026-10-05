@@ -1,0 +1,77 @@
+{
+  "mappedCounties": 2891,
+  "restoredThisRun": [
+    {
+      "id": "210311",
+      "name": "千山区",
+      "restoredFields": [
+        "carbon",
+        "land6",
+        "land3",
+        "slope",
+        "solar",
+        "electricity"
+      ],
+      "result": {
+        "gdp": 0.007049891864565977,
+        "coord": 0.510357924645194,
+        "score": 0.4039352756187832,
+        "priority": 4,
+        "grade": "过渡协调"
+      },
+      "coordinationMissing": false
+    },
+    {
+      "id": "540526",
+      "name": "措美县",
+      "restoredFields": [
+        "carbon",
+        "land6",
+        "land3",
+        "slope",
+        "solar"
+      ],
+      "result": {
+        "gdp": 0.0006556925902549484,
+        "coord": null,
+        "score": 0.4863140899673833,
+        "priority": 5,
+        "grade": null
+      },
+      "coordinationMissing": true
+    }
+  ],
+  "remainingFieldGaps": {
+    "land3": [],
+    "land6": [],
+    "slope": [],
+    "radiation": [],
+    "solar": [],
+    "carbon": [],
+    "gdp": [],
+    "score": [],
+    "priority": [],
+    "coord": [
+      {
+        "id": "540526",
+        "name": "措美县"
+      }
+    ]
+  },
+  "alreadyAvailableResultsUnchanged": true,
+  "normalizationAnchors": {
+    "carbon": [
+      1.3233069213497265e-06,
+      -1.848232965670721e-06
+    ],
+    "solar": [
+      7.983012150144493e-08,
+      0.0
+    ],
+    "electricity": [
+      4.343832710946556e-06,
+      -1.4302818147932133e-07
+    ]
+  },
+  "note": "Zero placeholder electricity is not treated as an observation. Existing grade centers classify restored coordination values."
+}

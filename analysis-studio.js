@@ -69,3 +69,6 @@
  document.querySelector('.distribution>.subtle').textContent='全国等距分组中，'+(largest+1)+'级占'+(groups[largest]/total*100).toFixed(1)+'%；等级不是等人数分组，比较时请同时查看综合得分与评分剖面。地区筛选不重新划级。';
  refresh(true);renderDetail();window.dispatchEvent(new Event('resize'));window.ATLAS_STUDIO_READY=true;
 })();
+
+// ONLINE_DASHBOARD_LOADER
+const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=16';document.body.append(dashboardScript);

@@ -1,6 +1,6 @@
 'use strict';
-const CACHE='solar-atlas-demo-v15';
-const SHELL=['./','index.html','style.css?v=15','asset-manifest.js?v=15','loader.js?v=15','app.js?v=15','competition.css?v=15','competition.js?v=15','case-study.js?v=15','journey.js?v=15','journey.css?v=15','analysis-studio.js?v=15','analysis-studio.css?v=15','photos/gansu.png','photos/guizhou.png'];
+const CACHE='solar-atlas-demo-v16';
+const SHELL=['./','index.html','style.css?v=16','asset-manifest.js?v=16','loader.js?v=16','app.js?v=16','competition.css?v=16','competition.js?v=16','case-study.js?v=16','journey.js?v=16','journey.css?v=16','dashboard.js?v=16','analysis-studio.js?v=16','analysis-studio.css?v=16','photos/gansu.png','photos/guizhou.png'];
 self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 self.addEventListener('message',event=>{

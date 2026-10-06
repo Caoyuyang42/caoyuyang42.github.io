@@ -16,7 +16,7 @@ async function startAtlas(){
  document.getElementById('retryAtlas').hidden=true;
  try{
   window.ATLAS=await loadAtlasAsset(ATLAS_ASSETS.core);
-  const script=document.createElement('script');script.src='app.js?v=16';
+  const script=document.createElement('script');script.src='app.js?v=17';
   script.onerror=()=>{status.textContent='地图程序未加载完成，请重试。';document.getElementById('retryAtlas').hidden=false;};
   script.onload=()=>{document.getElementById('atlasLoading').hidden=true;document.getElementById('atlas').removeAttribute('inert');};
   document.body.append(script);

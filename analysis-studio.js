@@ -66,9 +66,9 @@
  chart.onpointerup=e=>{if(!start)return;const end=point(e);if(rectangle){brush={x0:(Math.min(start.x,end.x)-52)/575,x1:(Math.max(start.x,end.x)-52)/575,y0:1-(Math.max(start.y,end.y)-44)/278,y1:1-(Math.min(start.y,end.y)-44)/278};refresh(true);}else if(start.county){selectCounty(counties.find(c=>c.id===start.county));$('atlas').scrollIntoView({behavior:'smooth'});}start=null;rectangle=null;};chart.onpointercancel=()=>{start=null;rectangle?.remove();rectangle=null;};
  const baseline=document.querySelector('.intro p');baseline.textContent='比较县域光伏资源与生态约束，识别值得优先研究的地区。点击图层看指标，拖动滑块筛候选，点击县域看依据。';
  const groups=[1,2,3,4,5].map(g=>counties.filter(c=>val(c,'priority')===g).length),total=groups.reduce((a,b)=>a+b,0),largest=groups.indexOf(Math.max(...groups));
- document.querySelector('.distribution>.subtle').textContent='全国等距分组中，'+(largest+1)+'级占'+(groups[largest]/total*100).toFixed(1)+'%；等级不是等人数分组，比较时请同时查看综合得分与评分剖面。地区筛选不重新划级。';
+ document.querySelector('.distribution>.subtle').textContent='全国五分位分组中，'+(largest+1)+'级占'+(groups[largest]/total*100).toFixed(1)+'%；每级约20%，同分不拆级；请同时查看连续得分与评分剖面。地区筛选不重新划级。';
  refresh(true);renderDetail();window.dispatchEvent(new Event('resize'));window.ATLAS_STUDIO_READY=true;
 })();
 
 // ONLINE_DASHBOARD_LOADER
-const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=16';document.body.append(dashboardScript);
+const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=17';document.body.append(dashboardScript);

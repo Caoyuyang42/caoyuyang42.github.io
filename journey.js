@@ -9,7 +9,7 @@
  const caseSteps=[
   {metric:'radiation',title:'相近的阳光，不同的起点。',text:`${caseA.name}的辐射指数为 ${caseA.radiation.toFixed(3)}，${caseB.name}为 ${caseB.radiation.toFixed(3)}，绝对差仅 ${Math.abs(caseA.radiation-caseB.radiation).toFixed(3)}。这里只比较归一化辐射，不把它当作发电量。`,key:'radiation',label:'太阳辐射指数',note:'共同刻度 0–1 · 2016 年',kicker:'01 / 资源问题'},
   {metric:'coord',title:'协调度更高，也不等于排名更高。',text:`两县协调度分别为 ${example.a.coord.toFixed(3)} 与 ${example.b.coord.toFixed(3)}。协调度衡量两个系统的联合状态；它单独保留，不再重复进入综合排名。`,key:'coord',label:'县域内耦合协调度 D',note:'共同刻度 0–1 · 统计优先版',kicker:'02 / 系统问题'},
-  {metric:'priority',title:'六项输入，按同一标尺比较。',text:`${caseA.name}为 ${example.a.priority} 级，${caseB.name}为 ${example.b.priority} 级。两县自然光伏潜力指数分别为 ${example.a.solar.toFixed(4)} 和 ${example.b.solar.toFixed(4)}，并非同样高。新版采用六指标等权评分与五等距分组，协调度不重复计入。`,key:'score',label:'修订综合得分',note:'共同刻度 0–1 · 等距分组，5级最高',kicker:'03 / 排序问题'},
+  {metric:'priority',title:'六项输入，按同一标尺比较。',text:`${caseA.name}为 ${example.a.priority} 级，${caseB.name}为 ${example.b.priority} 级。两县自然光伏潜力指数分别为 ${example.a.solar.toFixed(4)} 和 ${example.b.solar.toFixed(4)}，并非同样高。采用六指标等权评分与五分位分组，协调度不重复计入。`,key:'score',label:'综合得分',note:'共同刻度 0–1 · 五分位分组，5级最高',kicker:'03 / 排序问题'},
   {metric:'protected',title:'研究排序之后，再看空间边界。',text:`两县保护区覆盖率分别为 ${(caseA.protected*100).toFixed(1)}% 与 ${(caseB.protected*100).toFixed(1)}%。保护区实际轮廓帮助核查空间约束；本图层没有再次扣减研究得分，也不把整县视为禁建区。`,key:'protected',label:'保护区覆盖率',note:'共同刻度 0–100% · 面积相交比例',kicker:'04 / 空间问题'}
  ];
  let caseIndex=0,caseActive=false,restoreState=null;
@@ -36,7 +36,7 @@
  document.querySelectorAll('[data-case-step]').forEach(b=>b.onclick=()=>showCase(+b.dataset.caseStep));
  $('casePrev').onclick=()=>showCase(Math.max(0,caseIndex-1));$('caseNext').onclick=()=>caseIndex===3?loadExampleComparison():showCase(caseIndex+1);$('caseCompare').onclick=loadExampleComparison;
  function loadExampleComparison(){setComparison(caseA.id,caseB.id);revealSection($('compareSection'));}
- $('caseMath').innerHTML=`<p>协调度计算可展开到两个系统的加权输入；修订评分通过等权欧氏距离求得，不把得分伪拆成简单指标贡献。</p><div class="caseMathGrid">${[example.a,example.b].map(p=>`<div><h4>${esc(p.name)}</h4><p>PV ${p.pv.toFixed(4)} · CCS ${p.ccs.toFixed(4)} · D ${p.coord.toFixed(4)}</p><ul>${p.pvParts.map(k=>`<li>${k.label}：${k.value.toFixed(4)} × ${k.weight} = ${k.contribution.toFixed(4)}</li>`).join('')}</ul><p>CCS 输入：${p.ccsParts.map(k=>`${k.label} ${k.value.toFixed(4)} × ${k.weight}`).join(' + ')}</p><p>到理想点距离 ${p.idealDistance.toFixed(4)}；到负理想点距离 ${p.antiIdealDistance.toFixed(4)}。</p><p>综合得分 = ${p.antiIdealDistance.toFixed(4)} / (${p.idealDistance.toFixed(4)} + ${p.antiIdealDistance.toFixed(4)}) ≈ ${p.score.toFixed(4)}</p></div>`).join('')}</div>`;
+ $('caseMath').innerHTML=`<p>协调度计算可展开到两个系统的加权输入；综合评分通过等权欧氏距离求得，不把得分伪拆成简单指标贡献。</p><div class="caseMathGrid">${[example.a,example.b].map(p=>`<div><h4>${esc(p.name)}</h4><p>PV ${p.pv.toFixed(4)} · CCS ${p.ccs.toFixed(4)} · D ${p.coord.toFixed(4)}</p><ul>${p.pvParts.map(k=>`<li>${k.label}：${k.value.toFixed(4)} × ${k.weight} = ${k.contribution.toFixed(4)}</li>`).join('')}</ul><p>CCS 输入：${p.ccsParts.map(k=>`${k.label} ${k.value.toFixed(4)} × ${k.weight}`).join(' + ')}</p><p>到理想点距离 ${p.idealDistance.toFixed(4)}；到负理想点距离 ${p.antiIdealDistance.toFixed(4)}。</p><p>综合得分 = ${p.antiIdealDistance.toFixed(4)} / (${p.idealDistance.toFixed(4)} + ${p.antiIdealDistance.toFixed(4)}) ≈ ${p.score.toFixed(4)}</p></div>`).join('')}</div>`;
  // Map -> chosen pair -> comparison -> a self-contained result card.
  const actionBar=document.createElement('div');actionBar.className='selectionActions';actionBar.innerHTML='<span>把地图发现带入对照</span><button id="selectAsA">选中县 → A</button><button id="selectAsB">选中县 → B</button><button id="goToCompare">查看 A / B</button><span id="selectionFeedback" role="status"></span>';$('atlas').after(actionBar);
  function markComparison(a,b){
@@ -72,7 +72,7 @@
    ctx.fillStyle='#e7c286';ctx.fillText(display(val(a,k),k),540,y);ctx.fillStyle='#93c4bc';ctx.fillText(display(val(b,k),k),1060,y);y+=51;
   }
   y+=14;y=wrap('GDP：A '+(a.gdpHybridSource||'缺失')+' / B '+(b.gdpHybridSource||'缺失')+'。碳排放年份：A '+(a.carbonTotalYear||'缺失')+' / B '+(b.carbonTotalYear||'缺失')+'。',70,y,1460,20);
-  y=wrap('口径：统计GDP优先，仅缺失补估。碳排放总量用于展示；优先级及关联采用六指标等权修订模型，协调度单独保留。保护区相交不代表整县禁建。研究数据为多年份快照。',70,y+8,1460,20);
+  y=wrap('口径：统计GDP优先，仅缺失补估。碳排放总量用于展示；优先级及关联采用六指标等权综合模型，协调度单独保留。保护区相交不代表整县禁建。研究数据为多年份快照。',70,y+8,1460,20);
   wrap('生成日期 '+new Date().toLocaleDateString('zh-CN')+' · 来源：团队论文及配套县域数据 · '+(location.protocol==='file:'?'独立离线演示':location.host),70,y+12,1460,18,'#92aab7');return {canvas,a,b};
  }
  $('saveResultCard').onclick=()=>{const {canvas,a,b}=makeCard();canvas.toBlob(blob=>{if(!blob){$('compareStatus').textContent='图片生成未完成，请重试。';return;}const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='逐光-对照结论-'+a.id+'-'+b.id+'.png';link.click();setTimeout(()=>URL.revokeObjectURL(url),5000);$('compareStatus').textContent='已生成含指标、年份和口径的结论卡。';},'image/png');};
@@ -134,4 +134,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=17";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=19";document.body.append(studioScript);

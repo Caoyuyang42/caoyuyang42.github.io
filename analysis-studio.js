@@ -42,7 +42,7 @@
   const coverage=scope()?provRows(provinces.find(p=>p.id===scope())):counties;
   $('studioStats').innerHTML=[['当前范围',scope()?provinces.find(p=>p.id===scope()).name:'全国'],['可参与筛选',eligible.length+' 县'],['满足条件',filtered.length+' 县'],['平均协调度',fmt(avg(filtered,'coord'))]].map(([k,v])=>'<div><small>'+k+'</small><strong>'+v+'</strong></div>').join('');
   $('brushStatus').textContent=brush?'框选范围：辐射 '+brush.x0.toFixed(2)+'–'+brush.x1.toFixed(2)+'，土地可用 '+(brush.y0*100).toFixed(0)+'–'+(brush.y1*100).toFixed(0)+'%。':'无框选限制；金色点满足当前全部筛选条件，背景矩形仅表示辐射与土地阈值。';
-  $('candidateNote').textContent='共 '+filtered.length+' 个候选，按原研究模型得分降序；页面显示前30个，导出包含全部。当前范围 '+coverage.length+' 县，缺少筛选指标或模型结果的 '+(coverage.length-eligible.length)+' 县未参与。';
+  $('candidateNote').textContent='共 '+filtered.length+' 个候选，按综合模型得分降序；页面显示前30个，导出包含全部。当前范围 '+coverage.length+' 县，缺少筛选指标或模型结果的 '+(coverage.length-eligible.length)+' 县未参与。';
   const nextTableKey=JSON.stringify([version,...filtered.slice(0,30).map(c=>c.id)]);if(!preview&&nextTableKey!==tableKey){tableKey=nextTableKey;$('candidateRows').innerHTML=filtered.slice(0,30).map(c=>'<tr><td><button data-locate="'+c.id+'">'+esc(c.name)+'</button><small>'+esc(c.province)+'</small></td><td>'+c.radiation.toFixed(3)+'</td><td>'+((1-c.land3)*100).toFixed(1)+'%</td><td>'+(c.protected*100).toFixed(1)+'%</td><td>'+fmt(val(c,'score'))+'</td><td>'+val(c,'priority')+'级</td><td><button data-a="'+c.id+'">A</button> <button data-b="'+c.id+'">B</button></td></tr>').join('')||'<tr><td colspan="7" class="emptyCandidates">没有满足条件的县域，可放宽阈值或清除框选。</td></tr>';
   for(const b of $('candidateRows').querySelectorAll('button'))b.onclick=()=>{if(b.dataset.locate){selectCounty(counties.find(c=>c.id===b.dataset.locate));$('atlas').scrollIntoView({behavior:'smooth'});}else{const role=b.dataset.a?'A':'B';$('compare'+role).value=b.dataset.a||b.dataset.b;renderComparison();b.textContent='已加入 '+role;}};
   }
@@ -51,7 +51,7 @@
  }
  const mapBefore=renderMap;renderMap=function(){mapBefore();refresh();};
  const detailBefore=renderDetail;const profile=document.createElement('section');profile.id='countyProfile';$('detail').after(profile);
- renderDetail=function(){detailBefore();profile.hidden=!selected;if(!selected)return;profile.innerHTML='<div class="profileTitle"><span>六项评分剖面</span><small>高值表示评分更有利</small></div>'+labels.map((label,i)=>{const v=benefit(selected,i);return '<div class="scoreProfile"><span>'+label+'</span><i><b style="width:'+((v??0)*100)+'%"></b></i><strong>'+fmt(v)+'</strong></div>';}).join('')+'<p>土地已反向处理；高碳强度表达减排需求。各项权重1/6，不把协调度重复计入。</p>'+(selected.recoveryNote?'<p>'+esc(selected.recoveryNote)+'</p>':'');};
+ renderDetail=function(){detailBefore();profile.hidden=!selected;if(!selected)return;profile.innerHTML='<div class="profileTitle"><span>六项评分剖面</span><small>高值表示评分更有利</small></div>'+labels.map((label,i)=>{const v=benefit(selected,i);return '<div class="scoreProfile"><span>'+label+'</span><i><b style="width:'+((v??0)*100)+'%"></b></i><strong>'+fmt(v)+'</strong></div>';}).join('')+'<p>土地可用程度作为正向评分指标；高碳强度表达减排需求。各项权重1/6，不把协调度重复计入。</p>'+(selected.recoveryNote?'<p>'+esc(selected.recoveryNote)+'</p>':'');};
  launch.onclick=()=>{panel.hidden=!panel.hidden;launch.setAttribute('aria-expanded',String(!panel.hidden));if(!panel.hidden){refresh(true);panel.scrollIntoView({behavior:'smooth',block:'start'});}};$('closeStudio').onclick=()=>{panel.hidden=true;launch.setAttribute('aria-expanded','false');$('atlas').scrollIntoView({behavior:'smooth'});};launch.setAttribute('aria-expanded','false');launch.setAttribute('aria-controls','analysisStudio');
  for(const id of ['sunFilter','landFilter','reserveFilter']){
   $(id).oninput=()=>{updateReadouts();clearTimeout(commitTimer);commitTimer=setTimeout(()=>refresh(true),140);if(!frame){const preview=now=>{if(now-lastPreview<50){frame=requestAnimationFrame(preview);return;}frame=0;lastPreview=now;refresh(false,true);};frame=requestAnimationFrame(preview);}};
@@ -71,4 +71,4 @@
 })();
 
 // ONLINE_DASHBOARD_LOADER
-const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=17';document.body.append(dashboardScript);
+const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=19';document.body.append(dashboardScript);

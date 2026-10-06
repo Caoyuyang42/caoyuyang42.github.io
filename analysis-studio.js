@@ -71,4 +71,4 @@
 })();
 
 // ONLINE_DASHBOARD_LOADER
-const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=19';document.body.append(dashboardScript);
+const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=20';document.body.append(dashboardScript);

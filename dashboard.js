@@ -42,4 +42,4 @@
 })();
 
 // ONLINE_MODEL_LAB_LOADER
-const labScript=document.createElement('script');labScript.src='model-lab.js?v=19';document.body.append(labScript);
+const labScript=document.createElement('script');labScript.src='model-lab.js?v=20';document.body.append(labScript);

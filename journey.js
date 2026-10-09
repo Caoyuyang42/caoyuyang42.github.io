@@ -127,11 +127,11 @@
  };
  const dialog=document.createElement('dialog');dialog.id='photoDialog';dialog.innerHTML='<div class="dialogHead"><h2></h2><button aria-label="关闭实景照片">×</button></div><img alt="省域光伏实景">';document.body.append(dialog);dialog.querySelector('button').onclick=()=>dialog.close();dialog.onclick=e=>{if(e.target===dialog)dialog.close();};
  const controls=document.querySelector('.left');const fold=document.createElement('details');fold.className='mobileLayers';fold.innerHTML='<summary>切换指标与筛选地区</summary>';controls.before(fold);
- function responsive(){if(innerWidth<900){fold.append(controls);fold.hidden=false;}else{fold.before(controls);fold.hidden=true;}canvas.style.height=Math.max(280,innerHeight-canvas.getBoundingClientRect().top-window.scrollY-18)+'px';}
+ function responsive(){if(controls.closest('.mapControlPanel'))return;if(innerWidth<900){fold.append(controls);fold.hidden=false;}else{fold.before(controls);fold.hidden=true;}canvas.style.height=Math.max(280,innerHeight-canvas.getBoundingClientRect().top-window.scrollY-18)+'px';}
  window.addEventListener('resize',responsive);
  document.querySelector('.guidedEntry')?.remove();document.querySelector('.versionBar').hidden=true;
  responsive();renderMap();renderDetail();
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=20";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=21";document.body.append(studioScript);

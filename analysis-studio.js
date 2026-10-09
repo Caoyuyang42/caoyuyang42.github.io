@@ -37,13 +37,14 @@
  function refresh(force=false,preview=false){const began=performance.now();if(!preview){cancelAnimationFrame(frame);frame=0;clearTimeout(commitTimer);}const key=JSON.stringify([scope(),version,config(),brush]);if(!force&&key===cacheKey&&(preview||key===commitKey)){if(!preview)applyMask();return;}calculate();if(!preview)applyMask();cacheKey=key;if(!preview)commitKey=key;
   $('mapCandidateToggle').checked=$('applyCandidates').checked;
   $('mapFilterCount').textContent=filtered.length+' / '+eligible.length+' 县满足条件'+($('applyCandidates').checked?' · 淡化区域为未入选，并非数据缺失':' · 地图仍显示全部县域');
+  if(!preview)window.dispatchEvent(new CustomEvent('atlas:filters-changed'));
   if(panel.hidden){updateReadouts();return;}
   updateReadouts();
   const coverage=scope()?provRows(provinces.find(p=>p.id===scope())):counties;
   $('studioStats').innerHTML=[['当前范围',scope()?provinces.find(p=>p.id===scope()).name:'全国'],['可参与筛选',eligible.length+' 县'],['满足条件',filtered.length+' 县'],['平均协调度',fmt(avg(filtered,'coord'))]].map(([k,v])=>'<div><small>'+k+'</small><strong>'+v+'</strong></div>').join('');
   $('brushStatus').textContent=brush?'框选范围：辐射 '+brush.x0.toFixed(2)+'–'+brush.x1.toFixed(2)+'，土地可用 '+(brush.y0*100).toFixed(0)+'–'+(brush.y1*100).toFixed(0)+'%。':'无框选限制；金色点满足当前全部筛选条件，背景矩形仅表示辐射与土地阈值。';
   $('candidateNote').textContent='共 '+filtered.length+' 个候选，按综合模型得分降序；页面显示前30个，导出包含全部。当前范围 '+coverage.length+' 县，缺少筛选指标或模型结果的 '+(coverage.length-eligible.length)+' 县未参与。';
-  const nextTableKey=JSON.stringify([version,...filtered.slice(0,30).map(c=>c.id)]);if(!preview&&nextTableKey!==tableKey){tableKey=nextTableKey;$('candidateRows').innerHTML=filtered.slice(0,30).map(c=>'<tr><td><button data-locate="'+c.id+'">'+esc(c.name)+'</button><small>'+esc(c.province)+'</small></td><td>'+c.radiation.toFixed(3)+'</td><td>'+((1-c.land3)*100).toFixed(1)+'%</td><td>'+(c.protected*100).toFixed(1)+'%</td><td>'+fmt(val(c,'score'))+'</td><td>'+val(c,'priority')+'级</td><td><button data-a="'+c.id+'">A</button> <button data-b="'+c.id+'">B</button></td></tr>').join('')||'<tr><td colspan="7" class="emptyCandidates">没有满足条件的县域，可放宽阈值或清除框选。</td></tr>';
+  const nextTableKey=JSON.stringify([version,...filtered.slice(0,30).map(c=>c.id)]);if(!preview&&window.ATLAS_CANDIDATE_UI){window.ATLAS_CANDIDATE_UI();}else if(!preview&&nextTableKey!==tableKey){tableKey=nextTableKey;$('candidateRows').innerHTML=filtered.slice(0,30).map(c=>'<tr><td><button data-locate="'+c.id+'">'+esc(c.name)+'</button><small>'+esc(c.province)+'</small></td><td>'+c.radiation.toFixed(3)+'</td><td>'+((1-c.land3)*100).toFixed(1)+'%</td><td>'+(c.protected*100).toFixed(1)+'%</td><td>'+fmt(val(c,'score'))+'</td><td>'+val(c,'priority')+'级</td><td><button data-a="'+c.id+'">A</button> <button data-b="'+c.id+'">B</button></td></tr>').join('')||'<tr><td colspan="7" class="emptyCandidates">没有满足条件的县域，可放宽阈值或清除框选。</td></tr>';
   for(const b of $('candidateRows').querySelectorAll('button'))b.onclick=()=>{if(b.dataset.locate){selectCounty(counties.find(c=>c.id===b.dataset.locate));$('atlas').scrollIntoView({behavior:'smooth'});}else{const role=b.dataset.a?'A':'B';$('compare'+role).value=b.dataset.a||b.dataset.b;renderComparison();b.textContent='已加入 '+role;}};
   }
   $('candidateRows').closest('table').setAttribute('aria-busy',String(preview));drawProfiles();drawPlot();$('exportCandidates').disabled=!filtered.length;perf.lastMs=performance.now()-began;perf.maxMs=Math.max(perf.maxMs,perf.lastMs);perf.updates++;
@@ -67,8 +68,9 @@
  const baseline=document.querySelector('.intro p');baseline.textContent='比较县域光伏资源与生态约束，识别值得优先研究的地区。点击图层看指标，拖动滑块筛候选，点击县域看依据。';
  const groups=[1,2,3,4,5].map(g=>counties.filter(c=>val(c,'priority')===g).length),total=groups.reduce((a,b)=>a+b,0),largest=groups.indexOf(Math.max(...groups));
  document.querySelector('.distribution>.subtle').textContent='全国五分位分组中，'+(largest+1)+'级占'+(groups[largest]/total*100).toFixed(1)+'%；每级约20%，同分不拆级；请同时查看连续得分与评分剖面。地区筛选不重新划级。';
+ window.ATLAS_FILTERS={getCandidates:()=>{calculate();return filtered.slice();},getState:()=>({thresholds:config(),brush:brush?{...brush}:null,highlight:$('applyCandidates').checked}),setState:s=>{for(const [key,id] of [['sun','sunFilter'],['land','landFilter'],['reserve','reserveFilter']])if(valid(s.thresholds?.[key]))$(id).value=Math.max(0,Math.min(1,s.thresholds[key]));brush=s.brush&&['x0','x1','y0','y1'].every(k=>valid(s.brush[k])&&s.brush[k]>=0&&s.brush[k]<=1)?{...s.brush}:null;$('applyCandidates').checked=!!s.highlight;refresh(true);}};
  refresh(true);renderDetail();window.dispatchEvent(new Event('resize'));window.ATLAS_STUDIO_READY=true;
 })();
 
 // ONLINE_DASHBOARD_LOADER
-const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=20';document.body.append(dashboardScript);
+const dashboardScript=document.createElement('script');dashboardScript.src='dashboard.js?v=21';document.body.append(dashboardScript);

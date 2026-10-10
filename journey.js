@@ -114,18 +114,23 @@
    $('hudMeta').textContent=(metric==='priority'?(mode==='county'?'等级 1–5':'最高等级县域占比 %'):defs[metric][2]==='percent'?'单位：%':isTotal(metric)?'单位：吨 CO₂':'单位：归一化指数')+' · '+years[metric];
    meaning.textContent=metric==='land3'?'金色 = 不可用土地占比较低，土地约束较少':metric==='protected'?(protectedView==='footprint'?'橙金色 = 所给保护区实际边界范围':'橙金色 = 保护区覆盖比例较高'):metric==='priority'?(mode==='county'?'金色 = 综合开发优先级最高（5级）':'金色 = 本省5级县域占比较高'):'金色 = 当前指标数值较高';
  };
- const examples={
-  '620000':{name:'甘肃',file:'gansu.png',title:'开阔地表上的光伏阵列',text:'照片可见大面积开阔地表、连续阵列及远处山地。平缓开阔地形便于观察集中式光伏的空间布局；光照条件应结合本省辐射指标判断。'},
-  '520000':{name:'贵州',file:'guizhou.png',title:'山地坡面上的光伏阵列',text:'照片可见起伏山地、沿坡铺设的阵列和植被。地形影响布置与施工条件；云量、降雨和辐射水平需结合长期数据分析，照片中的云不能证明全年日照较少。'}
+ const teamExamples={
+  '620000':{name:'甘肃',cases:[{title:'开阔地表上的光伏阵列',location:'甘肃 · 团队提供地区标注',type:'开阔地表集中式',analysis:'照片可见大面积开阔地表、连续阵列及远处山地。平缓开阔地形便于观察集中式光伏的空间布局；光照条件应结合本省辐射指标判断。',images:[{file:'gansu.png',alt:'甘肃开阔地表上的光伏阵列',sourceKind:'team-photo',sourceName:'团队提供示例',credit:'具体电站与拍摄来源待补充'}]}]},
+  '520000':{name:'贵州',cases:[{title:'山地坡面上的光伏阵列',location:'贵州 · 团队提供地区标注',type:'山地坡面布置',analysis:'照片可见起伏山地、沿坡铺设的阵列和植被。地形影响布置与施工条件；云量、降雨和辐射水平需结合长期数据分析，照片中的云不能证明全年日照较少。',images:[{file:'guizhou.png',alt:'贵州山地坡面上的光伏阵列',sourceKind:'team-photo',sourceName:'团队提供示例',credit:'具体电站与拍摄来源待补充'}]}]}
  };
- const photoURL=e=>window.ATLAS_PHOTOS?.[e.file]||'photos/'+e.file;
+ const examples={...window.ATLAS_PROVINCE_EXAMPLES};for(const [id,e] of Object.entries(teamExamples))examples[id]={name:e.name,cases:[...e.cases,...(examples[id]?.cases||[])]};
+ const photoURL=e=>e.file?window.ATLAS_PHOTOS?.[e.file]||'photos/'+e.file:e.url;
+ const imageChoices=new Map(),sourceLabel=e=>e.sourceKind==='source-photo'?'来源照片':e.sourceKind==='search-preview'?'图片检索预览':'团队提供示例';let photoKey='',activeProvince='',activePhoto=null;
  let photo=$('provincePhoto');if(!photo){photo=document.createElement('section');photo.id='provincePhoto';photo.hidden=true;$('detail').after(photo);}
  const originalDetail=renderDetail;
- renderDetail=function(){originalDetail();const id=selected?.pid||selectedProv?.id||pid,e=examples[id];photo.hidden=!e;if(!e){photo.replaceChildren();return;}
-   photo.innerHTML='<div class="photoHeading"><span>省域实景 / '+e.name+'</span><small>团队提供示例</small></div><button class="photoOpen" aria-label="放大查看'+e.name+'光伏实景"><img loading="lazy" src="'+photoURL(e)+'" alt="'+e.name+'光伏阵列示例：'+e.title+'"><span>查看大图 ↗</span></button><h3>'+e.title+'</h3><p>'+e.text+'</p><small class="photoSource">地区按团队提供信息标注；具体电站名称与拍摄来源待补充。</small>';
-   photo.querySelector('button').onclick=()=>{const dialog=$('photoDialog');dialog.querySelector('img').src=photoURL(e);dialog.querySelector('img').alt=e.name+'光伏实景示例';dialog.querySelector('h2').textContent=e.name+' · '+e.title;dialog.showModal();};
- };
- const dialog=document.createElement('dialog');dialog.id='photoDialog';dialog.innerHTML='<div class="dialogHead"><h2></h2><button aria-label="关闭实景照片">×</button></div><img alt="省域光伏实景">';document.body.append(dialog);dialog.querySelector('button').onclick=()=>dialog.close();dialog.onclick=e=>{if(e.target===dialog)dialog.close();};
+ function renderProvincePhoto(id){const e=examples[id];photo.hidden=!e;if(!e){if(photoKey){photo.replaceChildren();photoKey='';}activeProvince='';activePhoto=null;return;}const choices=e.cases.flatMap(c=>c.images.map((image,i)=>({c,image,label:c.title+(c.images.length>1?' · 图片'+(i+1):'')}))),index=Math.min(imageChoices.get(id)||0,choices.length-1),key=id+'|'+index;if(key===photoKey)return;photoKey=key;activeProvince=id;activePhoto=choices[index];const {c,image}=activePhoto;
+   photo.innerHTML='<div class="photoHeading"><span>省域实景 / '+esc(e.name)+'</span><small>'+esc(sourceLabel(image))+'</small></div>'+(choices.length>1?'<label class="photoCaseLabel" for="provincePhotoChoice">地域与场景 · '+choices.length+'张图片</label><select id="provincePhotoChoice">'+choices.map((x,i)=>'<option value="'+i+'"'+(i===index?' selected':'')+'>'+esc(x.label)+'</option>').join('')+'</select>':'')+'<button class="photoOpen" aria-label="放大查看'+esc(e.name+' '+c.title)+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(photoURL(image))+'" alt="'+esc(image.alt)+'"><span>查看大图 ↗</span></button><span class="photoLoadStatus" role="status"></span><div class="photoPlace">'+esc(c.location)+'<span>'+esc(c.type)+'</span></div><h3>'+esc(c.title)+'</h3><p>'+esc(c.analysis)+'</p><small class="photoSource">'+esc(image.credit||image.sourceName)+(image.sourceUrl?' · <a href="'+esc(image.sourceUrl)+'" target="_blank" rel="noopener noreferrer">打开图片来源 ↗</a>':'')+'</small><small class="photoEvidence">'+(image.sourceKind==='search-preview'?'检索预览用于浏览地域场景，具体电站及拍摄地点以原网页说明为准。':'案例照片呈现场地形态，不单独证明整县开发潜力或排名。')+'</small>';
+   const img=photo.querySelector('img'),open=photo.querySelector('.photoOpen');img.onerror=()=>{img.hidden=true;open.disabled=true;open.classList.add('photoUnavailable');photo.querySelector('.photoLoadStatus').textContent='图片暂未载入，可打开来源查看。';};
+   photo.querySelector('select')?.addEventListener('change',event=>{imageChoices.set(id,+event.target.value);renderProvincePhoto(id);});
+   open.onclick=()=>{const dialog=$('photoDialog');dialog.querySelector('img').src=photoURL(image);dialog.querySelector('img').alt=image.alt;dialog.querySelector('h2').textContent=e.name+' · '+c.title;dialog.querySelector('.photoDialogCaption').innerHTML=esc(c.location+' · '+sourceLabel(image)+' · '+(image.credit||image.sourceName))+(image.sourceUrl?' · <a href="'+esc(image.sourceUrl)+'" target="_blank" rel="noopener noreferrer">查看来源 ↗</a>':'');dialog.showModal();};
+ }
+ renderDetail=function(){originalDetail();renderProvincePhoto(selected?.pid||selectedProv?.id||pid);};
+ const dialog=document.createElement('dialog');dialog.id='photoDialog';dialog.innerHTML='<div class="dialogHead"><h2></h2><button aria-label="关闭实景照片">×</button></div><img alt="省域光伏实景" referrerpolicy="no-referrer"><p class="photoDialogCaption"></p>';document.body.append(dialog);dialog.querySelector('button').onclick=()=>dialog.close();dialog.onclick=e=>{if(e.target===dialog)dialog.close();};
  const controls=document.querySelector('.left');const fold=document.createElement('details');fold.className='mobileLayers';fold.innerHTML='<summary>切换指标与筛选地区</summary>';controls.before(fold);
  function responsive(){if(controls.closest('.mapControlPanel'))return;if(innerWidth<900){fold.append(controls);fold.hidden=false;}else{fold.before(controls);fold.hidden=true;}canvas.style.height=Math.max(280,innerHeight-canvas.getBoundingClientRect().top-window.scrollY-18)+'px';}
  window.addEventListener('resize',responsive);
@@ -134,4 +139,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=21";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=22";document.body.append(studioScript);

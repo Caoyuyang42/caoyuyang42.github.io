@@ -8,26 +8,35 @@ let metric='priority',mode='county',pid='',selected=null,selectedProv=null,versi
 const valid=v=>typeof v==='number'&&Number.isFinite(v),fmt=v=>valid(v)?v!==0&&Math.abs(v)<.1?String(Number(v.toPrecision(4))):v.toFixed(3):'暂无数据',esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const versionName=()=>({hybrid:'统计优先 · 综合评价',revised:'全灯光估计实验版',original:'原论文版'}[version]);
 const val=(c,k)=>version!=='original'&&['gdp','coord','score','priority','grade'].includes(k)?(version==='hybrid'?c.v3:c.v2)[k]:c[k];
-const areaRows=()=>counties.filter(c=>!pid||c.pid===pid);
+const areaRows=()=>pid?provinceRows.get(pid)||[]:counties;
 const rows=()=>areaRows().filter(c=>valid(val(c,'score')));
 const avg=(a,k)=>{let v=a.map(c=>val(c,k)).filter(valid);return v.length?v.reduce((s,c)=>s+c,0)/v.length:null;};
 const provinceRows=new Map(provinces.map(p=>[p.id,counties.filter(c=>c.pid===p.id)]));
 const provRows=p=>provinceRows.get(p.id)||[];
-function pval(p,k){let a=provRows(p);if(isTotal(k)){const v=a.map(c=>c[k]).filter(valid);return v.length?v.reduce((s,x)=>s+x,0):null;}if(k==='priority'){a=a.filter(c=>valid(val(c,'priority')));return a.length?a.filter(c=>val(c,'priority')===5).length/a.length:null;}if(k==='protected'){let total=a.reduce((s,c)=>s+c.area_km2,0);return total?a.reduce((s,c)=>s+c.protected_km2,0)/total:null;}return avg(a,k);}
+const provinceValueCache=new Map();
+function pval(p,k){const key=version+'|'+k+'|'+p.id;if(k!=='experimentScore'&&provinceValueCache.has(key))return provinceValueCache.get(key);let a=provRows(p),result;if(isTotal(k)){const v=a.map(c=>c[k]).filter(valid);result=v.length?v.reduce((s,x)=>s+x,0):null;}else if(k==='priority'){a=a.filter(c=>valid(val(c,'priority')));result=a.length?a.filter(c=>val(c,'priority')===5).length/a.length:null;}else if(k==='protected'){let total=a.reduce((s,c)=>s+c.area_km2,0);result=total?a.reduce((s,c)=>s+c.protected_km2,0)/total:null;}else result=avg(a,k);if(k!=='experimentScore')provinceValueCache.set(key,result);return result;}
 const mapValue=c=>mode==='county'?val(c,metric):pval(c,metric);
 const isTotal=k=>k==='carbonTotal';
 const totalUnit=k=>k==='carbonTotal'?'吨 CO₂':'万千瓦时';
 function totalCoverage(list,k){return list.filter(c=>valid(c[k])).length+'/'+list.length;}
 function metricNote(c,k){if(isTotal(k))return valid(c[k])?c[k+'Year']+' 年统计总量 · '+totalUnit(k)+'；地图和对照展示总量，研究排名与关联采用六指标等权模型，总量不直接进入排名。':'原表未提供有效正值，保留缺失，不以 0 或 GDP 估算替代。';return '';}
 function display(v,k=metric,province=false){if(!valid(v))return '暂无数据';if(isTotal(k))return v.toLocaleString('zh-CN',{maximumFractionDigits:1})+' '+totalUnit(k);if(k==='score')return v.toFixed(6);if(k==='priority')return province?(v*100).toFixed(1)+'%':v+' 级';return defs[k][2]==='percent'?(v*100).toFixed(1)+'%':v.toFixed(3);}
-let thresholds=[];
-function scaleSetup(){if(metric==='protected'){thresholds=[.01,.05,.2,.5];return;}if(metric==='priority'&&mode==='county'){thresholds=[1,2,3,4];return;}let vs=(mode==='county'?counties:provinces).map(mapValue).filter(valid).sort((a,b)=>a-b);thresholds=[.2,.4,.6,.8].map(q=>vs[Math.min(vs.length-1,Math.floor(q*vs.length))]??0);}
+let thresholds=[];const scaleCache=new Map();
+function scaleSetup(){if(metric==='protected'){thresholds=[.01,.05,.2,.5];return;}if(metric==='priority'&&mode==='county'){thresholds=[1,2,3,4];return;}const key=[mode,metric,version].join('|');if(metric!=='experimentScore'&&scaleCache.has(key)){thresholds=scaleCache.get(key);return;}let vs=(mode==='county'?counties:provinces).map(mapValue).filter(valid).sort((a,b)=>a-b);thresholds=[.2,.4,.6,.8].map(q=>vs[Math.min(vs.length-1,Math.floor(q*vs.length))]??0);if(metric!=='experimentScore')scaleCache.set(key,thresholds);}
 function fill(v){if(metric==='protected'&&protectedView==='footprint')return '#182b39';if(metric==='protected'&&v===0)return '#263541';if(!valid(v))return 'url(#missing)';if(metric==='priority'&&mode==='county')return colors[v-1];const i=thresholds.filter(t=>v>t).length;return metric==='land3'?colors[4-i]:colors[i];}
 function svg(tag,attrs,text){const e=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>e.setAttribute(k,v));if(text!==undefined)e.textContent=text;return e;}
 $('metrics').innerHTML=Object.entries(defs).map(([k,d],i)=>`<button data-metric="${k}" class="${k===metric?'active':''}" title="${esc(d[1])}"><em>${String(i+1).padStart(2,'0')}</em><span>${d[0]}</span></button>`).join('');
 for(const p of provinces.sort((a,b)=>a.id.localeCompare(b.id))){const o=document.createElement('option');o.value=p.id;o.textContent=p.name;$('province').append(o);}
 $('countyList').innerHTML=counties.map(c=>`<option value="${esc(c.name+' '+c.id)}">${esc(c.province+' · '+c.city)}</option>`).join('');
 let mapKey='',statsKey='',rankingKey='',reserveBuilt=false;
+const regionNodes={county:new Map(),province:new Map()},outlineNodes=new Map(),regionById=new Map([...counties,...provinces].map(c=>[c.id,c]));let mountedMode='';
+function regionPath(id){return regionNodes[mode].get(id);}
+function regionDatum(target){const p=target.closest?.('#regions > path');return p?regionById.get(p.dataset.id):null;}
+$('regions').addEventListener('click',e=>{const c=regionDatum(e.target);if(!c||dragMoved)return;if(mode==='province'){selectedProv=c;selected=null;render();fitSelection();}else selectCounty(c);});
+$('regions').addEventListener('dblclick',e=>{const c=regionDatum(e.target);if(c&&mode==='province')enterProvince(c.id);});
+let tooltipTarget=null,tooltipRect=null;
+$('regions').addEventListener('pointermove',e=>{if(drag)return;const c=regionDatum(e.target);if(!c)return;if(tooltipTarget!==c.id){tooltipTarget=c.id;const label=mode==='province'&&metric==='priority'?'最高优先级占比':defs[metric][0];$('tooltip').innerHTML=`<b>${esc(c.name)}</b><br>${label}：${display(mapValue(c),metric,mode==='province')}${metric==='priority'&&mode==='county'?'<br>综合得分 '+display(val(c,'score'),'score')+' · 全国第 '+c.priorityRank+' 位':''}`;tooltipRect=$('map').parentElement.getBoundingClientRect();$('tooltip').style.display='block';}const r=tooltipRect;$('tooltip').style.left=Math.max(4,Math.min(e.clientX-r.left+14,r.width-218))+'px';$('tooltip').style.top=Math.max(4,Math.min(e.clientY-r.top+10,r.height-75))+'px';});
+$('regions').addEventListener('pointerleave',()=>{tooltipTarget=null;$('tooltip').style.display='none';});
 function syncSelection(){
  const id=mode==='county'?selected?.id:selectedProv?.id;
  const old=$('regions').querySelector('.selected');
@@ -36,11 +45,11 @@ function syncSelection(){
  if(oldDot?.dataset.id!==selected?.id){if(oldDot){oldDot.classList.remove('activeDot');oldDot.setAttribute('r','2.3');oldDot.setAttribute('opacity','.58');}
  if(selected){const dot=$('scatter').querySelector(`[data-id="${selected.id}"]`);if(dot){dot.classList.add('activeDot');dot.setAttribute('r','4');dot.setAttribute('opacity','1');}}}
 }
-function renderMap(){const key=[mode,pid,metric,version,protectedView].join('|');if(key===mapKey){syncSelection();renderOverlays();return;}mapKey=key;scaleSetup();$('regions').replaceChildren();$('outlines').replaceChildren();$('tooltip').style.display='none';
- for(const c of (mode==='county'?counties:provinces)){const p=svg('path',{d:c.path,fill:fill(mapValue(c)),'fill-rule':'evenodd',class:mode+((mode==='county'?selected?.id:selectedProv?.id)===c.id?' selected':'')});p.dataset.id=c.id;if(pid&&(mode==='county'?c.pid:c.id)!==pid)p.style.opacity='.12';
- p.addEventListener('click',()=>{if(dragMoved)return;if(mode==='province'){selectedProv=c;selected=null;render();fitSelection();}else selectCounty(c);});p.addEventListener('dblclick',()=>{if(mode==='province')enterProvince(c.id);});
- p.addEventListener('pointermove',e=>{if(drag)return;const label=mode==='province'&&metric==='priority'?'最高优先级占比':defs[metric][0];$('tooltip').innerHTML=`<b>${esc(c.name)}</b><br>${label}：${display(mapValue(c),metric,mode==='province')}${metric==='priority'&&mode==='county'?'<br>综合得分 '+display(val(c,'score'),'score')+' · 全国第 '+c.priorityRank+' 位':''}`;const r=$('map').parentElement.getBoundingClientRect();$('tooltip').style.display='block';$('tooltip').style.left=Math.max(4,Math.min(e.clientX-r.left+14,r.width-218))+'px';$('tooltip').style.top=Math.max(4,Math.min(e.clientY-r.top+10,r.height-75))+'px';});p.addEventListener('pointerleave',()=>$('tooltip').style.display='none');$('regions').append(p);}
- if(mode==='county')for(const p of provinces){const x=svg('path',{d:p.path,class:'outline'});if(pid&&p.id!==pid)x.style.opacity='.12';$('outlines').append(x);}
+function renderMap(){const key=[mode,pid,metric,version,protectedView].join('|');if(key===mapKey){syncSelection();renderOverlays();return;}mapKey=key;scaleSetup();tooltipTarget=null;$('tooltip').style.display='none';
+ const nodes=regionNodes[mode],fragment=mountedMode!==mode?document.createDocumentFragment():null;
+ for(const c of (mode==='county'?counties:provinces)){let p=nodes.get(c.id);if(!p){p=svg('path',{'fill-rule':'evenodd',class:mode});p.dataset.id=c.id;nodes.set(c.id,p);}if(p.getAttribute('d')!==c.path)p.setAttribute('d',c.path);const color=fill(mapValue(c));if(p.getAttribute('fill')!==color)p.setAttribute('fill',color);const opacity=pid&&(mode==='county'?c.pid:c.id)!==pid?'.12':'';if(p.style.opacity!==opacity)p.style.opacity=opacity;p.classList.toggle('selected',(mode==='county'?selected?.id:selectedProv?.id)===c.id);if(fragment)fragment.append(p);}
+ if(fragment){$('regions').replaceChildren(fragment);$('outlines').replaceChildren();if(mode==='county'){const outlines=document.createDocumentFragment();for(const p of provinces){let x=outlineNodes.get(p.id);if(!x){x=svg('path',{d:p.path,class:'outline'});outlineNodes.set(p.id,x);}outlines.append(x);}$('outlines').append(outlines);}mountedMode=mode;}
+ if(mode==='county')for(const p of provinces){const x=outlineNodes.get(p.id),opacity=pid&&p.id!==pid?'.12':'';if(x.style.opacity!==opacity)x.style.opacity=opacity;}
  $('protectedControls').hidden=metric!=='protected';$('showReserves').disabled=metric==='protected'&&protectedView==='footprint';$('showReserves').closest('label').hidden=metric==='protected'&&protectedView==='footprint';$('showLinks').disabled=metric==='protected';$('showLinks').closest('label').hidden=metric==='protected';
  document.querySelectorAll('[data-protected-view]').forEach(b=>b.classList.toggle('active',b.dataset.protectedView===protectedView));
  $('mapTitle').textContent=mode==='province'&&metric==='priority'?'最高优先级县域占比':defs[metric][0];$('scopeName').textContent=provinces.find(p=>p.id===pid)?.name||'中国 · 全国范围';
@@ -56,8 +65,10 @@ function renderMap(){const key=[mode,pid,metric,version,protectedView].join('|')
  }
  if(isTotal(metric))$('legendNote').textContent='统计总量 · '+totalUnit(metric)+'；有效县域 '+totalCoverage(areaRows(),metric)+'。省级为已覆盖县域小计，不等同于完整省级总量。颜色为有效值分位数；高值不等于更适宜开发。';
  renderOverlays();}
-function relationFocus(){if(mode==='province')return selectedProv||provinces.find(p=>p.id===pid)||provinces.find(p=>p.id==='630000');return selected||rows().slice().sort((a,b)=>val(b,'score')-val(a,'score'))[0];}
-function renderOverlays(){const pg=$('reservesLayer');const show=$('showReserves').checked||(metric==='protected'&&protectedView==='footprint');pg.style.display=show?'':'none';if(show&&!reserves.length){ensureReserves();}if(show&&reserves.length&&!reserveBuilt){const fragment=document.createDocumentFragment();for(const r of reserves)fragment.append(svg('path',{d:r.path,class:'reserveShape','fill-rule':'evenodd'}));pg.append(fragment);reserveBuilt=true;}
+const relationFocusCache=new Map();
+function relationFocus(){if(mode==='province')return selectedProv||regionById.get(pid)||regionById.get('630000');if(selected)return selected;const key=pid+'|'+version;if(!relationFocusCache.has(key))relationFocusCache.set(key,rows().reduce((best,c)=>!best||val(c,'score')>val(best,'score')?c:best,null));return relationFocusCache.get(key);}
+function renderReserveOverlay(){const pg=$('reservesLayer');const show=$('showReserves').checked||(metric==='protected'&&protectedView==='footprint');pg.style.display=show?'':'none';if(show&&!reserves.length){ensureReserves();}if(show&&reserves.length&&!reserveBuilt){const fragment=document.createDocumentFragment();for(const r of reserves)fragment.append(svg('path',{d:r.path,class:'reserveShape','fill-rule':'evenodd'}));pg.append(fragment);reserveBuilt=true;}}
+function renderOverlays(){renderReserveOverlay();
  const lg=$('linksLayer'),labels=$('labelsLayer');lg.replaceChildren();labels.replaceChildren();const focus=relationFocus();let edges=[];
  if(($('showLinks').checked&&metric!=='protected')){if(mode==='province'&&!selectedProv&&!pid){let seen=new Set();for(const p of provinces)for(const r of (p.relations[version]||[]).slice(0,2)){const key=[p.id,r.id].sort().join('-');if(!seen.has(key)){seen.add(key);edges.push({from:p,to:provinces.find(x=>x.id===r.id),...r});}}}else if(focus){for(const r of focus.relations[version]||[])edges.push({from:focus,to:(mode==='county'?counties:provinces).find(x=>x.id===r.id),...r});}}
  for(const e of edges){if(!e.to)continue;let [x,y]=e.from.center,[a,b]=e.to.center,dx=a-x,dy=b-y,bend=.16;const d=`M${x},${y}Q${(x+a)/2-dy*bend},${(y+b)/2+dx*bend} ${a},${b}`;lg.append(svg('path',{d,class:'relationGlow',opacity:e.strength*.5}));lg.append(svg('path',{d,class:'relationLine',opacity:.3+.6*e.strength}));for(const c of [e.from,e.to])lg.append(svg('circle',{cx:c.center[0],cy:c.center[1],r:0,'data-region':c.id,class:'relationNode'}));}
@@ -72,6 +83,7 @@ function renderDetail(){const a=rows();let html='';
  html+='<div class="selectedMetric"><span>已覆盖县域小计 · '+totalCoverage(list,metric)+'</span><strong>'+display(v.length?v.reduce((sum,x)=>sum+x,0):null)+'</strong></div><p class="detailNote">仅相加有效县域；'+(metric==='carbonTotal'?'碳排放为 2023 年，部分 2022 年记录':'用电为 2020 年记录')+'。覆盖不完整时不能视为全省总量。</p>';
  }
  $('detail').innerHTML=html;if($('enterSelectedProvince'))$('enterSelectedProvince').onclick=()=>enterProvince((selectedProv||provinces.find(p=>p.id===pid)).id);
+ if(window.ATLAS_RANKING_UI){window.ATLAS_RANKING_UI();renderRelations();return;}
  const nextRankingKey=[mode,pid,selectedProv?.id||'',metric,version].join('|');if(nextRankingKey===rankingKey){renderRelations();return;}rankingKey=nextRankingKey;
  const rankingScope=selectedProv&&mode==='province'?provRows(selectedProv):areaRows();const ranking=rankingScope.filter(c=>valid(val(c,metric))).sort((a,b)=>val(b,metric)-val(a,metric)).slice(0,5);$('rankingTitle').textContent=defs[metric][0]+' · 数值前五';$('ranking').innerHTML=ranking.map((c,i)=>`<button class="rank" data-id="${c.id}" title="${esc(c.province+' '+c.name)}"><em>0${i+1}</em><span>${esc(c.name)}</span><b>${display(val(c,metric))}</b></button>`).join('')||'<p class="empty">当前范围暂无有效值。</p>';
  $('ranking').querySelectorAll('button').forEach(b=>b.onclick=()=>{const c=counties.find(c=>c.id===b.dataset.id);pid=c.pid;$('province').value=pid;mode='county';selectCounty(c);fit();});renderRelations();}
@@ -96,18 +108,20 @@ function fitBounds(b){
  const h=Math.max(height,width/aspect)/.76,w=h*aspect;
  view=[b.x+b.width/2-w/2,b.y+b.height/2-h/2,w,h];setView();
 }
+const boundsCache=new WeakMap();let mapViewportSize=null;
+function cachedRegionBounds(node){if(!node)return null;const path=node.getAttribute('d'),entry=boundsCache.get(node);if(entry?.path===path)return entry.bounds;const b=node.getBBox(),bounds={x:b.x,y:b.y,width:b.width,height:b.height};boundsCache.set(node,{path,bounds});return bounds;}
 function sizeRelationMarks(){
- const r=$('map').getBoundingClientRect(),unit=Math.max(view[2]/Math.max(r.width,1),view[3]/Math.max(r.height,1));
- for(const dot of $('linksLayer').querySelectorAll('circle')){
-  const region=$('regions').querySelector('[data-id="'+dot.dataset.region+'"]');
-  const b=region?.getBBox(),local=b?Math.min(b.width,b.height)*.12:2.4*unit;
-  const radius=Math.min(2.4*unit,local);dot.setAttribute('r',radius);dot.style.strokeWidth=Math.min(.5*unit,radius*.2)+'px';
- }
- for(const label of $('labelsLayer').children){label.style.fontSize=(12*unit)+'px';label.style.strokeWidth=(2*unit)+'px';label.setAttribute('dx',6*unit);label.setAttribute('dy',-8*unit);}
+ const dots=[...$('linksLayer').querySelectorAll('circle')],labels=[...$('labelsLayer').children];if(!dots.length&&!labels.length)return;
+ const r=mapViewportSize||$('map').getBoundingClientRect(),unit=Math.max(view[2]/Math.max(r.width,1),view[3]/Math.max(r.height,1));
+ // Read geometry first. Reusing each path's bounds avoids layout reads between writes.
+ const sizes=dots.map(dot=>{const b=cachedRegionBounds(regionPath(dot.dataset.region)),local=b?Math.min(b.width,b.height)*.12:2.4*unit;return {dot,radius:Math.min(2.4*unit,local)};});
+ for(const {dot,radius} of sizes){if(dot.getAttribute('r')!==String(radius))dot.setAttribute('r',radius);const width=Math.min(.5*unit,radius*.2)+'px';if(dot.style.strokeWidth!==width)dot.style.strokeWidth=width;}
+ for(const label of labels){label.style.fontSize=(12*unit)+'px';label.style.strokeWidth=(2*unit)+'px';label.setAttribute('dx',6*unit);label.setAttribute('dy',-8*unit);}
 }
+if(typeof ResizeObserver==='function')new ResizeObserver(entries=>{const r=entries[0].contentRect;mapViewportSize={width:r.width,height:r.height};sizeRelationMarks();}).observe($('map'));
 function restoreNational(){pid='';selected=null;selectedProv=null;$('province').value='';$('search').value='';$('searchStatus').textContent='选择县域可查看详情与近邻关系。';view=[-12,-5,900,850];render();setView();$('tooltip').style.display='none';}
 
-function fitSelection(){const focus=mode==='county'?selected:selectedProv;if(!focus)return;const node=$('regions').querySelector(`[data-id="${focus.id}"]`);if(!node)return;const b=node.getBBox();fitBounds(b);$('tooltip').style.display='none';}
+function fitSelection(){const focus=mode==='county'?selected:selectedProv;if(!focus)return;const node=regionPath(focus.id);if(!node)return;fitBounds(cachedRegionBounds(node));$('tooltip').style.display='none';}
 function fit(){if(mode==='county'?selected:selectedProv){fitSelection();return;}if(!pid)view=[-12,-5,900,850];else{const p=provinces.find(p=>p.id===pid),temp=svg('path',{d:p.path});$('map').append(temp);const b=temp.getBBox();temp.remove();fitBounds(b);}setView();}
 function zoom(f){const [x,y,w,h]=view,nw=Math.min(1800,Math.max(8,w*f)),nh=h*nw/w;view=[x+(w-nw)/2,y+(h-nh)/2,nw,nh];setView();}
 $('metrics').querySelectorAll('button').forEach(b=>b.onclick=()=>{metric=b.dataset.metric;$('metrics').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));render();});
@@ -132,8 +146,8 @@ function showStory(index){const [title,description,steps]=storyContent[index];do
 document.querySelectorAll('[data-story]').forEach((b,i)=>{b.onclick=()=>showStory(i);b.onkeydown=e=>{let next;if(e.key==='ArrowRight')next=(i+1)%3;else if(e.key==='ArrowLeft')next=(i+2)%3;else if(e.key==='Home')next=0;else if(e.key==='End')next=2;if(next!==undefined){e.preventDefault();showStory(next);$('storyTab'+next).focus();}};});
 showStory(0);render();fit();
  const modelObserver=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){renderModel();modelObserver.disconnect();}},{rootMargin:'250px'});modelObserver.observe($('modelSection'));
-const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=21';document.head.append(evidenceStyle);
-const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=21';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=21';document.body.append(journey);};document.body.append(evidenceScript);
+const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=22';document.head.append(evidenceStyle);
+const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=22';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=22';document.body.append(journey);};document.body.append(evidenceScript);
 if(document.modelContext?.registerTool){const lifecycle=new AbortController();try{Promise.resolve(document.modelContext.registerTool({name:'explore_solar_county',title:'定位光伏县域',description:'按六位县代码定位县域，显示当前版本指标和相似近邻关系。',inputSchema:{type:'object',properties:{county_id:{type:'string',pattern:'^[0-9]{6}$'}},required:['county_id'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){if(!input||typeof input.county_id!=='string'||!/^\d{6}$/.test(input.county_id))throw new Error('请输入六位县代码');const c=counties.find(c=>c.id===input.county_id);if(!c)throw new Error('该县代码未匹配到地图边界');pid=c.pid;$('province').value=pid;selectCounty(c);fit();return {county_id:c.id,name:c.name,version,score:val(c,'score'),coordination:val(c,'coord'),priority:val(c,'priority'),relations:c.relations[version]};}},{signal:lifecycle.signal})).catch(()=>{});}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
 
 // Detailed geometry is fetched only when the user requests its area.

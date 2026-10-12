@@ -7,10 +7,10 @@
  casePanel.innerHTML=`<div class="caseTop"><div><div class="eyebrow">ONE QUESTION / 一组真实反差</div><h2>光照相近，为什么排序不同？</h2><p>从同省两县出发，沿着指标、协调度与综合排序，读懂一张地图。</p></div><button id="startCase" class="casePrimary">展开故事 ↗</button></div><div id="caseStage" hidden><div class="caseSteps" role="group" aria-label="案例章节">${['看资源','看协调','看排序','看边界'].map((x,i)=>`<button data-case-step="${i}" aria-pressed="false"><small>0${i+1}</small>${x}</button>`).join('')}</div><div class="caseScene"><div><p class="caseKicker" id="caseKicker"></p><h3 id="caseTitle"></h3><p id="caseText"></p><div class="caseNavigation"><button id="casePrev">← 上一步</button><button id="caseNext">下一步 →</button><button id="caseCompare">完整比较两县</button></div></div><div id="caseChart"></div></div><details class="caseMethod"><summary>这个案例如何选出？展开计算依据</summary><p>${esc(example.rule)} 共 ${example.eligiblePairs.toLocaleString()} 组满足条件；${esc(example.note)}</p><div id="caseMath"></div></details></div>`;
  $('atlas').before(casePanel);
  const caseSteps=[
-  {metric:'radiation',title:'相近的阳光，不同的起点。',text:`${caseA.name}的辐射指数为 ${caseA.radiation.toFixed(3)}，${caseB.name}为 ${caseB.radiation.toFixed(3)}，绝对差仅 ${Math.abs(caseA.radiation-caseB.radiation).toFixed(3)}。这里只比较归一化辐射，不把它当作发电量。`,key:'radiation',label:'太阳辐射指数',note:'共同刻度 0–1 · 2016 年',kicker:'01 / 资源问题'},
-  {metric:'coord',title:'协调度更高，也不等于排名更高。',text:`两县协调度分别为 ${example.a.coord.toFixed(3)} 与 ${example.b.coord.toFixed(3)}。协调度衡量两个系统的联合状态；它单独保留，不再重复进入综合排名。`,key:'coord',label:'县域内耦合协调度 D',note:'共同刻度 0–1 · 统计优先版',kicker:'02 / 系统问题'},
-  {metric:'priority',title:'六项输入，按同一标尺比较。',text:`${caseA.name}为 ${example.a.priority} 级，${caseB.name}为 ${example.b.priority} 级。两县自然光伏潜力指数分别为 ${example.a.solar.toFixed(4)} 和 ${example.b.solar.toFixed(4)}，并非同样高。采用六指标等权评分与五分位分组，协调度不重复计入。`,key:'score',label:'综合得分',note:'共同刻度 0–1 · 五分位分组，5级最高',kicker:'03 / 排序问题'},
-  {metric:'protected',title:'研究排序之后，再看空间边界。',text:`两县保护区覆盖率分别为 ${(caseA.protected*100).toFixed(1)}% 与 ${(caseB.protected*100).toFixed(1)}%。保护区实际轮廓帮助核查空间约束；本图层没有再次扣减研究得分，也不把整县视为禁建区。`,key:'protected',label:'保护区覆盖率',note:'共同刻度 0–100% · 面积相交比例',kicker:'04 / 空间问题'}
+  {metric:'radiation',title:'相近的阳光，不同的起点。',text:`${caseA.name}的辐射指数为 ${caseA.radiation.toFixed(3)}，${caseB.name}为 ${caseB.radiation.toFixed(3)}，绝对差为 ${Math.abs(caseA.radiation-caseB.radiation).toFixed(3)}。归一化辐射指数表达两县的相对光照条件。`,key:'radiation',label:'太阳辐射指数',note:'共同刻度 0–1 · 2016 年',kicker:'01 / 资源问题'},
+  {metric:'coord',title:'协调度，刻画两系统的联合状态。',text:`两县协调度分别为 ${example.a.coord.toFixed(3)} 与 ${example.b.coord.toFixed(3)}。协调度衡量资源与低碳相关两系统的联合状态；综合排名由六项基础指标计算。`,key:'coord',label:'县域内耦合协调度 D',note:'共同刻度 0–1 · 统计优先版',kicker:'02 / 系统问题'},
+  {metric:'priority',title:'六项输入，按同一标尺比较。',text:`${caseA.name}为 ${example.a.priority} 级，${caseB.name}为 ${example.b.priority} 级。两县自然光伏潜力指数分别为 ${example.a.solar.toFixed(4)} 和 ${example.b.solar.toFixed(4)}。六项指标按统一标尺进入等权 TOPSIS 评分，再按全国五分位划分优先级。`,key:'score',label:'综合得分',note:'共同刻度 0–1 · 五分位分组，5级最高',kicker:'03 / 排序问题'},
+  {metric:'protected',title:'研究排序之后，再看空间边界。',text:`两县保护区覆盖率分别为 ${(caseA.protected*100).toFixed(1)}% 与 ${(caseB.protected*100).toFixed(1)}%。保护区实际轮廓呈现空间约束，覆盖率用于候选筛选与具体位置核查；综合研究得分保持统一口径。`,key:'protected',label:'保护区覆盖率',note:'共同刻度 0–100% · 面积相交比例',kicker:'04 / 空间问题'}
  ];
  let caseIndex=0,caseActive=false,restoreState=null;
  function setMetric(k){metric=k;document.querySelectorAll('#metrics button').forEach(b=>b.classList.toggle('active',b.dataset.metric===k));}
@@ -36,7 +36,7 @@
  document.querySelectorAll('[data-case-step]').forEach(b=>b.onclick=()=>showCase(+b.dataset.caseStep));
  $('casePrev').onclick=()=>showCase(Math.max(0,caseIndex-1));$('caseNext').onclick=()=>caseIndex===3?loadExampleComparison():showCase(caseIndex+1);$('caseCompare').onclick=loadExampleComparison;
  function loadExampleComparison(){setComparison(caseA.id,caseB.id);revealSection($('compareSection'));}
- $('caseMath').innerHTML=`<p>协调度计算可展开到两个系统的加权输入；综合评分通过等权欧氏距离求得，不把得分伪拆成简单指标贡献。</p><div class="caseMathGrid">${[example.a,example.b].map(p=>`<div><h4>${esc(p.name)}</h4><p>PV ${p.pv.toFixed(4)} · CCS ${p.ccs.toFixed(4)} · D ${p.coord.toFixed(4)}</p><ul>${p.pvParts.map(k=>`<li>${k.label}：${k.value.toFixed(4)} × ${k.weight} = ${k.contribution.toFixed(4)}</li>`).join('')}</ul><p>CCS 输入：${p.ccsParts.map(k=>`${k.label} ${k.value.toFixed(4)} × ${k.weight}`).join(' + ')}</p><p>到理想点距离 ${p.idealDistance.toFixed(4)}；到负理想点距离 ${p.antiIdealDistance.toFixed(4)}。</p><p>综合得分 = ${p.antiIdealDistance.toFixed(4)} / (${p.idealDistance.toFixed(4)} + ${p.antiIdealDistance.toFixed(4)}) ≈ ${p.score.toFixed(4)}</p></div>`).join('')}</div>`;
+ $('caseMath').innerHTML=`<p>协调度由两个系统的加权输入计算；综合得分通过六指标等权欧氏距离求得。下方展示各项输入和两种理想点距离。</p><div class="caseMathGrid">${[example.a,example.b].map(p=>`<div><h4>${esc(p.name)}</h4><p>PV ${p.pv.toFixed(4)} · CCS ${p.ccs.toFixed(4)} · D ${p.coord.toFixed(4)}</p><ul>${p.pvParts.map(k=>`<li>${k.label}：${k.value.toFixed(4)} × ${k.weight} = ${k.contribution.toFixed(4)}</li>`).join('')}</ul><p>CCS 输入：${p.ccsParts.map(k=>`${k.label} ${k.value.toFixed(4)} × ${k.weight}`).join(' + ')}</p><p>到理想点距离 ${p.idealDistance.toFixed(4)}；到负理想点距离 ${p.antiIdealDistance.toFixed(4)}。</p><p>综合得分 = ${p.antiIdealDistance.toFixed(4)} / (${p.idealDistance.toFixed(4)} + ${p.antiIdealDistance.toFixed(4)}) ≈ ${p.score.toFixed(4)}</p></div>`).join('')}</div>`;
  // Map -> chosen pair -> comparison -> a self-contained result card.
  const actionBar=document.createElement('div');actionBar.className='selectionActions';actionBar.innerHTML='<span>把地图发现带入对照</span><button id="selectAsA">选中县 → A</button><button id="selectAsB">选中县 → B</button><button id="goToCompare">查看 A / B</button><span id="selectionFeedback" role="status"></span>';$('atlas').after(actionBar);
  function markComparison(a,b){
@@ -52,7 +52,7 @@
   `太阳辐射指数：A ${display(a.radiation,'radiation')} / B ${display(b.radiation,'radiation')}。`,
   `研究优先级：A ${display(val(a,'priority'),'priority')} / B ${display(val(b,'priority'),'priority')}；综合得分 ${fmt(val(a,'score'))} / ${fmt(val(b,'score'))}。`,
   `协调度 D：A ${fmt(val(a,'coord'))} / B ${fmt(val(b,'coord'))}；保护区覆盖 ${display(a.protected,'protected')} / ${display(b.protected,'protected')}。`,
-  '这些指标描述不同维度，不能以单项数值直接推断优先级或实际发电效果。'
+  '结合资源、经济、低碳需求与生态条件，理解综合优先级形成的依据。'
  ]};}
  function updateConclusion(){const {a,b,lines}=conclusionData();result.innerHTML='<small>对照结论 · 根据当前 A / B 自动生成</small><h3>'+esc(a.name)+' × '+esc(b.name)+'</h3><p>'+lines.map(esc).join('<br>')+'</p>';}
  for(const role of ['A','B'])$('locateCompare'+role).onclick=()=>{pid='';$('province').value='';selectCounty(person($('compare'+role).value));revealSection($('atlas'));};
@@ -72,7 +72,7 @@
    ctx.fillStyle='#e7c286';ctx.fillText(display(val(a,k),k),540,y);ctx.fillStyle='#93c4bc';ctx.fillText(display(val(b,k),k),1060,y);y+=51;
   }
   y+=14;y=wrap('GDP：A '+(a.gdpHybridSource||'缺失')+' / B '+(b.gdpHybridSource||'缺失')+'。碳排放年份：A '+(a.carbonTotalYear||'缺失')+' / B '+(b.carbonTotalYear||'缺失')+'。',70,y,1460,20);
-  y=wrap('口径：统计GDP优先，仅缺失补估。碳排放总量用于展示；优先级及关联采用六指标等权综合模型，协调度单独保留。保护区相交不代表整县禁建。研究数据为多年份快照。',70,y+8,1460,20);
+  y=wrap('口径：采用已有统计GDP，缺失及零值由灯光模型补估。碳排放总量用于展示，优先级及关联采用六指标等权综合模型；协调度刻画两系统状态，保护区按实际相交面积与边界展示。研究数据为多年份快照。',70,y+8,1460,20);
   wrap('生成日期 '+new Date().toLocaleDateString('zh-CN')+' · 来源：团队论文及配套县域数据 · '+(location.protocol==='file:'?'独立离线演示':location.host),70,y+12,1460,18,'#92aab7');return {canvas,a,b};
  }
  $('saveResultCard').onclick=()=>{const {canvas,a,b}=makeCard();canvas.toBlob(blob=>{if(!blob){$('compareStatus').textContent='图片生成未完成，请重试。';return;}const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='逐光-对照结论-'+a.id+'-'+b.id+'.png';link.click();setTimeout(()=>URL.revokeObjectURL(url),5000);$('compareStatus').textContent='已生成含指标、年份和口径的结论卡。';},'image/png');};
@@ -87,7 +87,7 @@
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(caseActive)exitCase();if(document.body.classList.contains('projectionMode'))$('projectionToggle').click();}if(caseActive&&!e.target.closest('input,select,textarea,button,summary')&&!$('about').open){if(e.key==='ArrowRight'&&caseIndex<3){e.preventDefault();showCase(caseIndex+1);}if(e.key==='ArrowLeft'&&caseIndex>0){e.preventDefault();showCase(caseIndex-1);}}});
  $('prepareOffline').onclick=async()=>{
   const status=$('offlineStatus');if(location.protocol==='file:'){status.textContent='当前为独立离线版，已内置数据与边界。';return;}
-  if(!('serviceWorker' in navigator)){status.textContent='此浏览器不支持离线缓存，请下载独立离线版。';return;}
+  if(!('serviceWorker' in navigator)){status.textContent='此浏览器可通过独立离线版查看图谱，请点击下载。';return;}
   $('prepareOffline').disabled=true;status.textContent='正在准备离线资源…';
   try{await navigator.serviceWorker.register('sw.js');const registration=await navigator.serviceWorker.ready;const channel=new MessageChannel();
    await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('准备超时，可重试或下载离线版')),120000);channel.port1.onmessage=e=>{const d=e.data;if(d.type==='progress')status.textContent='离线准备 '+d.done+' / '+d.total;if(d.type==='done'){clearTimeout(timer);resolve();}if(d.type==='error'){clearTimeout(timer);reject(new Error(d.message));}};
@@ -116,7 +116,7 @@
  };
  const teamExamples={
   '620000':{name:'甘肃',cases:[{title:'开阔地表上的光伏阵列',location:'甘肃 · 团队提供地区标注',type:'开阔地表集中式',analysis:'照片可见大面积开阔地表、连续阵列及远处山地。平缓开阔地形便于观察集中式光伏的空间布局；光照条件应结合本省辐射指标判断。',images:[{file:'gansu.png',alt:'甘肃开阔地表上的光伏阵列',sourceKind:'team-photo',sourceName:'团队提供示例',credit:'具体电站与拍摄来源待补充'}]}]},
-  '520000':{name:'贵州',cases:[{title:'山地坡面上的光伏阵列',location:'贵州 · 团队提供地区标注',type:'山地坡面布置',analysis:'照片可见起伏山地、沿坡铺设的阵列和植被。地形影响布置与施工条件；云量、降雨和辐射水平需结合长期数据分析，照片中的云不能证明全年日照较少。',images:[{file:'guizhou.png',alt:'贵州山地坡面上的光伏阵列',sourceKind:'team-photo',sourceName:'团队提供示例',credit:'具体电站与拍摄来源待补充'}]}]}
+  '520000':{name:'贵州',cases:[{title:'山地坡面上的光伏阵列',location:'贵州 · 团队提供地区标注',type:'山地坡面布置',analysis:'照片呈现起伏山地、沿坡铺设的阵列和植被。地形影响阵列布置与施工条件；结合长期云量、降雨和辐射数据，可以进一步分析年尺度光照条件。',images:[{file:'guizhou.png',alt:'贵州山地坡面上的光伏阵列',sourceKind:'team-photo',sourceName:'团队提供示例',credit:'具体电站与拍摄来源待补充'}]}]}
  };
  const examples={...window.ATLAS_PROVINCE_EXAMPLES};for(const [id,e] of Object.entries(teamExamples))examples[id]={name:e.name,cases:[...e.cases,...(examples[id]?.cases||[])]};
  const photoURL=e=>e.file?window.ATLAS_PHOTOS?.[e.file]||'photos/'+e.file:e.url;
@@ -124,7 +124,7 @@
  let photo=$('provincePhoto');if(!photo){photo=document.createElement('section');photo.id='provincePhoto';photo.hidden=true;$('detail').after(photo);}
  const originalDetail=renderDetail;
  function renderProvincePhoto(id){const e=examples[id];photo.hidden=!e;if(!e){if(photoKey){photo.replaceChildren();photoKey='';}activeProvince='';activePhoto=null;return;}const choices=e.cases.flatMap(c=>c.images.map((image,i)=>({c,image,label:c.title+(c.images.length>1?' · 图片'+(i+1):'')}))),index=Math.min(imageChoices.get(id)||0,choices.length-1),key=id+'|'+index;if(key===photoKey)return;photoKey=key;activeProvince=id;activePhoto=choices[index];const {c,image}=activePhoto;
-   photo.innerHTML='<div class="photoHeading"><span>省域实景 / '+esc(e.name)+'</span><small>'+esc(sourceLabel(image))+'</small></div>'+(choices.length>1?'<label class="photoCaseLabel" for="provincePhotoChoice">地域与场景 · '+choices.length+'张图片</label><select id="provincePhotoChoice">'+choices.map((x,i)=>'<option value="'+i+'"'+(i===index?' selected':'')+'>'+esc(x.label)+'</option>').join('')+'</select>':'')+'<button class="photoOpen" aria-label="放大查看'+esc(e.name+' '+c.title)+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(photoURL(image))+'" alt="'+esc(image.alt)+'"><span>查看大图 ↗</span></button><span class="photoLoadStatus" role="status"></span><div class="photoPlace">'+esc(c.location)+'<span>'+esc(c.type)+'</span></div><h3>'+esc(c.title)+'</h3><p>'+esc(c.analysis)+'</p><small class="photoSource">'+esc(image.credit||image.sourceName)+(image.sourceUrl?' · <a href="'+esc(image.sourceUrl)+'" target="_blank" rel="noopener noreferrer">打开图片来源 ↗</a>':'')+'</small><small class="photoEvidence">'+(image.sourceKind==='search-preview'?'检索预览用于浏览地域场景，具体电站及拍摄地点以原网页说明为准。':'案例照片呈现场地形态，不单独证明整县开发潜力或排名。')+'</small>';
+   photo.innerHTML='<div class="photoHeading"><span>省域实景 / '+esc(e.name)+'</span><small>'+esc(sourceLabel(image))+'</small></div>'+(choices.length>1?'<label class="photoCaseLabel" for="provincePhotoChoice">地域与场景 · '+choices.length+'张图片</label><select id="provincePhotoChoice">'+choices.map((x,i)=>'<option value="'+i+'"'+(i===index?' selected':'')+'>'+esc(x.label)+'</option>').join('')+'</select>':'')+'<button class="photoOpen" aria-label="放大查看'+esc(e.name+' '+c.title)+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(photoURL(image))+'" alt="'+esc(image.alt)+'"><span>查看大图 ↗</span></button><span class="photoLoadStatus" role="status"></span><div class="photoPlace">'+esc(c.location)+'<span>'+esc(c.type)+'</span></div><h3>'+esc(c.title)+'</h3><p>'+esc(c.analysis)+'</p><small class="photoSource">'+esc(image.credit||image.sourceName)+(image.sourceUrl?' · <a href="'+esc(image.sourceUrl)+'" target="_blank" rel="noopener noreferrer">打开图片来源 ↗</a>':'')+'</small><small class="photoEvidence">'+(image.sourceKind==='search-preview'?'检索预览用于浏览地域场景，具体电站及拍摄地点以原网页说明为准。':'案例照片呈现场地形态；结合县域资源、土地和综合指标展开分析。')+'</small>';
    const img=photo.querySelector('img'),open=photo.querySelector('.photoOpen');img.onerror=()=>{img.hidden=true;open.disabled=true;open.classList.add('photoUnavailable');photo.querySelector('.photoLoadStatus').textContent='图片暂未载入，可打开来源查看。';};
    photo.querySelector('select')?.addEventListener('change',event=>{imageChoices.set(id,+event.target.value);renderProvincePhoto(id);});
    open.onclick=()=>{const dialog=$('photoDialog');dialog.querySelector('img').src=photoURL(image);dialog.querySelector('img').alt=image.alt;dialog.querySelector('h2').textContent=e.name+' · '+c.title;dialog.querySelector('.photoDialogCaption').innerHTML=esc(c.location+' · '+sourceLabel(image)+' · '+(image.credit||image.sourceName))+(image.sourceUrl?' · <a href="'+esc(image.sourceUrl)+'" target="_blank" rel="noopener noreferrer">查看来源 ↗</a>':'');dialog.showModal();};
@@ -139,4 +139,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=22";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=23";document.body.append(studioScript);

@@ -21,3 +21,62 @@
 /* Pointer selection uses the shape itself, without the browser's rectangular outline. */
 #regions path:focus,#map:focus{outline:none!important}
 #regions path:focus-visible{stroke:#fff0b7!important;stroke-width:2!important;vector-effect:non-scaling-stroke}
+
+/* The open control workspace has its own column; map and legend retain their space. */
+.mapWorkspaceFrame{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;min-width:0;width:100%}
+.mapWorkspaceFrame.controlsOpen{grid-template-columns:236px minmax(0,1fr)}
+.mapControlDock{min-width:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#6b929b #244655;border-right:1px solid #84a3ac44;background:#244655}
+.mapControlDock[hidden]{display:none!important}
+.mapControlDock .mapControlContents{position:static;top:auto;left:auto;width:auto;max-height:none;overflow:visible;padding:12px 10px;border:0;border-radius:0;box-shadow:none;background:transparent}
+.mapControlDock .left{padding:0;box-shadow:none}
+.mapControlDock .left:before{display:none}
+.mapControlDock .left>.eyebrow{font-size:9px;margin:0 0 4px}
+.mapControlDock .left>h2{font-size:13px;margin:0 0 9px}
+.mapControlDock .metrics{grid-template-columns:1fr;gap:2px;margin:8px 0 12px}
+.mapControlDock .metrics button{min-height:28px;padding:5px 7px;gap:8px}
+.mapControlDock .metrics button span{font-size:11px;line-height:1.5}
+.mapControlDock .left label{font-size:10px;margin:9px 0 5px}
+.mapControlDock .left input,.mapControlDock .left select{font-size:11px;padding:8px}
+.mapControlDock .left .subtle{font-size:10px;line-height:1.6;margin-top:7px}
+.mapControlDock .left .reset{font-size:11px;margin-top:8px;padding:7px}
+.mapControlDock .filterRibbonHeading{font-size:10px}
+.mapControlDock .overlayControls{gap:9px;padding:9px 0 0}
+.mapControlDock .overlayControls label{font-size:10px}
+.mapControlDock .overlayControls>span{width:100%;margin:0;font-size:9px}
+.mapViewport{min-width:0;width:100%;overflow:hidden}
+.mapViewport>.mapHUD{margin:6px 10px;min-width:0}
+.mapViewport>.protectedControls,.mapViewport>.mapReading{margin-left:10px;margin-right:10px}
+.mapViewport>.mapCanvas{width:100%;min-height:0}
+.mapControlPanel{z-index:auto}
+.mapControlPanel>summary{list-style:revert}
+.mapControlPanel[open]>summary{border-color:#d0b179;background:#365365}
+
+/* Numeric values occupy a dedicated column, outside even a full-length bar. */
+.compareMetric{grid-template-columns:minmax(150px,210px) minmax(0,1fr) 115px;gap:18px;padding:10px 0}
+.doubleTrack{min-width:0}
+.doubleTrack>.compareSeries{display:grid;grid-template-columns:minmax(24px,1fr) 168px;gap:14px;align-items:center;background:transparent;height:auto;min-height:39px;margin:3px 0}
+.compareRail{height:12px;width:100%;min-width:0;background:#0d2637;border-radius:3px;overflow:hidden}
+.compareRail>i{height:12px;width:0;display:block;border-radius:3px;background:linear-gradient(90deg,#947a4d,#e2bf7b)}
+.compareSeries:nth-child(2) .compareRail>i{background:linear-gradient(90deg,#417977,#8ac4b7)}
+.doubleTrack .compareValue{position:static;right:auto;top:auto;display:block;width:100%;min-width:0;padding:0;color:#e6d1ad;text-align:right;font-size:12px;text-shadow:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.doubleTrack .compareSeries:nth-child(2) .compareValue{color:#a5d9ce}
+.compareValue .compareRaw{display:block;font-size:12px;line-height:1.5;font-weight:500}
+.doubleTrack .compareValue>small{display:block;font-size:9px;color:#abc7d3;margin:1px 0 0;line-height:1.4}
+.compareMetric>.metricDelta{min-width:0;font-size:10px;color:#bbd1da}
+.comparisonInsight{padding:18px 20px;background:linear-gradient(125deg,#315662,#1c4050);border:1px solid #91a8a555;border-left:3px solid #e0bd7e;margin:18px 0 14px;border-radius:5px}
+.comparisonInsight>small{display:block;font-size:10px;color:#b8d1dc;letter-spacing:1px}
+.comparisonInsight>h3{font-size:22px;color:#ffe0ab;margin:8px 0 10px;line-height:1.5}
+.comparisonInsight>p{font-size:12px;line-height:1.9;color:#c6dbe2}
+.compareFactorCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0}
+.compareFactorCards>div{padding:11px 12px;background:#14384899;border:1px solid #8ca9a52d}
+.compareFactorCards small{display:block;color:#aac9d5;font-size:10px}
+.compareFactorCards strong{display:block;font-size:15px;color:#f3d19b;margin:7px 0;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:500}
+.compareFactorCards strong i{font-style:normal;color:#91acb7;margin:0 5px}
+.compareFactorCards strong em{font-style:normal;font-size:10px;color:#eac789}
+.compareFactorCards strong em:last-child{color:#9bcfbe}
+.compareFactorCards span{font-size:10px;color:#b2cbd6}
+.comparisonInsight>.compareInsightSummary{font-size:12px;color:#e2d5b7}
+#resultConclusion{display:none}
+@media(max-width:1200px) and (min-width:900px){.mapWorkspaceFrame.controlsOpen{grid-template-columns:214px minmax(0,1fr)}.mapControlDock .mapControlContents{padding:10px 8px}.mapControlDock .metrics button{padding:5px 4px;gap:6px}.mapControlDock .metrics button span{font-size:10px}.compareMetric{grid-template-columns:175px minmax(0,1fr) 103px;gap:12px}.doubleTrack>.compareSeries{grid-template-columns:minmax(24px,1fr) 152px;gap:10px}}
+@media(max-width:899px){.mapWorkspaceFrame,.mapWorkspaceFrame.controlsOpen{grid-template-columns:minmax(0,1fr)}.mapControlDock{border-right:0;border-bottom:1px solid #84a3ac44;max-height:350px!important}.mapControlDock .mapControlContents{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}.mapControlDock .overlayControls{grid-column:1/-1}.mapControlDock .metrics{grid-template-columns:1fr 1fr;gap:3px}.mapControlDock .metrics button span{font-size:10px}.mapControlDock .left .reset{display:block}.mapControlDock .mapFilterRibbon{margin-top:0;padding-top:0;border-top:0}.mapViewport>.mapHUD{margin:5px 8px}.compareMetric{grid-template-columns:150px minmax(0,1fr) 86px;gap:10px}.doubleTrack>.compareSeries{grid-template-columns:minmax(24px,1fr) 130px;gap:9px}.comparisonInsight{padding:15px}.comparisonInsight>h3{font-size:19px}.compareFactorCards{gap:8px}.compareFactorCards>div{padding:9px}.compareFactorCards strong{font-size:13px}}
+@media(max-width:620px){.mapControlDock .mapControlContents{grid-template-columns:1fr;gap:10px}.mapControlDock .metrics{grid-template-columns:1fr 1fr}.mapControlDock .metrics button span{font-size:10px}.mapControlDock .overlayControls{grid-column:1}.mapControlDock .visibleSliders{grid-template-columns:1fr 1fr 1fr;gap:8px}.compareMetric{grid-template-columns:minmax(0,1fr) 74px;gap:7px}.compareMetric>div:first-child{grid-column:1/-1}.compareMetric>div:first-child small{display:block;font-size:9px;margin:3px 0}.doubleTrack>.compareSeries{grid-template-columns:minmax(20px,1fr) 117px;gap:8px;min-height:35px}.compareValue .compareRaw{font-size:11px}.doubleTrack .compareValue>small{font-size:8px;display:block}.compareMetric>.metricDelta{font-size:9px}.compareRail,.compareRail>i{height:10px}.comparisonInsight>h3{font-size:18px}.compareFactorCards{grid-template-columns:1fr}.compareFactorCards>div{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:4px 8px}.compareFactorCards strong{margin:0;font-size:14px}.compareFactorCards span{grid-column:2;font-size:9px}}

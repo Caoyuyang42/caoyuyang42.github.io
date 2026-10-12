@@ -4,12 +4,12 @@
  const person=id=>counties.find(c=>c.id===id);
  const caseA=person(example.a.id),caseB=person(example.b.id);
  const casePanel=document.createElement('section');casePanel.id='caseJourney';casePanel.className='caseJourney';
- casePanel.innerHTML=`<div class="caseTop"><div><div class="eyebrow">ONE QUESTION / 一组真实反差</div><h2>光照相近，为什么排序不同？</h2><p>从同省两县出发，沿着指标、协调度与综合排序，读懂一张地图。</p></div><button id="startCase" class="casePrimary">展开故事 ↗</button></div><div id="caseStage" hidden><div class="caseSteps" role="group" aria-label="案例章节">${['看资源','看协调','看排序','看边界'].map((x,i)=>`<button data-case-step="${i}" aria-pressed="false"><small>0${i+1}</small>${x}</button>`).join('')}</div><div class="caseScene"><div><p class="caseKicker" id="caseKicker"></p><h3 id="caseTitle"></h3><p id="caseText"></p><div class="caseNavigation"><button id="casePrev">← 上一步</button><button id="caseNext">下一步 →</button><button id="caseCompare">完整比较两县</button></div></div><div id="caseChart"></div></div><details class="caseMethod"><summary>这个案例如何选出？展开计算依据</summary><p>${esc(example.rule)} 共 ${example.eligiblePairs.toLocaleString()} 组满足条件；${esc(example.note)}</p><div id="caseMath"></div></details></div>`;
+ casePanel.innerHTML=`<div class="caseTop"><div><div class="eyebrow">ONE QUESTION / 一组真实反差</div><h2>光照相近，为什么排序不同？</h2><p>从同省两县出发，沿着指标、协调度与综合排序，读懂一张地图。</p></div><button id="startCase" class="casePrimary">展开故事 ↗</button></div><div id="caseStage" hidden><div class="caseSteps" role="group" aria-label="案例章节">${['看资源','看协调','看排序','看边界'].map((x,i)=>`<button data-case-step="${i}" aria-pressed="false"><small>0${i+1}</small>${x}</button>`).join('')}</div><div class="caseScene"><div><p class="caseKicker" id="caseKicker"></p><h3 id="caseTitle"></h3><p id="caseText"></p><div class="caseNavigation"><button id="casePrev">← 上一步</button><button id="caseNext">下一步 →</button><button id="caseCompare">完整比较两县</button></div></div><div id="caseChart"></div></div><details class="caseMethod"><summary>七项指标与计算依据</summary><p>${esc(example.rule)} 共 ${example.eligiblePairs.toLocaleString()} 组满足条件；${esc(example.note)}</p><div id="caseMath"></div></details></div>`;
  $('atlas').before(casePanel);
  const caseSteps=[
   {metric:'radiation',title:'相近的阳光，不同的起点。',text:`${caseA.name}的辐射指数为 ${caseA.radiation.toFixed(3)}，${caseB.name}为 ${caseB.radiation.toFixed(3)}，绝对差为 ${Math.abs(caseA.radiation-caseB.radiation).toFixed(3)}。归一化辐射指数表达两县的相对光照条件。`,key:'radiation',label:'太阳辐射指数',note:'共同刻度 0–1 · 2016 年',kicker:'01 / 资源问题'},
-  {metric:'coord',title:'协调度，刻画两系统的联合状态。',text:`两县协调度分别为 ${example.a.coord.toFixed(3)} 与 ${example.b.coord.toFixed(3)}。协调度衡量资源与低碳相关两系统的联合状态；综合排名由六项基础指标计算。`,key:'coord',label:'县域内耦合协调度 D',note:'共同刻度 0–1 · 统计优先版',kicker:'02 / 系统问题'},
-  {metric:'priority',title:'六项输入，按同一标尺比较。',text:`${caseA.name}为 ${example.a.priority} 级，${caseB.name}为 ${example.b.priority} 级。两县自然光伏潜力指数分别为 ${example.a.solar.toFixed(4)} 和 ${example.b.solar.toFixed(4)}。六项指标按统一标尺进入等权 TOPSIS 评分，再按全国五分位划分优先级。`,key:'score',label:'综合得分',note:'共同刻度 0–1 · 五分位分组，5级最高',kicker:'03 / 排序问题'},
+  {metric:'coord',title:'协调度，刻画两系统的联合状态。',text:`两县协调度分别为 ${example.a.coord.toFixed(3)} 与 ${example.b.coord.toFixed(3)}。协调度衡量资源与低碳相关两系统的联合状态；综合排名由含协调度的七项指标计算。`,key:'coord',label:'县域内耦合协调度 D',note:'共同刻度 0–1 · 统计优先版',kicker:'02 / 系统问题'},
+  {metric:'priority',title:'七项输入，按同一标尺比较。',text:`${caseA.name}为 ${example.a.priority} 级，${caseB.name}为 ${example.b.priority} 级。两县自然光伏潜力指数分别为 ${example.a.solar.toFixed(4)} 和 ${example.b.solar.toFixed(4)}。七项指标按统一标尺进入正则马氏 TOPSIS 评分，再按全国五分位划分优先级。`,key:'score',label:'综合得分',note:'共同刻度 0–1 · 五分位分组，5级最高',kicker:'03 / 排序问题'},
   {metric:'protected',title:'研究排序之后，再看空间边界。',text:`两县保护区覆盖率分别为 ${(caseA.protected*100).toFixed(1)}% 与 ${(caseB.protected*100).toFixed(1)}%。保护区实际轮廓呈现空间约束，覆盖率用于候选筛选与具体位置核查；综合研究得分保持统一口径。`,key:'protected',label:'保护区覆盖率',note:'共同刻度 0–100% · 面积相交比例',kicker:'04 / 空间问题'}
  ];
  let caseIndex=0,caseActive=false,restoreState=null;
@@ -36,7 +36,7 @@
  document.querySelectorAll('[data-case-step]').forEach(b=>b.onclick=()=>showCase(+b.dataset.caseStep));
  $('casePrev').onclick=()=>showCase(Math.max(0,caseIndex-1));$('caseNext').onclick=()=>caseIndex===3?loadExampleComparison():showCase(caseIndex+1);$('caseCompare').onclick=loadExampleComparison;
  function loadExampleComparison(){setComparison(caseA.id,caseB.id);revealSection($('compareSection'));}
- $('caseMath').innerHTML=`<p>协调度由两个系统的加权输入计算；综合得分通过六指标等权欧氏距离求得。下方展示各项输入和两种理想点距离。</p><div class="caseMathGrid">${[example.a,example.b].map(p=>`<div><h4>${esc(p.name)}</h4><p>PV ${p.pv.toFixed(4)} · CCS ${p.ccs.toFixed(4)} · D ${p.coord.toFixed(4)}</p><ul>${p.pvParts.map(k=>`<li>${k.label}：${k.value.toFixed(4)} × ${k.weight} = ${k.contribution.toFixed(4)}</li>`).join('')}</ul><p>CCS 输入：${p.ccsParts.map(k=>`${k.label} ${k.value.toFixed(4)} × ${k.weight}`).join(' + ')}</p><p>到理想点距离 ${p.idealDistance.toFixed(4)}；到负理想点距离 ${p.antiIdealDistance.toFixed(4)}。</p><p>综合得分 = ${p.antiIdealDistance.toFixed(4)} / (${p.idealDistance.toFixed(4)} + ${p.antiIdealDistance.toFixed(4)}) ≈ ${p.score.toFixed(4)}</p></div>`).join('')}</div>`;
+ $('caseMath').innerHTML=`<p>协调度由两个系统的加权输入计算；综合得分通过七指标正则马氏距离求得。下方展示系统输入及到正、负理想解的马氏距离。</p><div class="caseMathGrid">${[example.a,example.b].map(p=>`<div><h4>${esc(p.name)}</h4><p>PV ${p.pv.toFixed(4)} · CCS ${p.ccs.toFixed(4)} · D ${p.coord.toFixed(4)}</p><ul>${p.pvParts.map(k=>`<li>${k.label}：${k.value.toFixed(4)} × ${k.weight} = ${k.contribution.toFixed(4)}</li>`).join('')}</ul><p>CCS 输入：${p.ccsParts.map(k=>`${k.label} ${k.value.toFixed(4)} × ${k.weight}`).join(' + ')}</p><p>到理想点距离 ${p.idealDistance.toFixed(4)}；到负理想点距离 ${p.antiIdealDistance.toFixed(4)}。</p><p>综合得分 = ${p.antiIdealDistance.toFixed(4)} / (${p.idealDistance.toFixed(4)} + ${p.antiIdealDistance.toFixed(4)} + 10⁻¹⁰) ≈ ${p.score.toFixed(4)}</p></div>`).join('')}</div>`;
  // Map -> chosen pair -> comparison -> a self-contained result card.
  const actionBar=document.createElement('div');actionBar.className='selectionActions';actionBar.innerHTML='<span>把地图发现带入对照</span><button id="selectAsA">选中县 → A</button><button id="selectAsB">选中县 → B</button><button id="goToCompare">查看 A / B</button><span id="selectionFeedback" role="status"></span>';$('atlas').after(actionBar);
  function markComparison(a,b){
@@ -72,7 +72,7 @@
    ctx.fillStyle='#e7c286';ctx.fillText(display(val(a,k),k),540,y);ctx.fillStyle='#93c4bc';ctx.fillText(display(val(b,k),k),1060,y);y+=51;
   }
   y+=14;y=wrap('GDP：A '+(a.gdpHybridSource||'缺失')+' / B '+(b.gdpHybridSource||'缺失')+'。碳排放年份：A '+(a.carbonTotalYear||'缺失')+' / B '+(b.carbonTotalYear||'缺失')+'。',70,y,1460,20);
-  y=wrap('口径：采用已有统计GDP，缺失及零值由灯光模型补估。碳排放总量用于展示，优先级及关联采用六指标等权综合模型；协调度刻画两系统状态，保护区按实际相交面积与边界展示。研究数据为多年份快照。',70,y+8,1460,20);
+  y=wrap('口径：采用已有统计GDP，缺失及零值由灯光模型补估。碳排放总量用于展示，优先级采用七指标正则马氏模型，关联采用同向归一化指标；协调度刻画两系统状态并进入综合评价，保护区按实际相交面积与边界展示。研究数据为多年份快照。',70,y+8,1460,20);
   wrap('生成日期 '+new Date().toLocaleDateString('zh-CN')+' · 来源：团队论文及配套县域数据 · '+(location.protocol==='file:'?'独立离线演示':location.host),70,y+12,1460,18,'#92aab7');return {canvas,a,b};
  }
  $('saveResultCard').onclick=()=>{const {canvas,a,b}=makeCard();canvas.toBlob(blob=>{if(!blob){$('compareStatus').textContent='图片生成未完成，请重试。';return;}const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='逐光-对照结论-'+a.id+'-'+b.id+'.png';link.click();setTimeout(()=>URL.revokeObjectURL(url),5000);$('compareStatus').textContent='已生成含指标、年份和口径的结论卡。';},'image/png');};
@@ -139,4 +139,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=23";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=24";document.body.append(studioScript);

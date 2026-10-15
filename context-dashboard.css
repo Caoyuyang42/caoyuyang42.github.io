@@ -1,0 +1,147 @@
+/* Background and policy: one connected data board, with the film at its centre. */
+body[data-page="context"] main{max-width:2100px}
+.appPage[data-page="context"]{max-width:none;margin:0}
+#contextSection.contextDashboard{margin:0;padding:0;border:0;border-radius:0;background:none;overflow:visible;content-visibility:visible;contain-intrinsic-size:none;color:#e4eff3}
+#contextSection.contextDashboard:before{display:none}
+body[data-page="context"] footer{padding:7px 0;font-size:11px}
+#contextSection .contextBoardHead{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:49px;padding:0 1px 9px}
+#contextSection .contextBoardHead h2{font-size:21px;font-weight:500;line-height:1.35;letter-spacing:1px;margin:0}
+#contextSection .contextBoardHead p{font-size:13px;line-height:1.5;margin:4px 0 0;color:#b2ccd7}
+#contextSection .contextYearScope{font-size:13px;line-height:1.5;color:#9dc8d2;text-align:right;white-space:nowrap}
+#contextSection .contextDashboardGrid{display:grid;grid-template-columns:minmax(0,24fr) minmax(0,52fr) minmax(0,24fr);grid-template-rows:minmax(0,1fr) minmax(0,1fr) 151px;grid-template-areas:"share film goals" "trend film pillars" "timeline timeline timeline";gap:11px;height:calc(100dvh - 187px);min-height:510px;max-height:810px}
+#contextSection .ctxPanel{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;box-sizing:border-box;padding:11px 13px;border:1px solid #638d9f;border-radius:0;background:linear-gradient(125deg,#173b50,#102d42);box-shadow:none;overflow:hidden}
+#contextSection .ctxPanel:before{content:"";position:absolute;pointer-events:none;inset:-1px;background:linear-gradient(#97d5d3,#97d5d3) left top/24px 2px no-repeat,linear-gradient(#97d5d3,#97d5d3) left top/2px 16px no-repeat,linear-gradient(#d7b77b,#d7b77b) right bottom/24px 2px no-repeat,linear-gradient(#d7b77b,#d7b77b) right bottom/2px 16px no-repeat}
+#contextSection .ctxPanelHead{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:26px;flex-shrink:0;padding:0 0 8px;border-bottom:1px solid #60899b6b;margin:0 0 8px}
+#contextSection .ctxPanelHead h3{font-size:16px;line-height:1.4;font-weight:500;margin:0;letter-spacing:.3px;color:#dceef1}
+#contextSection .ctxPanelHead>span{font-size:12px;color:#9ebfce;line-height:1.4;text-align:right;white-space:nowrap}
+#contextSection .ctxShare{grid-area:share}
+#contextSection .ctxFilm{grid-area:film;background:linear-gradient(145deg,#173b4d,#091f32);padding:11px 13px 10px}
+#contextSection .ctxGoals{grid-area:goals}
+#contextSection .ctxTrend{grid-area:trend}
+#contextSection .ctxPillars{grid-area:pillars}
+#contextSection .ctxTimeline{grid-area:timeline}
+#contextSection #contextShareSvg,#contextSection #contextTrendSvg{display:block;width:100%;flex:1;min-height:0;overflow:visible}
+#contextSection svg text{font-family:inherit;font-variant-numeric:tabular-nums}
+#contextSection .ctxShareSummary{display:grid;gap:6px;flex-shrink:0;padding:3px 0 0}
+#contextSection .ctxShareSummary>div{display:flex;align-items:center;justify-content:space-between;gap:8px;line-height:1.4;font-size:13px}
+#contextSection .ctxShareSummary span{display:flex;align-items:center;gap:7px;color:#bed4de}
+#contextSection .ctxShareSummary i{display:inline-block;width:13px;height:5px;flex-shrink:0;background:#75d8cf}
+#contextSection .ctxShareSummary>div:nth-child(2) i{background:#3f6173}
+#contextSection .ctxShareSummary b{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;color:#edf6f5;white-space:nowrap}
+#contextSection #contextVideo{display:block;width:100%;height:100%;flex:1;min-height:0;min-width:0;aspect-ratio:16/9;object-fit:contain;background:#071521;border:0;border-radius:0}
+#contextSection .ctxVideoStage{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;min-height:0;background:#071521}
+#contextSection #contextPolicyTimeline time b{display:block;font:inherit}
+#contextSection #contextPolicyTimeline time span{display:block;font:400 12px/1.4 "Segoe UI",sans-serif;letter-spacing:1px;margin-top:2px}
+#contextSection #contextTrendSvg g[role="button"]{cursor:pointer}
+#contextSection #contextTrendSvg g[role="button"]:focus-visible{outline:1px solid #ffd08a;outline-offset:1px}
+#contextSection #contextSources{display:grid;gap:5px;padding:5px 0 15px}
+#contextSection #contextGoAtlas{font-size:13px;padding:7px 11px;min-height:34px;border:1px solid #8bb2bb77;border-radius:0;background:#204659;white-space:nowrap}
+#contextSection .contextBoardHead .eyebrow{font-size:11px;line-height:1.4;margin:0 0 4px}
+#contextSection .ctxFilmCaption{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;padding-top:10px;min-height:29px;line-height:1.5}
+#contextSection .ctxFilmCaption strong,#contextSection .ctxFilmCaption h3{font-size:16px;font-weight:500;line-height:1.5;margin:0;color:#ead4aa}
+#contextSection .ctxFilmCaption span,#contextSection .ctxFilmCaption small{font-size:13px;color:#aac6d3;white-space:nowrap}
+#contextSection .ctxGoalTargets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;align-items:center;flex:1;min-height:0}
+#contextSection .ctxGoalTargets>div{position:relative;min-width:0;padding:6px 10px 7px;border-left:2px solid #75d8cf;background:#79bfc80c}
+#contextSection .ctxGoalTargets>div:nth-child(2){border-color:#d6ba80}
+#contextSection .ctxGoalTargets b{display:block;font:500 clamp(27px,2.6vw,37px)/1.25 Bahnschrift,"Segoe UI",sans-serif;color:#83ded6;letter-spacing:1px;font-variant-numeric:tabular-nums}
+#contextSection .ctxGoalTargets>div:nth-child(2) b{color:#f0cd8d}
+#contextSection .ctxGoalTargets span{display:block;font-size:15px;line-height:1.5;color:#d5e5eb;margin-top:4px;white-space:normal}
+#contextSection .ctxGoalAxis{width:100%;height:28px;flex-shrink:0;overflow:visible;margin:0}
+#contextSection .ctxTrendReadout{display:flex;align-items:baseline;gap:8px;min-height:29px;flex-shrink:0;line-height:1.2;margin:0 0 1px}
+#contextSection .ctxTrendReadout strong{font:500 26px/1.2 Bahnschrift,"Segoe UI",sans-serif;color:#80ded3;font-variant-numeric:tabular-nums}
+#contextSection .ctxTrendReadout span{font-size:13px;color:#b6ced9}
+#contextSection .ctxChartNote{font-size:12px!important;color:#a9c4d0;line-height:1.45!important;margin:4px 0 0!important;flex-shrink:0}
+#contextSection .ctxPillars button[data-pillar]{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:0;flex:1;width:100%;text-align:left;border:0;border-bottom:1px solid #56829866;border-radius:0;padding:8px 2px;background:transparent;box-shadow:none;color:#dbeaf0;cursor:pointer}
+#contextSection .ctxPillars button[data-pillar]:last-child{border-bottom:0;padding-bottom:0}
+#contextSection .ctxPillars button[data-pillar]>span{min-width:0}
+#contextSection .ctxPillars button[data-pillar] strong{font-size:15px;font-weight:500;display:block;line-height:1.35;color:#84d8d0}
+#contextSection .ctxPillars button[data-pillar="development"] strong{color:#e7c68f}
+#contextSection .ctxPillars button[data-pillar="ecology"] strong{color:#dca79e}
+#contextSection .ctxPillars button[data-pillar] small{display:block;font-size:13px;line-height:1.4;color:#b4ccd7;margin-top:4px}
+#contextSection .ctxPillars button[data-pillar]>b{font-size:22px;line-height:1;font-weight:400;color:#a9d5de;flex-shrink:0}
+#contextSection .ctxPillars button[data-pillar]:hover{background:#6ba9ba14}
+#contextSection :is(button,a,summary):focus-visible{outline:2px solid #f0ce8d;outline-offset:3px}
+#contextSection .ctxTimeline{padding-top:9px;padding-bottom:9px}
+#contextSection .ctxTimeline .ctxPanelHead{min-height:23px;padding-bottom:5px;margin-bottom:7px}
+#contextSection #contextPolicyTimeline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;position:relative;flex:1;min-height:0}
+#contextSection #contextPolicyTimeline:before{content:"";position:absolute;left:0;right:0;top:10px;border-top:1px solid #6f9aa7;pointer-events:none}
+#contextSection #contextPolicyTimeline button{position:relative;display:grid;grid-template-columns:76px minmax(0,1fr);grid-template-rows:auto auto;column-gap:11px;row-gap:3px;align-content:center;align-items:center;min-width:0;padding:0 0 4px;border:0;border-radius:0;text-align:left;background:linear-gradient(0deg,#0c293b,#0c293b) 0 10px/100% calc(100% - 10px) no-repeat;color:#dce8ec;box-shadow:none;cursor:pointer}
+#contextSection #contextPolicyTimeline button:before{content:"";position:absolute;top:6px;left:0;width:7px;height:7px;background:#8ad5ce;border:1px solid #0f2d41;transform:rotate(45deg)}
+#contextSection #contextPolicyTimeline button[aria-selected="true"]:before,#contextSection #contextPolicyTimeline button[aria-pressed="true"]:before{background:#efcb8b}
+#contextSection #contextPolicyTimeline time{grid-column:1;grid-row:1/3;font:500 24px/1.3 Bahnschrift,"Segoe UI",sans-serif;color:#9ad7d5;letter-spacing:.5px;white-space:nowrap;padding-top:8px}
+#contextSection #contextPolicyTimeline strong{font-size:14px;font-weight:500;line-height:1.35;grid-column:2;padding-top:10px;color:#e1eaf0}
+#contextSection #contextPolicyTimeline small{font-size:12px;line-height:1.4;grid-column:2;color:#a8c4d1;overflow-wrap:anywhere}
+#contextSection #contextPolicyTimeline button[aria-selected="true"] time,#contextSection #contextPolicyTimeline button[aria-pressed="true"] time{color:#f0ce91}
+#contextSection #contextPolicyTimeline button:hover strong{color:#f4d69f}
+#contextSection #contextPolicyDetail{display:flex;align-items:baseline;gap:11px;flex-shrink:0;min-height:20px;padding-top:7px;border-top:1px solid #5c879866;font-size:13px;line-height:1.45;color:#b9d0db}
+#contextSection #contextPolicyDetail strong{font-size:13px;color:#e6cfaa;font-weight:500;white-space:nowrap}
+#contextSection #contextPolicyDetail p{font-size:13px;line-height:1.45;margin:0;flex:1}
+#contextSection #contextPolicyDetail a{font-size:13px;color:#9ad8d2;white-space:nowrap;text-underline-offset:3px;margin-left:auto}
+#contextSection .ctxSourceFoot{font-size:12px;line-height:1.6;color:#9ab8c7;margin:7px 1px 0}
+#contextSection .ctxSourceFoot summary{cursor:pointer;width:fit-content;color:#adc9d2}
+#contextSection .ctxSourceFoot p{font-size:13px;line-height:1.7;margin:7px 0 2px}
+#contextSection .ctxSourceFoot a{color:#91d3d0;text-underline-offset:3px}
+@media(min-width:1000px) and (max-height:780px){
+  #contextSection .contextBoardHead{min-height:43px;padding-bottom:7px}
+  #contextSection .contextBoardHead h2{font-size:19px}
+  #contextSection .contextBoardHead p{margin-top:3px}
+  #contextSection .contextDashboardGrid{height:calc(100dvh - 174px);min-height:505px;grid-template-rows:minmax(0,1fr) minmax(0,1fr) 143px;gap:9px}
+  #contextSection .ctxPanel{padding:9px 11px}
+  #contextSection .ctxPanelHead{padding-bottom:6px;margin-bottom:6px;min-height:24px}
+  #contextSection .ctxPanelHead h3{font-size:15px}
+  #contextSection .ctxFilmCaption{min-height:26px;padding-top:7px}
+  #contextSection .ctxGoalTargets{gap:6px}
+  #contextSection .ctxGoalTargets>div{padding-left:7px;padding-right:5px}
+  #contextSection .ctxGoalTargets b{font-size:29px}
+  #contextSection .ctxGoalAxis{height:24px}
+  #contextSection .ctxTrendReadout{min-height:28px}
+  #contextSection .ctxPillars button[data-pillar]{padding-top:6px;padding-bottom:6px}
+  #contextSection .ctxPillars button[data-pillar] small{margin-top:2px}
+  #contextSection #contextPolicyTimeline{gap:14px}
+  #contextSection #contextPolicyTimeline button{column-gap:8px;grid-template-columns:72px minmax(0,1fr)}
+  #contextSection #contextPolicyTimeline time{font-size:23px}
+}
+@media(max-width:999px){
+  #contextSection .contextBoardHead{align-items:start;min-height:0;padding-bottom:12px}
+  #contextSection .contextDashboardGrid{height:auto;max-height:none;min-height:0;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto 235px 235px auto;grid-template-areas:"film film" "share goals" "trend pillars" "timeline timeline";gap:11px}
+  #contextSection .ctxFilm{height:auto}
+  #contextSection #contextVideo{height:auto;flex:none;aspect-ratio:16/9}
+  #contextSection .ctxVideoStage{flex:none}
+  #contextSection .ctxFilmCaption{min-height:30px}
+  #contextSection .ctxTimeline{min-height:173px}
+  #contextSection #contextPolicyTimeline{min-height:74px}
+  #contextSection #contextPolicyDetail{flex-wrap:wrap;gap:5px 12px}
+  #contextSection #contextPolicyDetail p{min-width:60%;flex:1}
+  #contextSection #contextPolicyTimeline button{grid-template-columns:1fr;align-content:start;gap:3px;padding-top:11px}
+  #contextSection #contextPolicyTimeline time{grid-column:1;grid-row:1;padding-top:4px;font-size:23px}
+  #contextSection #contextPolicyTimeline strong{grid-column:1;padding-top:0}
+  #contextSection #contextPolicyTimeline small{grid-column:1}
+}
+@media(max-width:619px){
+  #contextSection .contextBoardHead{gap:10px;flex-wrap:wrap}
+  #contextSection .contextBoardHead h2{font-size:20px}
+  #contextSection .contextYearScope{font-size:13px;text-align:left;white-space:normal}
+  #contextSection .contextDashboardGrid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 260px 235px 225px 245px auto;grid-template-areas:"film" "share" "trend" "goals" "pillars" "timeline";gap:11px}
+  #contextSection .ctxPanel{padding:11px 13px}
+  #contextSection .ctxPanelHead h3{font-size:16px}
+  #contextSection .ctxPanelHead>span{font-size:12px}
+  #contextSection .ctxFilmCaption{align-items:start;gap:6px 12px;flex-wrap:wrap}
+  #contextSection .ctxFilmCaption strong,#contextSection .ctxFilmCaption h3{font-size:15px}
+  #contextSection .ctxGoalTargets>div{padding:10px 13px}
+  #contextSection .ctxGoalTargets b{font-size:35px}
+  #contextSection .ctxGoalTargets span{font-size:16px}
+  #contextSection .ctxPillars button[data-pillar] strong{font-size:16px}
+  #contextSection .ctxPillars button[data-pillar] small{font-size:14px}
+  #contextSection .ctxTimeline{min-height:0}
+  #contextSection #contextPolicyTimeline{grid-template-columns:minmax(0,1fr);gap:12px;margin-bottom:10px}
+  #contextSection #contextPolicyTimeline:before{left:8px;right:auto;top:10px;bottom:10px;border-top:0;border-left:1px solid #6f9aa7}
+  #contextSection #contextPolicyTimeline button{display:grid;grid-template-columns:76px minmax(0,1fr);grid-template-rows:auto auto;gap:3px 11px;padding:5px 0 5px 22px;background:#102e42}
+  #contextSection #contextPolicyTimeline button:before{left:4px;top:21px}
+  #contextSection #contextPolicyTimeline time{grid-column:1;grid-row:1/3;padding-top:0;font-size:25px}
+  #contextSection #contextPolicyTimeline strong{grid-column:2;padding-top:0;font-size:14px}
+  #contextSection #contextPolicyTimeline small{grid-column:2;font-size:13px}
+  #contextSection #contextPolicyDetail{display:block;font-size:13px;line-height:1.65}
+  #contextSection #contextPolicyDetail strong{display:block;white-space:normal;margin-bottom:3px}
+  #contextSection #contextPolicyDetail p{font-size:13px;line-height:1.65;margin:0 0 5px}
+  #contextSection #contextPolicyDetail a{display:inline-block}
+}

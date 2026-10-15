@@ -1,6 +1,6 @@
 'use strict';
-const CACHE='solar-atlas-demo-v29';
-const SHELL=['./','index.html','style.css?v=29','asset-manifest.js?v=29','loader.js?v=29','app.js?v=29','competition.css?v=29','competition.js?v=29','case-study.js?v=29','province-examples.js?v=29','journey.js?v=29','journey.css?v=29','usability.js?v=29','model-lab.js?v=29','dashboard.js?v=29','analysis-studio.js?v=29','analysis-studio.css?v=29','scoring-guide.js?v=29','scoring-guide.css?v=29','province-gallery.js?v=29','province-gallery.css?v=29','readability.css?v=29','media/solar-context-poster.jpg','difference-attribution.js?v=29','visual-dashboard.js?v=29','visual-dashboard.css?v=29','photos/gansu.png','photos/guizhou.png'];
+const CACHE='solar-atlas-demo-v30';
+const SHELL=['./','index.html','style.css?v=30','asset-manifest.js?v=30','loader.js?v=30','app.js?v=30','competition.css?v=30','competition.js?v=30','case-study.js?v=30','province-examples.js?v=30','journey.js?v=30','journey.css?v=30','usability.js?v=30','model-lab.js?v=30','dashboard.js?v=30','analysis-studio.js?v=30','analysis-studio.css?v=30','scoring-guide.js?v=30','scoring-guide.css?v=30','province-gallery.js?v=30','province-gallery.css?v=30','context-data.js?v=30','context-dashboard.js?v=30','context-dashboard.css?v=30','readability.css?v=30','media/solar-context-poster.jpg','difference-attribution.js?v=30','visual-dashboard.js?v=30','visual-dashboard.css?v=30','photos/gansu.png','photos/guizhou.png'];
 self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 self.addEventListener('message',event=>{

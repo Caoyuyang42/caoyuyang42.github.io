@@ -44,5 +44,5 @@
 })();
 
 // ONLINE_MODEL_LAB_LOADER
-const labScript=document.createElement('script');labScript.src='model-lab.js?v=29';document.body.append(labScript);
-labScript.onload=()=>{const usability=document.createElement('script');usability.src='usability.js?v=29';usability.onload=()=>{for(const file of ['scoring-guide.js','province-gallery.js','visual-dashboard.js','difference-attribution.js']){const script=document.createElement('script');script.src=file+'?v=29';document.body.append(script);}};document.body.append(usability);};
+const labScript=document.createElement('script');labScript.src='model-lab.js?v=30';document.body.append(labScript);
+labScript.onload=()=>{const usability=document.createElement('script');usability.src='usability.js?v=30';usability.onload=()=>{for(const file of ['scoring-guide.js','province-gallery.js','visual-dashboard.js','difference-attribution.js']){const script=document.createElement('script');script.src=file+'?v=30';if(file==='visual-dashboard.js')script.onload=()=>{const contextScript=document.createElement('script');contextScript.src='context-dashboard.js?v=30';document.body.append(contextScript);};document.body.append(script);}};document.body.append(usability);};

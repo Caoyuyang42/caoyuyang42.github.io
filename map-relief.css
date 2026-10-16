@@ -1,16 +1,109 @@
-/* The supplied photovoltaic landscape sits behind the map, with restrained contrast. */
-body .mapCanvas.photographicMap,body .nightMapCanvas.photographicMap{background:#0a1b3d;isolation:isolate}
-.pvPhotoBackdrop{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(180deg,#071c3f7a 0%,#08234028 45%,#051b352e 100%),var(--atlas-map-photo);background-position:center,center 60%;background-size:cover;background-repeat:no-repeat;opacity:.29;filter:saturate(.72);}
-body .mapCanvas.photographicMap:before{opacity:.26;mask-image:radial-gradient(ellipse at 50% 65%,#000 10%,#0009 55%,transparent 88%)}
-body .mapCanvas.photographicMap:after{opacity:.2}
-.photographicMap>.orbital{opacity:.38!important;border-color:#38d5e132!important}
-body .photographicMap>#map,body .photographicMap>#nightMap{z-index:1;filter:drop-shadow(0 8px 5px #00132bbe)!important}
+/* Blue glass surfaces. The landscape belongs to the priority page only. */
+:root{--bg:#102d48;--panel:#153d5d;--line:#5389ad;--muted:#b5d2e6;--text:#edf8ff;--shell-bg:#102d48;--shell-panel:#153d5d;--shell-line:#5389ad;--shell-muted:#b5d2e6;--glass-edge:#7bb8da91;--glass-surface:linear-gradient(135deg,#36658a82,#102e4ab8)}
+html{background:#102b43}
+body.visualDashboard{isolation:isolate;color:#edf8ff;background:radial-gradient(ellipse at 48% 12%,#5487aa66,transparent 65%),linear-gradient(145deg,#1a3f60,#112e48 60%,#0d263b);background-attachment:fixed}
+.priorityPagePhotograph{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(180deg,#163d65a6,#0a315272 45%,#082b4691),var(--atlas-map-photo);background-size:cover;background-position:center,center 58%;background-repeat:no-repeat}
+body[data-page=priority] .priorityPagePhotograph{display:block}
+body[data-page=priority].visualDashboard{background:#143651}
+body header{background:linear-gradient(110deg,#32618ab3,#1b4267bd);border-bottom:1px solid #64c7e6a8;box-shadow:inset 0 1px #d5edff24,0 2px 14px #00182d26;backdrop-filter:blur(7px)}
+body header nav button{background:linear-gradient(140deg,#5683a333,#244b7333);color:#d2e8f6;border-color:#80b7d82b}
+body header nav button:hover{background:linear-gradient(130deg,#3c7ba3a3,#2d5d8599);border-color:#91d6edb3}
+body header nav button.navActive,body[data-page=gdp] header [data-page-link=atlas]{background:linear-gradient(125deg,#3581b2b3,#286b95b8);border-color:#79d7efd1;box-shadow:inset 0 -2px #51deee;color:#fff}
+body header .quiet{background:#29547680;border-color:#75afd27d;color:#d6edfb}
+body :is(p,label),body .subtle{color:#bfd9ea}
+body :is(h1,h2,h3){color:#eff9ff}
+body :is(.workspace>.mapPanel,.dashboardRail,.workspace>.detailFold,.mapInsights>.panel),body #contextSection .ctxPanel,body #modelSection.gdpDashboard,body .gdpPanel,body .candidatePage #analysisStudio,body #multiCountyWorkspace :is(.multiMetricRail,.multiChartPane,.multiReadout),body :is(.modelLab,.analysisStudio,.wbPanel,.workbenchSide>section,.wbChart){background:var(--glass-surface);border-color:var(--glass-edge);box-shadow:inset 0 1px #e1f5ff26,inset 0 -1px #001b3926,0 5px 18px #001b3014;border-radius:0}
+body[data-page=priority] .countyWorkbench>.mapPanel{background:linear-gradient(135deg,#3d6b8b47,#14365229);box-shadow:inset 0 1px #e1f5ff26}
+body[data-page=priority] .potentialPortrait{background:linear-gradient(140deg,#315c7a91,#0a2943b3)}
+body :is(.panel,.mapPanel):before,body #contextSection .ctxPanel:before{background:linear-gradient(#b1eaff,#b1eaff) left top/22px 2px no-repeat,linear-gradient(#b1eaff,#b1eaff) left top/2px 19px no-repeat,linear-gradient(#68b7d9,#68b7d9) right bottom/22px 2px no-repeat,linear-gradient(#68b7d9,#68b7d9) right bottom/2px 19px no-repeat;opacity:.82}
+body :is(.wbHeading,.mapInsights .sectionHeading,.multiChartHead,.multiReadout>h3,.advisorPlace,.advisorSummary,.candidatePageTabs,.multiChartFoot),body #contextSection .ctxPanelHead{border-color:#83b7d14f}
+body input:not([type=range]):not([type=checkbox]),body select,body #multiCountyWorkspace select,body #multiCountyPicker :is(input,select),body .candidatePage .candidateFilterTools select{background-color:#163b5ac7;border-color:#74aacf8c;color:#e4f4ff;box-shadow:inset 0 1px #c3e6fa0d}
+body input::placeholder{color:#abc9df}
+body :is(.mapTools button,.compactMapBar button,.candidateHeaderActions button,.candidateFilterActions button,.candidatePagination button,.advisorActions button,.nightMapTools button),body #multiCountyWorkspace button{background-color:#244f708c;border-color:#7ab3d48c;color:#e0f4ff;box-shadow:inset 0 1px #d7efff1c}
+body :is(.analysisMetricBar,.multiSelectionBar,.inspectorTabs,.candidatePageTabs),body #multiCountyWorkspace .multiSelectionBar{background:linear-gradient(110deg,#4a76995e,#153a5a99);border-color:#70a9ce91}
+body .analysisMetricBar #metrics button{color:#d5ecfb;border-right-color:#78a6c35e}
+body .analysisMetricBar #metrics button.active,body #multiCountyWorkspace #multiMetricButtons button[aria-pressed=true]{background:linear-gradient(0deg,#318ba96b,#6596af29);color:#b6fff1;box-shadow:inset 0 -3px #55e3df}
+body .mapViewport>.mapHUD{background:linear-gradient(90deg,#1c466da6,#32638680);border-color:#7bb8d57a}
+body .mapHUD :is(.legend span,.hudTop span){color:#d8eafa}
+body .mapCanvas.raisedMap,body .nightMapCanvas.raisedMap{background:radial-gradient(ellipse at 50% 55%,#20648742,transparent 70%),linear-gradient(180deg,#163a5a6b,#0c2b456b);isolation:isolate}
+body[data-page=priority] .mapCanvas.raisedMap{background:transparent}
+body .mapCanvas.raisedMap:before,body .nightMapCanvas.raisedMap:before{opacity:.16}
+body .mapCanvas.raisedMap:after{opacity:.16;transform:perspective(500px) rotateX(55deg);bottom:-32%}
+body[data-page=priority] .mapCanvas.raisedMap:before,body[data-page=priority] .mapCanvas.raisedMap:after{display:none}
+body .orbital,body .pvPhotoBackdrop{display:none!important}
+.mapRingStage{position:absolute;left:12%;width:76%;bottom:3%;height:24%;z-index:0;pointer-events:none;opacity:.85}
+.mapRingStage svg{display:block;width:100%;height:100%;overflow:visible}
+body[data-page=priority] .mapRingStage{display:none}
+body .raisedMap>#map,body .raisedMap>#nightMap{z-index:1;filter:drop-shadow(0 8px 5px #00132b9c)!important}
 .mapRelief,.mapRelief *{pointer-events:none!important;transition:none!important}
-body #map .outline{stroke:#91e6eb;stroke-opacity:.8;stroke-width:.75}
-body #nightMap .nightProvinceOutline{stroke:#9ce9ed;opacity:.76;stroke-width:.6}
-body #map #regions .county{stroke:#092c4b;stroke-opacity:.78}
+body #map .outline{stroke:#b3eaf1;stroke-opacity:.8;stroke-width:.75}
+body #nightMap .nightProvinceOutline{stroke:#b3eaf1;opacity:.76;stroke-width:.6}
+body #map #regions .county{stroke:#143f56;stroke-opacity:.78}
 body #map #regions .selected{stroke:#fff0b0!important;stroke-width:1.7!important}
-.photographicMap .mapMeaning,.photographicMap .nightMapTip{background:#071b3bcf!important;border-color:#39749c;color:#dcf2ff!important}
+body :is(.mapMeaning,.nightMapTip,.southSeaBox,.nightSeaInset){background:#12344ca8!important;border-color:#7cb2ce80;color:#e0f4ff!important}
+body :is(.potentialTrack,.wbFactor>i,.gdpModelBar>i,.gdpCoverageBar){background:#77a5bf33!important}
+body :is(.wbHeading>span,.wbChart>p,.wbFactor>span,.advisorValueGrid span,.advisorValueGrid small,.advisorSummary>span,.advisorMethod,.nightSourceNote,.nightSelection,.nightLegend,.workbenchMapReadout){color:#bfdced!important}
+body #multiCountyWorkspace .multiCountyCard{background:linear-gradient(135deg,#47779977,#163b5ba8);border-color:#74a9ca7d}
+body :is(.advisorGDP,.advisorEmpty,.gdpKpis #modelStats>div,.candidatePage .studioStats>div,.candidatePage .studioCharts>article){background:linear-gradient(130deg,#3e6c8d66,#163b5b99);border-color:#6fa4c787}
+body .candidatePage .candidateTable{border-color:#7aafcc7d}
+body .candidatePage .candidateTable th,body th{background:#295674b3;color:#d5edfc}
+body .candidatePage .candidateTable td{border-color:#78a6c336}
+body #contextSection .ctxFilm{background:linear-gradient(135deg,#38638480,#12314da8)}
+body #contextSection :is(.ctxVideoStage,#contextVideo){background:#091e30}
+body #contextSection .ctxPolicyInGoals{background:transparent;border-top-color:#78abc971;box-shadow:none}
+body #contextSection .ctxPolicyInGoals #contextPolicyTimeline button,body #contextSection #contextPolicyDetail{background:#224c6b99;border-color:#77aece73;color:#d8ecfa}
+body #contextSection #contextPolicyTimeline button[aria-pressed=true]{background:#3d7895a3;border-color:#96dcebd1}
+body dialog{background:linear-gradient(140deg,#295674f5,#12344bf7);border-color:#89c4e4b3;box-shadow:inset 0 1px #effaff38,0 20px 80px #001526aa}
+body :is(.dialogHead,.multiDialogHead,.gdpMethodHead,.decisionDialogHeading){background:#37678480;border-color:#75b1d180}
+body :is(#navigationHelp,.countyPrefixList,#tooltip,#nightTooltip,.layerPlainHelp,.mapExportContents){background:#173e5af5;border-color:#8ac6e1a6;color:#e3f3fc}
+body .countyPrefixSummary{background:#2a5774;color:#c5e5f7;border-color:#6f9fbb80}
+body #multiSearchResults button{background:#285572a6;border-color:#77a8c366}
+body footer{color:#bad7e9;background:#14334a33}body footer button{color:#9eeaff}
 body .brand .sun.goldSun{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;font-size:0;line-height:0;color:#ddbd7b}
 .goldSun svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 3px #d4b76720)}
-@media(max-width:760px){body .brand .sun.goldSun{width:32px;height:32px}.pvPhotoBackdrop{opacity:.25;background-position:center,55% 60%}body .photographicMap>#map,body .photographicMap>#nightMap{filter:drop-shadow(0 5px 4px #00132ba6)!important}}
+/* Equal side widths frame the central film and station gallery. */
+#contextSection.contextSymmetric .contextDashboardGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.85fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);grid-template-areas:none;height:calc(100dvh - 162px);gap:11px;min-height:0;max-height:none}
+.ctxSideColumn,.ctxCenterColumn{display:grid;min-width:0;min-height:0;gap:11px}.ctxLeftColumn{grid-template-rows:minmax(0,1fr) minmax(0,1fr)}.ctxCenterColumn{grid-template-rows:auto minmax(100px,1fr)}.ctxRightColumn{grid-template-rows:180px minmax(0,1fr)}
+#contextSection.contextSymmetric .ctxPanel{grid-area:auto;padding:10px}
+#contextSection.contextSymmetric .ctxFilm{gap:0}#contextSection.contextSymmetric .ctxVideoStage{position:relative;flex:none;aspect-ratio:16/9;max-height:calc(100dvh - 382px);min-height:0;width:100%;background:transparent;overflow:hidden}
+#contextSection.contextSymmetric #contextVideo{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;background:transparent;flex:none}
+#contextSection.contextSymmetric .ctxFilmCaption{min-height:25px;padding-top:6px;gap:8px}#contextSection.contextSymmetric .ctxFilmCaption span{font-size:12px;white-space:normal}#contextSection.contextSymmetric #contextGoAtlas{min-height:29px;padding:5px 8px;font-size:12px}
+#contextSection.contextSymmetric .ctxPanelHead{min-height:24px;padding-bottom:5px;margin-bottom:7px}#contextSection.contextSymmetric .ctxPanelHead h3{font-size:16px}#contextSection.contextSymmetric .ctxPanelHead>span{font-size:11px}
+#contextSection.contextSymmetric .ctxGoals{justify-content:flex-start;gap:0}#contextSection.contextSymmetric .ctxGoalTargets b{font-size:32px}#contextSection.contextSymmetric .ctxGoalTargets span{font-size:13px}#contextSection.contextSymmetric .ctxGoalTargets>div{padding:1px 7px}#contextSection.contextSymmetric .ctxGoalAxis{display:none}#contextSection.contextSymmetric .ctxGoals>.ctxChartNote{font-size:12px;margin:9px 0 0!important;line-height:1.6!important}
+#contextSection.contextSymmetric .ctxTimeline{display:flex;flex-direction:column;min-height:0;padding:10px}#contextSection.contextSymmetric .ctxTimeline>.ctxPanelHead>span{display:none}
+#contextSection.contextSymmetric #contextPolicyTimeline{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:7px;flex:1;min-height:0}#contextSection.contextSymmetric #contextPolicyTimeline:before{display:none}
+.ctxPolicyCard{display:flex;flex-direction:column;gap:3px;justify-content:center;padding:4px 8px;border-left:2px solid #74d3cf;background:#72b5d01a;min-height:0;min-width:0}.ctxPolicyCard:first-child{border-left-color:#e4bf7e}.ctxPolicyCard>div{display:flex;align-items:center;justify-content:space-between;gap:6px}.ctxPolicyCard>div>time{font:13px/1.3 Bahnschrift,'Segoe UI',sans-serif!important;letter-spacing:.5px!important;padding:0!important;color:#b3dbea!important}.ctxPolicyCard>div>span{font-size:11px;color:#96c9dc}.ctxPolicyCard>a{font-size:14px;line-height:1.5;font-weight:500;color:#e5f4ff;text-decoration:none}.ctxPolicyCard>a:hover{text-decoration:underline;color:#fff0b0}.ctxPolicyCard>p{font-size:13px!important;line-height:1.6!important;margin:0!important;color:#bdd8e8!important}
+#contextSection.contextSymmetric #contextPolicyDetail{display:none!important}
+.ctxPolicyCard>.ctxPolicyExtra{display:none}
+.ctxFieldImage img{object-position:center 70%}.ctxFieldImage:nth-child(2) img{object-position:center bottom}
+#contextSection .ctxFieldGallery{display:flex;flex-direction:column}.ctxFieldGallery .ctxPanelHead button{border:0;background:none;min-height:20px;padding:0;color:#a4eced;font-size:11px;white-space:nowrap}.ctxFieldImages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:1;min-height:0}.ctxFieldImage{display:flex;flex-direction:column;min-width:0;min-height:0;padding:0;border:1px solid #77adca7d;border-radius:0;overflow:hidden;background:#153d58;color:#e5f5ff;text-align:left}.ctxFieldImage img{display:block;width:100%;height:0;flex:1;min-height:0;object-fit:cover}.ctxFieldImage>span{display:block;flex:none;font-size:12px;line-height:1.5;padding:5px 5px;background:#163750c9;white-space:normal}.ctxFieldImage:hover{border-color:#c0eff8;filter:brightness(1.07)}
+@media(min-width:1500px){.ctxRightColumn{grid-template-rows:190px minmax(0,1fr)}.ctxPolicyCard>p{font-size:14px!important;line-height:1.9!important}.ctxPolicyCard>a{font-size:16px}.ctxPolicyCard>div>time{font-size:15px!important}.ctxFieldImage>span{font-size:14px}.ctxFieldGallery .ctxPanelHead button{font-size:13px}#contextSection.contextSymmetric .ctxGoalTargets b{font-size:40px}#contextSection.contextSymmetric .ctxGoals>.ctxChartNote{font-size:14px}}
+@media(min-width:1500px) and (min-height:900px){.ctxPolicyCard>.ctxPolicyExtra{display:block}.ctxPolicyCard>p{font-size:15px!important;line-height:1.8!important}#contextSection.contextSymmetric .ctxGoals>.ctxChartNote{font-size:13px!important}}
+@media(min-width:1100px) and (max-height:850px){.ctxPolicyCard>p{font-size:12px!important;line-height:1.55!important}.ctxPolicyCard{gap:3px}#contextSection.contextSymmetric .ctxGoals>.ctxChartNote{font-size:12px!important}}
+@media(min-width:1100px) and (max-height:780px){.ctxPolicyCard>p{font-size:12px!important;line-height:1.55!important}.ctxPolicyCard{gap:3px}#contextSection.contextSymmetric .ctxGoals>.ctxChartNote{font-size:12px}}
+@media(min-width:761px) and (max-width:1099px){#contextSection.contextSymmetric .contextDashboardGrid{height:auto;min-height:750px;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);grid-template-rows:600px auto}.ctxLeftColumn{grid-column:1;grid-row:1}.ctxCenterColumn{grid-column:2;grid-row:1}.ctxRightColumn{grid-column:1/-1;grid-row:2;grid-template-columns:minmax(0,1fr) minmax(0,1.8fr);grid-template-rows:360px}.ctxFieldImages{grid-template-columns:repeat(2,minmax(0,1fr))}.ctxFieldImage>span{font-size:12px}}
+@media(max-width:760px){#contextSection.contextSymmetric .contextDashboardGrid{display:flex;height:auto;min-height:0;flex-direction:column}.ctxSideColumn,.ctxCenterColumn{display:contents}#contextSection.contextSymmetric .ctxFilm{order:0;height:auto;min-height:0}#contextSection.contextSymmetric .ctxVideoStage{flex:none;aspect-ratio:16/9;max-height:none}#contextSection.contextSymmetric .ctxShare{order:2;min-height:330px}#contextSection.contextSymmetric .ctxTrend{order:3;min-height:330px}#contextSection.contextSymmetric .ctxGoals{order:4;min-height:185px}#contextSection.contextSymmetric .ctxTimeline{order:5;min-height:470px}#contextSection.contextSymmetric .ctxFieldGallery{order:1;min-height:325px}.ctxFieldImages{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:1fr 1fr}.ctxPolicyCard>p{font-size:14px!important}}
+@media(max-width:760px){body header{backdrop-filter:none}body .brand .sun.goldSun{width:32px;height:32px}.priorityPagePhotograph{background-position:center,58% center}.mapRingStage{left:5%;width:90%;height:21%;bottom:5%}body .raisedMap>#map,body .raisedMap>#nightMap{filter:drop-shadow(0 5px 4px #00132b80)!important}}
+/* Keep the preferred 1280px board's text-to-chart ratio on larger screens. */
+@media(min-width:1100px){
+ #contextSection.contextSymmetric{--ctx-unit:clamp(1px,min(.078125vw,.138889vh),1.6px)}
+ #contextSection.contextSymmetric .contextDashboardGrid{height:calc(100dvh - 142px - 20 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .contextBoardHead h2{font-size:calc(21 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxPanelHead h3{font-size:calc(16 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxPanelHead>span,#contextSection.contextSymmetric .contextYearScope{font-size:calc(11 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxRightColumn{grid-template-rows:calc(180 * var(--ctx-unit)) minmax(0,1fr)}
+ #contextSection.contextSymmetric .ctxGoalTargets b{font-size:calc(32 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxGoalTargets span{font-size:calc(13 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxGoals>.ctxChartNote{font-size:calc(12 * var(--ctx-unit))!important}
+ #contextSection.contextSymmetric .ctxPolicyCard>a{font-size:calc(14 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxPolicyCard>div>time{font-size:calc(13 * var(--ctx-unit))!important}
+ #contextSection.contextSymmetric .ctxPolicyCard>div>span{font-size:calc(11 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxPolicyCard>p{font-size:calc(12 * var(--ctx-unit))!important;line-height:1.6!important}
+ #contextSection.contextSymmetric .ctxPolicyCard>.ctxPolicyExtra{display:none}
+ #contextSection.contextSymmetric .ctxShareSummary>div{font-size:calc(14 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxShareSummary b{font-size:calc(15 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxTrendReadout strong{font-size:calc(26 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxTrendReadout span{font-size:calc(13 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxTrend>.ctxChartNote,#contextSection.contextSymmetric .ctxFilmCaption span,#contextSection.contextSymmetric .ctxFieldImage>span{font-size:calc(12 * var(--ctx-unit))!important}
+ #contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead button,#contextSection.contextSymmetric #contextGoAtlas{font-size:calc(11 * var(--ctx-unit))}
+}

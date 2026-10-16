@@ -2,7 +2,14 @@
 (()=>{
  const source=window.ATLAS_PHOTOS?.['stations/510000-15.webp']||'photos/stations/510000-15.webp';
  document.documentElement.style.setProperty('--atlas-map-photo','url("'+source+'")');
- for(const canvas of document.querySelectorAll('.mapCanvas,.nightMapCanvas')){const background=document.createElement('div');background.className='pvPhotoBackdrop';background.setAttribute('aria-hidden','true');canvas.prepend(background);canvas.classList.add('photographicMap');}
+ const photograph=document.createElement('div');photograph.className='priorityPagePhotograph';photograph.setAttribute('aria-hidden','true');document.body.prepend(photograph);
+ document.querySelectorAll('.orbital').forEach(node=>node.remove());
+ for(const canvas of document.querySelectorAll('.mapCanvas,.nightMapCanvas')){
+  canvas.classList.add('raisedMap');
+  const stage=document.createElement('div');stage.className='mapRingStage';stage.setAttribute('aria-hidden','true');
+  stage.innerHTML='<svg viewBox="0 0 640 160" preserveAspectRatio="none"><defs><radialGradient id="stageGlow'+(canvas.classList.contains('nightMapCanvas')?'Night':'Main')+'"><stop stop-color="#39c8eb" stop-opacity=".18"/><stop offset="1" stop-color="#39c8eb" stop-opacity="0"/></radialGradient></defs><ellipse cx="320" cy="80" rx="310" ry="75" fill="url(#stageGlow'+(canvas.classList.contains('nightMapCanvas')?'Night':'Main')+')"/><g fill="none" stroke="#70d8ef"><ellipse cx="320" cy="80" rx="285" ry="59" opacity=".26"/><ellipse cx="320" cy="80" rx="256" ry="49" opacity=".45"/><ellipse cx="320" cy="80" rx="232" ry="40" opacity=".25"/><ellipse cx="320" cy="80" rx="211" ry="33" opacity=".55"/><ellipse cx="320" cy="80" rx="285" ry="59" opacity=".42" stroke-dasharray="45 170 90 230" stroke-width="2"/></g></svg>';
+  canvas.prepend(stage);
+ }
  const sun=document.querySelector('.brand .sun');if(sun){sun.innerHTML='<svg viewBox="64 64 384 384" role="img" aria-label="逐光太阳标志"><g fill="#ddbd7b" stroke="#f1d68e" stroke-width="1">'+Array.from({length:8},(_,i)=>'<path d="M250 74H262L267 138H245Z" transform="rotate('+i*45+' 256 256)"/>').join('')+'<circle cx="256" cy="256" r="86"/></g></svg>';sun.classList.add('goldSun');}
  const maps=new Map();let frame=0;
  function create(id){const chart=$(id);if(!chart)return;const root=svg('g',{class:'mapRelief','aria-hidden':'true','pointer-events':'none'}),layers=[],selectedLayers=[];
@@ -19,6 +26,6 @@
  function schedule(id){if(id){update(id==='night'?'nightMap':'map');return;}cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{for(const id of maps.keys())update(id);});}
  const beforeView=setView;setView=function(){beforeView();schedule();};const beforeMap=renderMap;renderMap=function(){beforeMap();schedule();};const beforeMarks=sizeRelationMarks;sizeRelationMarks=function(){beforeMarks();schedule();};
  window.addEventListener('resize',()=>schedule());window.addEventListener('atlas:page-changed',()=>schedule());
- window.ATLAS_MAP_RELIEF={sync:schedule,getState:()=>[...maps].map(([id,m])=>({id,geometryBuilds:m.geometryBuilds,paths:m.root.querySelectorAll('path').length,updates:m.updates,background:!!m.chart.closest('.photographicMap')}))};schedule();
+ window.ATLAS_MAP_RELIEF={sync:schedule,getState:()=>[...maps].map(([id,m])=>({id,geometryBuilds:m.geometryBuilds,paths:m.root.querySelectorAll('path').length,updates:m.updates,background:document.body.dataset.page==='priority'?'photograph':'rings'}))};schedule();
 })();
 

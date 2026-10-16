@@ -10,8 +10,8 @@ window.ATLAS_CONTEXT_DATA={
   ],
   structure:{year:2025,solarGW:1201.73,totalGW:3891.34,source:{title:'国家统计局 · 2025年国民经济和社会发展统计公报',url:'https://www.stats.gov.cn/sj/zxfb/202602/t20260228_1962662.html'}},
   policies:[
-    {date:'2021-10-24',title:'关于完整准确全面贯彻新发展理念做好碳达峰碳中和工作的意见',shortTitle:'双碳目标顶层部署',category:'顶层目标',issuer:'中共中央、国务院',summary:'将绿色低碳发展融入区域布局，明确2030年前碳达峰、2060年前碳中和的目标。',url:'https://app.www.gov.cn/govdata/gov/202110/24/477377/article.html'},
-    {date:'2021-10-26',title:'国务院关于印发2030年前碳达峰行动方案的通知',shortTitle:'碳达峰十大行动',category:'行动路径',issuer:'国务院',summary:'以能源绿色低碳转型等十大行动展开碳达峰部署，推动太阳能开发与区域条件相衔接。',url:'https://app.www.gov.cn/govdata/gov/202110/26/477466/article.html'},
-    {date:'2025-01-23',title:'国家能源局关于印发分布式光伏发电开发建设管理办法的通知',shortTitle:'分布式光伏规范发展',category:'开发管理',issuer:'国家能源局',summary:'围绕分布式光伏备案、建设、电网接入与运行管理，建立开发建设管理要求。',url:'https://www.nea.gov.cn/20250123/112c5b199c5f45dd8e7ac93c9f5e4eaf/c.html'}
+    {date:'2021-10-24',title:'关于完整准确全面贯彻新发展理念做好碳达峰碳中和工作的意见',shortTitle:'双碳目标顶层部署',category:'顶层目标',issuer:'中共中央、国务院',summary:'将双碳目标融入国土空间与区域规划，推进太阳能就地就近开发，统筹能源转型、生态保护和碳汇提升。',url:'https://app.www.gov.cn/govdata/gov/202110/24/477377/article.html'},
+    {date:'2021-10-26',title:'国务院关于印发2030年前碳达峰行动方案的通知',shortTitle:'碳达峰十大行动',category:'行动路径',issuer:'国务院',summary:'推动风光基地与分布式项目协同建设，发展多样化“光伏+”应用，并完善新能源消纳机制。',url:'https://app.www.gov.cn/govdata/gov/202110/26/477466/article.html'},
+    {date:'2025-01-23',title:'国家能源局关于印发分布式光伏发电开发建设管理办法的通知',shortTitle:'分布式光伏规范发展',category:'开发管理',issuer:'国家能源局',summary:'明确项目备案、建设、接网和运行的全流程要求，结合配电网承载力与可开放容量，引导项目合理布局。',url:'https://www.nea.gov.cn/20250123/112c5b199c5f45dd8e7ac93c9f5e4eaf/c.html'}
   ]
 };

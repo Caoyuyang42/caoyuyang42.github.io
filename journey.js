@@ -112,7 +112,7 @@
  const originalMap=renderMap;
  renderMap=function(){originalMap();$('hudLayer').textContent=$('mapTitle').textContent;
    $('hudMeta').textContent=(metric==='priority'?(mode==='county'?'等级 1–5':'最高等级县域占比 %'):defs[metric][2]==='percent'?'单位：%':isTotal(metric)?'单位：吨 CO₂':'单位：归一化指数')+' · '+years[metric];
-   meaning.textContent=metric==='land3'?'金色 = 不可用土地占比较低，土地约束较少':metric==='protected'?(protectedView==='footprint'?'橙金色 = 所给保护区实际边界范围':'橙金色 = 保护区覆盖比例较高'):metric==='priority'?(mode==='county'?'金色 = 综合开发优先级最高（5级）':'金色 = 本省5级县域占比较高'):'金色 = 当前指标数值较高';
+   meaning.textContent=metric==='land3'?'金色 = 不可用土地占比较低，土地约束较少':metric==='slope'?'蓝色 → 青绿 → 金色：坡度适宜性由低到高':metric==='protected'?(protectedView==='footprint'?'橙金色 = 所给保护区实际边界范围':'橙金色 = 保护区覆盖比例较高'):metric==='priority'?(mode==='county'?'金色 = 综合开发优先级最高（5级）':'金色 = 本省5级县域占比较高'):'金色 = 当前指标数值较高';
  };
  const teamExamples={
   '620000':{name:'甘肃',cases:[{title:'开阔地表上的光伏阵列',location:'甘肃 · 团队提供地区标注',type:'开阔地表集中式',analysis:'照片可见大面积开阔地表、连续阵列及远处山地。平缓开阔地形便于观察集中式光伏的空间布局；光照条件应结合本省辐射指标判断。',images:[{file:'gansu.png',alt:'甘肃开阔地表上的光伏阵列',sourceKind:'team-photo',sourceName:'团队提供示例',credit:'具体电站与拍摄来源待补充'}]}]},
@@ -139,4 +139,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=32";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=33";document.body.append(studioScript);

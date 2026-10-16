@@ -2,6 +2,7 @@
 const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
 const {counties,provinces,audit,model,reserves}=window.ATLAS;
 const colors=['#165984','#147f9b','#11a9b1','#48d4bb','#ffc44d'];
+const slopeColors=['#205ab3','#208cc0','#2ac5bb','#b9dc6c','#ffc44d'];
 const defs={priority:['开发优先级','全国得分五分位 · 5 为前约20%','level'],score:['综合得分','七指标正则马氏 TOPSIS','index'],coord:['耦合协调度','资源与低碳相关系统 · K-means五类','index'],solar:['自然光伏潜力','综合自然条件与可开发规模 · 指数','index'],radiation:['太阳辐射','2016 年 · 归一化','index'],slope:['土地坡度','25°阈值处理后的源表指数','index'],land3:['不可用土地占比','数值越大，土地约束越强 · 低值更有利','percent'],gdp:['GDP 经济指数','统计值优先 · 缺失灯光补估','index'],carbonTotal:['碳排放总量','吨 CO₂ · 2023 / 部分 2022','total'],land6:['碳汇覆盖占比','林地 / 草地 / 湿地 / 灌木','percent'],protected:['保护区覆盖占比','所给保护区与县域相交','percent']};
 let protectedView='footprint';
 let metric='priority',mode='county',pid='',selected=null,selectedProv=null,version='hybrid',view=[-12,-5,900,850],drag=null,dragMoved=false;
@@ -21,9 +22,9 @@ const totalUnit=k=>k==='carbonTotal'?'吨 CO₂':'万千瓦时';
 function totalCoverage(list,k){return list.filter(c=>valid(c[k])).length+'/'+list.length;}
 function metricNote(c,k){if(isTotal(k))return valid(c[k])?c[k+'Year']+' 年统计总量 · '+totalUnit(k)+'；地图和对照展示总量，研究排名采用七指标正则马氏模型，关联采用七项同向评价值。':'原表暂无有效统计记录，显示为缺失。';return '';}
 function display(v,k=metric,province=false){if(!valid(v))return '暂无数据';if(isTotal(k))return v.toLocaleString('zh-CN',{maximumFractionDigits:1})+' '+totalUnit(k);if(k==='score')return v.toFixed(6);if(k==='priority')return province?(v*100).toFixed(1)+'%':v+' 级';return defs[k][2]==='percent'?(v*100).toFixed(1)+'%':v.toFixed(3);}
-let thresholds=[];const scaleCache=new Map();
-function scaleSetup(){if(metric==='protected'){thresholds=[.01,.05,.2,.5];return;}if(metric==='priority'&&mode==='county'){thresholds=[1,2,3,4];return;}const key=[mode,metric,version].join('|');if(metric!=='experimentScore'&&scaleCache.has(key)){thresholds=scaleCache.get(key);return;}let vs=(mode==='county'?counties:provinces).map(mapValue).filter(valid).sort((a,b)=>a-b);thresholds=[.2,.4,.6,.8].map(q=>vs[Math.min(vs.length-1,Math.floor(q*vs.length))]??0);if(metric!=='experimentScore')scaleCache.set(key,thresholds);}
-function fill(v){if(metric==='protected'&&protectedView==='footprint')return '#182b39';if(metric==='protected'&&v===0)return '#263541';if(!valid(v))return 'url(#missing)';if(metric==='priority'&&mode==='county')return colors[v-1];const i=thresholds.filter(t=>v>t).length;return metric==='land3'?colors[4-i]:colors[i];}
+let thresholds=[],slopeMaximumSeparated=false;const scaleCache=new Map(),slopeScaleCache=new Map();
+function scaleSetup(){if(metric==='protected'){thresholds=[.01,.05,.2,.5];return;}if(metric==='priority'&&mode==='county'){thresholds=[1,2,3,4];return;}const key=[mode,metric,version].join('|');if(metric==='slope'){let result=slopeScaleCache.get(key);if(!result){const values=(mode==='county'?counties:provinces).map(mapValue).filter(valid).sort((a,b)=>a-b),quantile=(a,q)=>a[Math.min(a.length-1,Math.floor(q*a.length))]??0,maximum=values.at(-1),below=values.filter(v=>v<maximum),cuts=[.2,.4,.6,.8].map(q=>quantile(values,q)),separate=cuts[3]===maximum&&new Set(below).size>=4;result={cuts:separate?[.25,.5,.75].map(q=>quantile(below,q)).concat(maximum):cuts,separate};slopeScaleCache.set(key,result);}thresholds=result.cuts;slopeMaximumSeparated=result.separate;return;}if(metric!=='experimentScore'&&scaleCache.has(key)){thresholds=scaleCache.get(key);return;}let vs=(mode==='county'?counties:provinces).map(mapValue).filter(valid).sort((a,b)=>a-b);thresholds=[.2,.4,.6,.8].map(q=>vs[Math.min(vs.length-1,Math.floor(q*vs.length))]??0);if(metric!=='experimentScore')scaleCache.set(key,thresholds);}
+function fill(v){if(metric==='protected'&&protectedView==='footprint')return '#182b39';if(metric==='protected'&&v===0)return '#263541';if(!valid(v))return 'url(#missing)';if(metric==='priority'&&mode==='county')return colors[v-1];const i=metric==='slope'&&slopeMaximumSeparated&&v>=thresholds[3]?4:thresholds.filter(t=>v>t).length;return metric==='land3'?colors[4-i]:(metric==='slope'?slopeColors:colors)[i];}
 function svg(tag,attrs,text){const e=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>e.setAttribute(k,v));if(text!==undefined)e.textContent=text;return e;}
 $('metrics').innerHTML=Object.entries(defs).map(([k,d],i)=>`<button data-metric="${k}" class="${k===metric?'active':''}" title="${esc(d[1])}"><em>${String(i+1).padStart(2,'0')}</em><span>${d[0]}</span></button>`).join('');
 for(const p of provinces.sort((a,b)=>a.id.localeCompare(b.id))){const o=document.createElement('option');o.value=p.id;o.textContent=p.name;$('province').append(o);}
@@ -56,7 +57,8 @@ function renderMap(){const key=[mode,pid,metric,version,protectedView].join('|')
  $('mapSubtitle').textContent=(mode==='province'?'单击看关系 · 双击下钻县域':'单击县域看详情 · 拖动及滚轮缩放')+' / '+defs[metric][1];
  $('countyMode').classList.toggle('active',mode==='county');$('provinceMode').classList.toggle('active',mode==='province');
  let labels=metric==='priority'&&mode==='county'?['1 · 后约20%','2 · 较低','3 · 中间约20%','4 · 较高','5 · 前约20%']:[`≤${display(thresholds[0],metric,mode==='province')}`,...thresholds.slice(1).map((v,i)=>`${display(thresholds[i],metric,mode==='province')}–${display(v,metric,mode==='province')}`),`>${display(thresholds[3],metric,mode==='province')}`];
- $('legendItems').innerHTML=labels.map((t,i)=>`<span><i style="background:${metric==='land3'?colors[4-i]:colors[i]}"></i>${t}</span>`).join('')+'<span><i class="missingKey"></i>无数据</span>';
+ if(metric==='slope'&&slopeMaximumSeparated){labels[3]=`${display(thresholds[2],'slope')}–<${display(thresholds[3],'slope')}`;labels[4]=`${display(thresholds[3],'slope')}（上限值）`; }
+ $('legendItems').innerHTML=labels.map((t,i)=>`<span><i style="background:${metric==='land3'?colors[4-i]:(metric==='slope'?slopeColors:colors)[i]}"></i>${t}</span>`).join('')+'<span><i class="missingKey"></i>无数据</span>';
  $('legendNote').textContent=metric==='priority'?(mode==='county'?'七指标正则马氏 TOPSIS 评分；按全国得分五分位分组，每级约20%，同分保持同级。':'5级县域数 / 本省有效县域数；色阶为省级分位点。'):(metric==='protected'&&mode==='province'?'省内相交面积合计 / 县域面积合计。':mode==='province'?'省级数值为有效县域的算术平均。':'按全国有效样本分位点着色；结合指标定义读取空间差异。');
  if(metric==='protected'){
   $('mapTitle').textContent=protectedView==='footprint'?'保护区实际边界':'县域保护区覆盖率';
@@ -64,6 +66,7 @@ function renderMap(){const key=[mode,pid,metric,version,protectedView].join('|')
   $('legendNote').textContent=protectedView==='footprint'?'橙金色标记保护区轮廓。显示几何经过简化；覆盖面积按原始边界计算。':'整县颜色表示保护区面积 / 县域面积；切换“实际边界”查看具体位置。固定比例刻度，0 单独显示。';
  }
  if(isTotal(metric))$('legendNote').textContent='统计总量 · '+totalUnit(metric)+'；有效县域 '+totalCoverage(areaRows(),metric)+'。省级为已覆盖县域小计；颜色按有效值分位数展示地区活动规模。';
+ if(metric==='slope')$('legendNote').textContent=(slopeMaximumSeparated?'全国上限值单独成组，其余县域按四分位分组。':'按全国省级坡度均值分位点分组。')+'蓝色至金色表示坡度适宜性由低到高；地区筛选沿用全国色阶。';
  renderOverlays();}
 const relationFocusCache=new Map();
 function relationFocus(){if(mode==='province')return selectedProv||regionById.get(pid)||regionById.get('630000');if(selected)return selected;const key=pid+'|'+version;if(!relationFocusCache.has(key))relationFocusCache.set(key,rows().reduce((best,c)=>!best||val(c,'score')>val(best,'score')?c:best,null));return relationFocusCache.get(key);}
@@ -146,8 +149,8 @@ function showStory(index){const [title,description,steps]=storyContent[index];do
 document.querySelectorAll('[data-story]').forEach((b,i)=>{b.onclick=()=>showStory(i);b.onkeydown=e=>{let next;if(e.key==='ArrowRight')next=(i+1)%3;else if(e.key==='ArrowLeft')next=(i+2)%3;else if(e.key==='Home')next=0;else if(e.key==='End')next=2;if(next!==undefined){e.preventDefault();showStory(next);$('storyTab'+next).focus();}};});
 showStory(0);render();fit();
  const modelObserver=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){renderModel();modelObserver.disconnect();}},{rootMargin:'250px'});modelObserver.observe($('modelSection'));
-const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=32';document.head.append(evidenceStyle);
-const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=32';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=32';document.body.append(journey);};document.body.append(evidenceScript);
+const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=33';document.head.append(evidenceStyle);
+const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=33';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=33';document.body.append(journey);};document.body.append(evidenceScript);
 if(document.modelContext?.registerTool){const lifecycle=new AbortController();try{Promise.resolve(document.modelContext.registerTool({name:'explore_solar_county',title:'定位光伏县域',description:'按六位县代码定位县域，显示当前版本指标和相似近邻关系。',inputSchema:{type:'object',properties:{county_id:{type:'string',pattern:'^[0-9]{6}$'}},required:['county_id'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){if(!input||typeof input.county_id!=='string'||!/^\d{6}$/.test(input.county_id))throw new Error('请输入六位县代码');const c=counties.find(c=>c.id===input.county_id);if(!c)throw new Error('该县代码未匹配到地图边界');pid=c.pid;$('province').value=pid;selectCounty(c);fit();return {county_id:c.id,name:c.name,version,score:val(c,'score'),coordination:val(c,'coord'),priority:val(c,'priority'),relations:c.relations[version]};}},{signal:lifecycle.signal})).catch(()=>{});}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
 
 // Detailed geometry is fetched only when the user requests its area.

@@ -91,7 +91,7 @@
   $('prepareOffline').disabled=true;status.textContent='正在准备离线资源…';
   try{await navigator.serviceWorker.register('sw.js');const registration=await navigator.serviceWorker.ready;const channel=new MessageChannel();
    await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('准备超时，可重试或下载离线版')),120000);channel.port1.onmessage=e=>{const d=e.data;if(d.type==='progress')status.textContent='离线准备 '+d.done+' / '+d.total;if(d.type==='done'){clearTimeout(timer);resolve();}if(d.type==='error'){clearTimeout(timer);reject(new Error(d.message));}};
-    const suffix=typeof DecompressionStream==='function'?'.gz':'';registration.active.postMessage({type:'PREPARE',assets:[ATLAS_ASSETS.core.url+suffix,ATLAS_ASSETS.reserves.url+suffix,ATLAS_ASSETS.detail[caseA.pid].url+suffix]},[channel.port2]);});
+    const suffix=typeof DecompressionStream==='function'?'.gz':'';registration.active.postMessage({type:'PREPARE',assets:[ATLAS_ASSETS.core.url+suffix,ATLAS_ASSETS.reserves.url+suffix,ATLAS_ASSETS.detail[caseA.pid].url+suffix,...(ATLAS_ASSETS.nightlights?[ATLAS_ASSETS.nightlights.url+suffix]:[])]},[channel.port2]);});
    status.textContent='离线资源已备妥：全国概览、案例精细县界及保护区。其他省份精细县界仍按需联网。';
   }catch(error){status.textContent='离线准备未完成：'+error.message+'。也可下载独立离线版。';}finally{$('prepareOffline').disabled=false;}
  };
@@ -139,4 +139,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=33";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=34";document.body.append(studioScript);

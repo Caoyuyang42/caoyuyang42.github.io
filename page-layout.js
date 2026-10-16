@@ -31,7 +31,7 @@
    if(priority&&lastMapPage==='atlas'&&metric!=='priority')lastAtlasMetric=metric;
    if(priority){priorityPage.prepend(intro,workspace);workspace.append(insights);insights.hidden=false;metric='priority';}
    else{introAnchor.after(intro);workspaceAnchor.after(workspace);chartHome.append(insights);insights.hidden=true;if(metric==='priority')metric=lastAtlasMetric;}
-   intro.querySelector('h1').textContent=priority?'中国县域光伏 · 开发优先级':'中国县域光伏 · 地图与模型';
+   intro.querySelector('h1').textContent=priority?'中国县域光伏 · 开发优先级':'中国县域光伏 · 统计分析';
    intro.querySelector('.eyebrow').textContent=priority?'逐光 / PRIORITY ATLAS':'逐光 / MULTIDIMENSIONAL ATLAS';
    for(const b of $('metrics').querySelectorAll('[data-metric]'))b.classList.toggle('active',b.dataset.metric===metric);
    lastMapPage=page;

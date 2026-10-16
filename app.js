@@ -2,7 +2,7 @@
 const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
 const {counties,provinces,audit,model,reserves}=window.ATLAS;
 const colors=['#165984','#147f9b','#11a9b1','#48d4bb','#ffc44d'];
-const slopeColors=['#205ab3','#208cc0','#2ac5bb','#b9dc6c','#ffc44d'];
+const slopeColors=[...colors];
 const defs={priority:['开发优先级','全国得分五分位 · 5 为前约20%','level'],score:['综合得分','七指标正则马氏 TOPSIS','index'],coord:['耦合协调度','资源与低碳相关系统 · K-means五类','index'],solar:['自然光伏潜力','综合自然条件与可开发规模 · 指数','index'],radiation:['太阳辐射','2016 年 · 归一化','index'],slope:['土地坡度','25°阈值处理后的源表指数','index'],land3:['不可用土地占比','数值越大，土地约束越强 · 低值更有利','percent'],gdp:['GDP 经济指数','统计值优先 · 缺失灯光补估','index'],carbonTotal:['碳排放总量','吨 CO₂ · 2023 / 部分 2022','total'],land6:['碳汇覆盖占比','林地 / 草地 / 湿地 / 灌木','percent'],protected:['保护区覆盖占比','所给保护区与县域相交','percent']};
 let protectedView='footprint';
 let metric='priority',mode='county',pid='',selected=null,selectedProv=null,version='hybrid',view=[-12,-5,900,850],drag=null,dragMoved=false;
@@ -149,8 +149,8 @@ function showStory(index){const [title,description,steps]=storyContent[index];do
 document.querySelectorAll('[data-story]').forEach((b,i)=>{b.onclick=()=>showStory(i);b.onkeydown=e=>{let next;if(e.key==='ArrowRight')next=(i+1)%3;else if(e.key==='ArrowLeft')next=(i+2)%3;else if(e.key==='Home')next=0;else if(e.key==='End')next=2;if(next!==undefined){e.preventDefault();showStory(next);$('storyTab'+next).focus();}};});
 showStory(0);render();fit();
  const modelObserver=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){renderModel();modelObserver.disconnect();}},{rootMargin:'250px'});modelObserver.observe($('modelSection'));
-const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=34';document.head.append(evidenceStyle);
-const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=34';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=34';document.body.append(journey);};document.body.append(evidenceScript);
+const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=35';document.head.append(evidenceStyle);
+const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=35';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=35';document.body.append(journey);};document.body.append(evidenceScript);
 if(document.modelContext?.registerTool){const lifecycle=new AbortController();try{Promise.resolve(document.modelContext.registerTool({name:'explore_solar_county',title:'定位光伏县域',description:'按六位县代码定位县域，显示当前版本指标和相似近邻关系。',inputSchema:{type:'object',properties:{county_id:{type:'string',pattern:'^[0-9]{6}$'}},required:['county_id'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){if(!input||typeof input.county_id!=='string'||!/^\d{6}$/.test(input.county_id))throw new Error('请输入六位县代码');const c=counties.find(c=>c.id===input.county_id);if(!c)throw new Error('该县代码未匹配到地图边界');pid=c.pid;$('province').value=pid;selectCounty(c);fit();return {county_id:c.id,name:c.name,version,score:val(c,'score'),coordination:val(c,'coord'),priority:val(c,'priority'),relations:c.relations[version]};}},{signal:lifecycle.signal})).catch(()=>{});}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
 
 // Detailed geometry is fetched only when the user requests its area.

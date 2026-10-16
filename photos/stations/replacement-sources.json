@@ -1,0 +1,36 @@
+[
+  {
+    "provinceId": "120000",
+    "title": "天津市滨海新区：临港厂屋顶分布式光伏",
+    "file": "stations/120000-replacement-b545d7ddbe.webp",
+    "size": [
+      1896,
+      1066
+    ],
+    "url": "https://n.sinaimg.cn/spider20240507/562/w1896h1066/20240507/7f86-7dc69da3f9b6a281091cdf049f18f5c2.jpg",
+    "page": "https://finance.sina.com.cn/roll/2024-05-07/doc-inaukcym9487477.shtml",
+    "source": "中宏网报道，新浪财经转载；图片由主办方提供",
+    "date": "报道日期：2024-05-06；拍摄日期未注明",
+    "description": "中建西部建设（天津）有限公司临港厂屋顶分布式光伏，报道介绍项目装机容量为0.639兆瓦。照片展示厂房屋顶上成排铺设的光伏组件，属于工商业屋顶光伏场景。",
+    "verification": "来源报道正文介绍临港厂项目，配图与正文对应。",
+    "thumbFile": "stations/120000-replacement-b545d7ddbe-thumb.webp",
+    "sha256": "b545d7ddbe3bac5775167531e166ca837826bdd9dec5d240ef15344c2fbc09ed"
+  },
+  {
+    "provinceId": "610000",
+    "title": "陕西省榆林市榆阳区：小壕兔光伏电站",
+    "file": "stations/610000-replacement-a10fbbd110.webp",
+    "size": [
+      1269,
+      951
+    ],
+    "url": "https://xmupload.ceweekly.cn/1/2024/0925/1727254923290807.jpg",
+    "page": "https://www.ceweekly.cn/finance/macro/2024/0925/456107.html",
+    "source": "经济网（人民日报社《中国经济周刊》官方网站）；王剑 摄",
+    "date": "报道日期：2024-09-25；拍摄日期未注明",
+    "description": "来源报道定位于榆阳区小壕兔乡大壕兔村，原图注为“陕西华电新能源发电有限公司小壕兔光伏电站。王剑 摄”。画面展示开阔沙地中的集中式光伏阵列，远处可见风机。",
+    "verification": "官方新闻网站正文、图片与紧邻图注对应，明确标注电站名称及摄影者。",
+    "thumbFile": "stations/610000-replacement-a10fbbd110-thumb.webp",
+    "sha256": "a10fbbd110c4edb9656ed744ff87da3c725f328d94363f93f8c122ed3fde11ce"
+  }
+]

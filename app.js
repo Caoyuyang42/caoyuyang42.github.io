@@ -152,8 +152,8 @@ function showStory(index){const [title,description,steps]=storyContent[index];do
 document.querySelectorAll('[data-story]').forEach((b,i)=>{b.onclick=()=>showStory(i);b.onkeydown=e=>{let next;if(e.key==='ArrowRight')next=(i+1)%3;else if(e.key==='ArrowLeft')next=(i+2)%3;else if(e.key==='Home')next=0;else if(e.key==='End')next=2;if(next!==undefined){e.preventDefault();showStory(next);$('storyTab'+next).focus();}};});
 showStory(0);render();fit();
  const modelObserver=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){renderModel();modelObserver.disconnect();}},{rootMargin:'250px'});modelObserver.observe($('modelSection'));
-const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=42';document.head.append(evidenceStyle);
-const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=42';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=42';document.body.append(journey);};document.body.append(evidenceScript);
+const evidenceStyle=document.createElement('link');evidenceStyle.rel='stylesheet';evidenceStyle.href='competition.css?v=43';document.head.append(evidenceStyle);
+const evidenceScript=document.createElement('script');evidenceScript.src='competition.js?v=43';evidenceScript.onload=()=>{const journey=document.createElement('script');journey.src='journey.js?v=43';document.body.append(journey);};document.body.append(evidenceScript);
 if(document.modelContext?.registerTool){const lifecycle=new AbortController();try{Promise.resolve(document.modelContext.registerTool({name:'explore_solar_county',title:'定位光伏县域',description:'按六位县代码定位县域，显示当前版本指标和相似近邻关系。',inputSchema:{type:'object',properties:{county_id:{type:'string',pattern:'^[0-9]{6}$'}},required:['county_id'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){if(!input||typeof input.county_id!=='string'||!/^\d{6}$/.test(input.county_id))throw new Error('请输入六位县代码');const c=counties.find(c=>c.id===input.county_id);if(!c)throw new Error('该县代码未匹配到地图边界');pid=c.pid;$('province').value=pid;selectCounty(c);fit();return {county_id:c.id,name:c.name,version,score:val(c,'score'),coordination:val(c,'coord'),priority:val(c,'priority'),relations:c.relations[version]};}},{signal:lifecycle.signal})).catch(()=>{});}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
 
 // Detailed geometry is fetched only when the user requests its area.
@@ -162,7 +162,7 @@ async function ensureCountyDetail(id){
  if(!ATLAS_ASSETS.detail[id])return;
  if(!detailJobs.has(id))detailJobs.set(id,loadAtlasAsset(ATLAS_ASSETS.detail[id]).then(paths=>{
   for(const c of provinceRows.get(id)||[]){if(paths[c.id]){c.path=paths[c.id];if(mode==='county')$('regions').querySelector('[data-id="'+c.id+'"]')?.setAttribute('d',c.path);}}
-  sizeRelationMarks();return true;
+  sizeRelationMarks();if(mode==='county'&&selected?.pid===id)fitSelection();return true;
  }).catch(()=>{detailJobs.delete(id);$('geometryStatus').textContent='当前显示概览边界；再次选择可重试精细县界。';return false;}));
  return detailJobs.get(id);
 }

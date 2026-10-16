@@ -9,7 +9,7 @@ window.cleanAtlasCaches=async function(){
  const controlled=!!navigator.serviceWorker?.controller;
  try{if('serviceWorker'in navigator){const registrations=await navigator.serviceWorker.getRegistrations();await Promise.all(registrations.filter(r=>new URL(r.scope).origin===location.origin).map(r=>r.unregister()));}}catch{}
  try{if('caches'in window){const names=await caches.keys();await Promise.all(names.filter(n=>n.startsWith('solar-atlas-')).map(n=>caches.delete(n)));}}catch{}
- if(controlled&&location.protocol!=='file:'){const url=new URL(location.href);if(url.searchParams.get('release')!=='45'){url.searchParams.set('release','45');location.replace(url.href);return false;}}
+ if(controlled&&location.protocol!=='file:'){const url=new URL(location.href);if(url.searchParams.get('release')!=='46'){url.searchParams.set('release','46');location.replace(url.href);return false;}}
  return true;
 };
 window.finishAtlasBoot=async function(){
@@ -38,7 +38,7 @@ async function startAtlas(){
  try{
   window.ATLAS=await loadAtlasAsset(ATLAS_ASSETS.core);
   status.textContent='正在准备地图与分析界面…';
-  const script=document.createElement('script');script.src=window.ATLAS_BUILD?.runtime||'atlas-runtime.js?v=45';
+  const script=document.createElement('script');script.src=window.ATLAS_BUILD?.runtime||'atlas-runtime.js?v=46';
   const fail=()=>{startingAtlas=false;status.textContent='页面未加载完成，请重新加载。';document.getElementById('retryAtlas').hidden=false;};
   script.onerror=fail;script.onload=()=>{if(!window.ATLAS_RUNTIME_INITIALIZED){fail();return;}finishAtlasBoot().catch(fail);};
   document.body.append(script);

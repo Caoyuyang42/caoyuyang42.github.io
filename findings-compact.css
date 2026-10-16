@@ -116,3 +116,9 @@ body[data-page=findings] footer{padding:7px 0;font-size:11px}
 #multiAccessibleTable{position:fixed;left:0;top:0;display:block;max-width:1px;table-layout:fixed;contain:strict}
 
 #multiCountyChart[hidden]{display:none}
+
+/* v46: keep one value per county and use the freed heading area for the chart. */
+.multiChartPane>.multiChartHead{display:flex;justify-content:flex-end;align-items:center;min-height:36px}
+.multiChartPane .multiChartControls{flex-direction:row;align-items:center;gap:12px;margin-top:0;flex-wrap:wrap;justify-content:flex-end}
+.multiMetricRail>p{line-height:1.6}
+@media(max-width:620px){.multiChartPane .multiChartControls{gap:6px;justify-content:space-between;width:100%}}

@@ -10,7 +10,7 @@
   {metric:'radiation',title:'相近的阳光，不同的起点。',text:`${caseA.name}的辐射指数为 ${caseA.radiation.toFixed(3)}，${caseB.name}为 ${caseB.radiation.toFixed(3)}，绝对差为 ${Math.abs(caseA.radiation-caseB.radiation).toFixed(3)}。归一化辐射指数表达两县的相对光照条件。`,key:'radiation',label:'太阳辐射指数',note:'共同刻度 0–1 · 2016 年',kicker:'01 / 资源问题'},
   {metric:'coord',title:'协调度，刻画两系统的联合状态。',text:`两县协调度分别为 ${example.a.coord.toFixed(3)} 与 ${example.b.coord.toFixed(3)}。协调度衡量资源与低碳相关两系统的联合状态；综合排名由含协调度的七项指标计算。`,key:'coord',label:'县域内耦合协调度 D',note:'共同刻度 0–1 · 统计优先版',kicker:'02 / 系统问题'},
   {metric:'priority',title:'七项输入，按同一标尺比较。',text:`${caseA.name}为 ${example.a.priority} 级，${caseB.name}为 ${example.b.priority} 级。两县自然光伏潜力指数分别为 ${example.a.solar.toFixed(4)} 和 ${example.b.solar.toFixed(4)}。七项指标按统一标尺进入正则马氏 TOPSIS 评分，再按全国五分位划分优先级。`,key:'score',label:'综合得分',note:'共同刻度 0–1 · 五分位分组，5级最高',kicker:'03 / 排序问题'},
-  {metric:'protected',title:'研究排序之后，再看空间边界。',text:`两县保护区覆盖率分别为 ${(caseA.protected*100).toFixed(1)}% 与 ${(caseB.protected*100).toFixed(1)}%。保护区实际轮廓呈现空间约束，覆盖率用于候选筛选与具体位置核查；综合研究得分保持统一口径。`,key:'protected',label:'保护区覆盖率',note:'共同刻度 0–100% · 面积相交比例',kicker:'04 / 空间问题'}
+  {metric:'protected',title:'研究排序之后，再看空间边界。',text:`两县保护区覆盖率分别为 ${(caseA.protected*100).toFixed(1)}% 与 ${(caseB.protected*100).toFixed(1)}%。保护区实际轮廓呈现空间约束，覆盖率用于县域筛选与具体位置核查；综合研究得分保持统一口径。`,key:'protected',label:'保护区覆盖率',note:'共同刻度 0–100% · 面积相交比例',kicker:'04 / 空间问题'}
  ];
  let caseIndex=0,caseActive=false,restoreState=null;
  function setMetric(k){metric=k;document.querySelectorAll('#metrics button').forEach(b=>b.classList.toggle('active',b.dataset.metric===k));}
@@ -140,4 +140,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=39";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=40";document.body.append(studioScript);

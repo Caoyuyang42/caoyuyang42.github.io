@@ -27,10 +27,6 @@
  const previousReset=$('resetStudio').onclick;$('resetStudio').onclick=()=>{previousReset?.();syncCandidateControls();};
  // Existing row, scatter and province handlers retain their selection behavior; navigation follows it.
  studio.addEventListener('click',e=>{const button=e.target.closest('[data-locate]');if(button){requestAnimationFrame(()=>setCandidateView('map'));return;}if(e.target.closest('[data-province]'))requestAnimationFrame(syncCandidateControls);});
- let plotPointer=null;$('resourcePlot').addEventListener('pointerdown',e=>{plotPointer={x:e.clientX,y:e.clientY,id:e.target.closest('circle[data-county]')?.dataset.county};});
- $('resourcePlot').addEventListener('pointerup',e=>{if(plotPointer?.id&&Math.hypot(e.clientX-plotPointer.x,e.clientY-plotPointer.y)<8)requestAnimationFrame(()=>setCandidateView('map'));plotPointer=null;});
- $('resourcePlot').addEventListener('pointercancel',()=>plotPointer=null);
- $('resourcePlot').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.county)requestAnimationFrame(()=>setCandidateView('map'));});
  window.addEventListener('atlas:filters-changed',syncCandidateControls);
 
  diagnostics.classList.add('decisionHeading');diagnostics.querySelector('h2').textContent='决策推演 · 偏好、稳健性与空间结构';diagnostics.querySelector('.eyebrow').textContent='逐光 / DECISION STUDIO';

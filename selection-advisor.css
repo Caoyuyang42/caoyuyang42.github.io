@@ -183,3 +183,31 @@ body #countyAdvisor[hidden]{display:none!important}
 .provincePolicyIntro{font-size:11px;color:#b8d8e8;line-height:1.5}.provincePolicy{padding:12px 0;border-bottom:1px solid #85b7c866}.provincePolicy small{display:block;font-size:11px;color:#afd0df;margin-bottom:5px}.provincePolicy a{font-size:14px;color:#89eee4;line-height:1.6;display:block}.provincePolicy p,.provincePolicyMissing{font-size:12px!important;line-height:1.8!important;color:#c7dfec!important;margin:7px 0!important}.provincePolicy strong{font-size:12px;color:#ffe0a0}
 @media(max-width:1099px){#provinceDecision{height:auto;min-height:700px}#provinceDecisionBody{grid-template-columns:1fr 1fr;flex:none}.provinceStrategy{grid-column:1/-1;max-height:650px}.provinceAllocation{min-height:600px}.candidatePage .studioCharts{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 @media(max-width:760px){#provinceDecisionBody{display:flex;flex-direction:column}.provinceDecisionHead>span{display:none}.provinceDecisionHead h2{font-size:19px}.provinceDecisionHead label{flex:1}.provinceDecisionHead select{flex:1;min-width:0}.provinceDecisionHead>button{margin-left:0}.provinceAllocation{min-height:700px}.provinceCountyList{max-height:300px}.provinceStrategy{max-height:750px}.candidatePage .provinceProfile>div>span{grid-template-columns:76px minmax(10px,1fr) 62px}.candidatePage .studioCharts{display:flex;flex-direction:column}}
+
+/* v45: readable product title, inline legends, and complete dataset provenance. */
+body header .brand{gap:9px;flex:none;min-width:0}
+body header .brandCopy{display:flex;flex-direction:column;gap:1px;line-height:1.25;white-space:nowrap}
+body header .brandCopy>strong{font-size:22px;font-weight:700}
+body header .brandCopy>b{font-size:11px;font-weight:400;margin:0;padding:0;border:0;line-height:1.4;letter-spacing:0}
+#legendItems.priorityScoreLegend{display:flex;flex-wrap:nowrap!important;gap:6px 18px!important;overflow-x:auto}
+#legendItems.priorityScoreLegend>span{display:inline-flex!important;align-items:center;gap:5px;white-space:nowrap;flex:none}
+#legendItems.priorityScoreLegend>span>i{width:12px;height:10px;flex:none}
+#legendItems.priorityScoreLegend>span>small{font:inherit;color:#d2e8f4}
+#contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead{justify-content:flex-start;gap:14px;flex-wrap:wrap}
+#contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead>button{font:inherit;font-size:inherit;line-height:1.4;letter-spacing:.3px;padding:0;min-height:0}
+#contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead>h3{font-size:16px}
+#contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead{font-size:16px}
+#contextSection.contextSymmetric .ctxGoalTargets b{display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+#contextSection.contextSymmetric .ctxGoalTargets b>small{font:400 14px/1.3 'Microsoft YaHei',sans-serif;letter-spacing:0;color:#d4e9f4}
+#contextSection #contextSources{display:block;font-size:13px;line-height:1.85;padding:16px 20px;scrollbar-gutter:stable;overflow-wrap:anywhere}
+#contextSection #contextSources>p,#contextSection #contextSources .ctxDatasetSource p{font-size:inherit;line-height:1.85;margin:9px 0 14px;color:#d0e4ef;text-align:justify}
+#contextSection #contextSources h4{font-size:15px;font-weight:600;color:#ffe1a0;margin:18px 0 8px}
+#contextSection #contextSources>a{display:block;font-size:12px;line-height:1.7;margin:7px 0}
+#contextSection #contextSources .ctxDatasetSource{border-top:1px solid #6f9db34d;padding-top:2px}
+#statisticsDistributionNote[hidden]{display:none!important}
+@media(min-width:1100px){
+ #contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead,#contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead h3,#contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead button{font-size:calc(16 * var(--ctx-unit))}
+ #contextSection.contextSymmetric .ctxGoalTargets b>small{font-size:calc(13 * var(--ctx-unit))}
+}
+@media(max-width:1099px){body header .brandCopy>strong{font-size:20px}body header .brandCopy>b{font-size:10px}}
+@media(max-width:760px){body header .brandCopy{white-space:normal}body header .brandCopy>b{max-width:265px}#contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead{gap:6px 12px}}

@@ -1,7 +1,7 @@
 'use strict';
 window.cleanAtlasCaches=async function(){
  if(!('caches'in window))return;
- try{const names=await window.caches.keys();await Promise.all(names.filter(name=>name.startsWith('solar-atlas-demo-')&&name!=='solar-atlas-demo-v40').map(name=>window.caches.delete(name)));}catch{}
+ try{const names=await window.caches.keys();await Promise.all(names.filter(name=>name.startsWith('solar-atlas-demo-')&&name!=='solar-atlas-demo-v41').map(name=>window.caches.delete(name)));}catch{}
 };
 window.finishAtlasBoot=async function(){
  if(document.body.classList.contains('mapPhotoPage')){
@@ -36,7 +36,7 @@ async function startAtlas(){
  try{
   window.ATLAS=await loadAtlasAsset(ATLAS_ASSETS.core);
   status.textContent='正在准备地图与分析界面…';
-  const script=document.createElement('script');script.src='atlas-runtime.js?v=40';
+  const script=document.createElement('script');script.src='atlas-runtime.js?v=41';
   const fail=()=>{startingAtlas=false;status.textContent='页面未加载完成，请重新加载。';document.getElementById('retryAtlas').hidden=false;};
   script.onerror=fail;script.onload=()=>{if(!window.ATLAS_RUNTIME_INITIALIZED){fail();return;}finishAtlasBoot().catch(fail);};
   document.body.append(script);

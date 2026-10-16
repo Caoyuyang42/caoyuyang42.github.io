@@ -2,6 +2,9 @@
 (()=>{
  const countiesById=new Map(counties.map(c=>[c.id,c])),workspace=$('atlas'),candidatePage=ATLAS_NAVIGATION.pages.candidates,advisor=$('advisorResult');
  document.querySelector('.ctxFilmCaption')?.remove();$('footerAbout').hidden=true;
+ document.querySelector('main>footer').hidden=true;
+ const contextSources=document.querySelector('.ctxSourceFoot');document.querySelector('.contextBoardHead').append(contextSources);
+ contextSources.addEventListener('click',e=>e.stopPropagation());document.addEventListener('click',()=>contextSources.open=false);
  document.querySelector('[data-page-link=candidates]').textContent='县域筛选';$('analysisStudio').querySelector('.studioHeading h2').textContent='县域筛选';
  const side=document.createElement('section');side.className='filterMapSummary';workspace.querySelector('.workbenchSide').append(side);
  const legend=document.createElement('div');legend.className='filterMapLegend';legend.innerHTML='<span><i></i>满足筛选条件</span><span><i></i>未入选县域</span><strong id="filterMapCount"></strong>';workspace.querySelector('.mapViewport').prepend(legend);
@@ -69,4 +72,12 @@
  }
  new MutationObserver(decorateAdvisor).observe(advisor,{childList:true});window.addEventListener('resize',()=>{if(visualCounty)drawNeighbors(visualCounty);});window.addEventListener('atlas:page-changed',()=>{if(document.body.dataset.page==='decision'){decorateAdvisor();if(visualCounty)requestAnimationFrame(()=>drawNeighbors(visualCounty));}});
  window.ATLAS_SELECTION_ADVISOR={refresh:filterView,redraw:()=>visualCounty&&drawNeighbors(visualCounty),getState:()=>({filterMap:workspace.classList.contains('filterMapLayout'),matched:workspace.querySelectorAll('#regions .candidateMatched').length,advisor:visualCounty?.id})};filterView();decorateAdvisor();
+ let fullFrame=0;const expanded=new Set();
+ function fillPage(){cancelAnimationFrame(fullFrame);fullFrame=requestAnimationFrame(()=>{if(innerWidth<1100){for(const node of expanded)node.style.removeProperty('height');expanded.clear();return;}const page=document.body.dataset.page;
+  if(page==='candidates'){workspace.style.setProperty('height','100%','important');expanded.add(workspace);}
+  const targets=page==='context'?[document.querySelector('.contextDashboardGrid')]:page==='atlas'||page==='priority'?[workspace]:page==='candidates'?[$('analysisStudio')]:page==='decision'?[ATLAS_NAVIGATION.pages.decision,$('countyAdvisor')]:page==='gdp'?[$('modelSection')]:[];let changed=false;
+  for(const node of targets){const rect=node.getBoundingClientRect();if(!rect.width)continue;const height=Math.max(300,innerHeight-rect.top-8)+'px';if(node.style.height!==height){node.style.setProperty('height',height,'important');expanded.add(node);changed=true;}}
+  if(changed)requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));
+ });}
+ window.addEventListener('resize',fillPage);window.addEventListener('atlas:page-changed',fillPage);fillPage();
 })();

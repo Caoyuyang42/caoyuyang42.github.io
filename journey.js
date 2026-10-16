@@ -119,6 +119,7 @@
   '520000':{name:'贵州',cases:[{title:'山地坡面上的光伏阵列',location:'贵州 · 团队提供地区标注',type:'山地坡面布置',analysis:'照片呈现起伏山地、沿坡铺设的阵列和植被。地形影响阵列布置与施工条件；结合长期云量、降雨和辐射数据，可以进一步分析年尺度光照条件。',images:[{file:'guizhou.png',alt:'贵州山地坡面上的光伏阵列',sourceKind:'team-photo',sourceName:'团队提供示例',credit:'具体电站与拍摄来源待补充'}]}]}
  };
  const examples={...window.ATLAS_PROVINCE_EXAMPLES};for(const [id,e] of Object.entries(teamExamples))examples[id]={name:e.name,cases:[...e.cases,...(examples[id]?.cases||[])]};
+ window.ATLAS_FIELD_CASES=examples;
  const photoURL=e=>e.file?window.ATLAS_PHOTOS?.[e.file]||'photos/'+e.file:e.url;
  const imageChoices=new Map(),sourceLabel=e=>e.sourceKind==='source-photo'?'来源照片':e.sourceKind==='search-preview'?'图片检索预览':'团队提供示例';let photoKey='',activeProvince='',activePhoto=null;
  let photo=$('provincePhoto');if(!photo){photo=document.createElement('section');photo.id='provincePhoto';photo.hidden=true;$('detail').after(photo);}
@@ -139,4 +140,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=35";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=36";document.body.append(studioScript);

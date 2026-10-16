@@ -1,0 +1,290 @@
+[
+  {
+    "provinceId": "110000",
+    "province": "北京",
+    "title": "北京市延庆区：京能延庆光伏发电场",
+    "source": "https://new.qq.com/rain/a/20211027A0665V00",
+    "sourceImage": "http://inews.gtimg.com/newsapp_bt/0/14112959096/1000",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/01_北京市延庆区_京能延庆光伏发电场.png",
+    "sha256": "ec7413b14b98810ef1e2cf0d889e5737b2ae996fb22accf4b80f573ed3e1de38",
+    "originalSize": [
+      1000,
+      560
+    ],
+    "file": "stations/110000-01.webp",
+    "thumbFile": "stations/110000-01-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "120000",
+    "province": "天津",
+    "title": "天津市滨海新区：刘岗庄40MWp渔光互补电站",
+    "source": "http://news.sina.cn/gn/2019-03-04/detail-ihsxncvf9714305.d.html?pos=3&vt=4",
+    "sourceImage": "http://n.sinaimg.cn/translate/384/w2048h1536/20190304/6L_A-htwhfzr8217047.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/02_天津市滨海新区_刘岗庄40MWp渔光互补电站.jpg",
+    "sha256": "9ecbb6fc98a7bd53fce239c3890cacbac335ed2e6d8ec2815593a3d6b963889b",
+    "originalSize": [
+      2048,
+      1536
+    ],
+    "file": "stations/120000-02.webp",
+    "thumbFile": "stations/120000-02-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "130000",
+    "province": "河北",
+    "title": "河北省张家口市张北县：国泰绿能100MW光伏电站",
+    "source": "http://zjk.hebei.com.cn/system/2019/01/08/019374836.shtml",
+    "sourceImage": "http://pic1.hebei.com.cn/003/021/157/00302115752_9e64970c.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/03_河北省张家口市张北县_国泰绿能100MW光伏电站.jpg",
+    "sha256": "736d9c3a9b2c9f8c2cef8b5c672d784469347543cfaff0c0a8f3a9a91ce91970",
+    "originalSize": [
+      1440,
+      1080
+    ],
+    "file": "stations/130000-03.webp",
+    "thumbFile": "stations/130000-03-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "140000",
+    "province": "山西",
+    "title": "山西省大同市：熊猫造型光伏电站",
+    "source": "http://news.sxrb.com/GB/314063/9614466.html",
+    "sourceImage": "http://news.sxrb.com/NMediaFile/2020/0824/MAIN202008242028000330881731748.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/04_山西省大同市_熊猫造型光伏电站.jpg",
+    "sha256": "3e14421610aa29aabf73dd8c7191c14a3ff33a294ffb4e3c8381dff0f12fda09",
+    "originalSize": [
+      4000,
+      3000
+    ],
+    "file": "stations/140000-04.webp",
+    "thumbFile": "stations/140000-04-thumb.webp",
+    "sourceNote": "来源为大同光伏专题报道；具体县区未在该图片图注中注明。"
+  },
+  {
+    "provinceId": "210000",
+    "province": "辽宁",
+    "title": "辽宁省阜新市：光伏治沙示范项目",
+    "source": "https://cq.ifeng.com/c/8ONq4mnVk3D",
+    "sourceImage": "https://x0.ifengimg.com/ucms/2023_12/2C643878088BCFFFA48D282600A52E98A33DC942_size167_w1920_h1080.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/05_辽宁省阜新市_光伏治沙示范项目.jpg",
+    "sha256": "3c5b63edaa427aa74c405ef3b967127a6b77b844c60e24d60ccd9b88713b47fb",
+    "originalSize": [
+      1920,
+      1080
+    ],
+    "file": "stations/210000-05.webp",
+    "thumbFile": "stations/210000-05-thumb.webp",
+    "sourceNote": "新闻视频封面静帧，1920×1080；具体县区未核实。"
+  },
+  {
+    "provinceId": "220000",
+    "province": "吉林",
+    "title": "吉林省白城市洮北区：村级光伏项目",
+    "source": "http://www.taobei.gov.cn/xxgk/tbyw/202411/t20241122_1002823.html",
+    "sourceImage": "http://www.taobei.gov.cn/xxgk/tbyw/202411/W020241122325565272545.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/06_吉林省白城市洮北区_村级光伏项目.jpg",
+    "sha256": "51d24b5e4a350bd1b5445729bed6f93690db0455e602ac840961d6c940ab00a1",
+    "originalSize": [
+      1280,
+      959
+    ],
+    "file": "stations/220000-06.webp",
+    "thumbFile": "stations/220000-06-thumb.webp",
+    "sourceNote": "报道涉及多个村级项目，未将该图强行对应某一村。"
+  },
+  {
+    "provinceId": "230000",
+    "province": "黑龙江",
+    "title": "黑龙江省大庆市：国家光伏、储能实证实验平台",
+    "source": "https://m.thepaper.cn/newsDetail_forward_15477796",
+    "sourceImage": "https://imagepphcloud.thepaper.cn/pph/image/165/44/594.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/07_黑龙江省大庆市_国家光伏、储能实证实验平台.jpg",
+    "sha256": "02b1be1b051d2eee626ab1f716dc5cc5f6237761c98eec2c457b674c9366f6e5",
+    "originalSize": [
+      1080,
+      720
+    ],
+    "file": "stations/230000-07.webp",
+    "thumbFile": "stations/230000-07-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "310000",
+    "province": "上海",
+    "title": "上海市浦东新区：高科西路光伏公交场站",
+    "source": "http://news.163.com/photoview/00AP0001/2222244.html",
+    "sourceImage": "http://img3.cache.netease.com/photo/0001/2016-12-21/C8PSPQ4I00AP0001.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/08_上海市浦东新区_高科西路光伏公交场站.jpg",
+    "sha256": "c68df49b73cf9627019f2cd65552c1341c80e7b020d84a5554bf68999308f283",
+    "originalSize": [
+      2048,
+      1152
+    ],
+    "file": "stations/310000-08.webp",
+    "thumbFile": "stations/310000-08-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "350000",
+    "province": "福建",
+    "title": "福建省漳州市漳浦县：赤土乡农光互补项目",
+    "source": "https://www.fjdaily.com/app/content/2023-04/13/content_1844441.html",
+    "sourceImage": "https://img1.fjdaily.com/app/images/2023-04/13/59593fca-8b36-42aa-972f-af0b4bed16dd.jpg.2",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/09_福建省漳州市漳浦县_赤土乡农光互补项目.jpg",
+    "sha256": "83d6274de44ba38820b8f6afd95b46fac05e9e5b94ff5a597f49777ed78b7c36",
+    "originalSize": [
+      1600,
+      1063
+    ],
+    "file": "stations/350000-09.webp",
+    "thumbFile": "stations/350000-09-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "360000",
+    "province": "江西",
+    "title": "江西省上饶市万年县：100MW渔光互补项目",
+    "source": "https://www.sohu.com/a/471186222_162522",
+    "sourceImage": "https://p2.itc.cn/q_70/images03/20210609/dd4be550c73f40f9b61dbc610b6962d7.jpeg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/10_江西省上饶市万年县_100MW渔光互补项目.jpg",
+    "sha256": "a6523f59282b9b6babdb1cefea858410dc74b4734118b129d5ba51abacbde2b0",
+    "originalSize": [
+      4600,
+      2896
+    ],
+    "file": "stations/360000-10.webp",
+    "thumbFile": "stations/360000-10-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "370000",
+    "province": "山东",
+    "title": "山东省聊城市：水上光伏电站",
+    "source": "http://www.lcxw.cn/tushuo/shijueliaocheng/20231228/51099.html",
+    "sourceImage": "https://stream7.litenews.cn/xxqg/202310/27/5d00c2a92a3b477c8bd6290194100156.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/11_山东省聊城市_水上光伏电站.jpg",
+    "sha256": "c466bf9d3c2185d6389477988528ef18eabe168d7e03a5280724085b32e6fdc8",
+    "originalSize": [
+      2000,
+      1498
+    ],
+    "file": "stations/370000-11.webp",
+    "thumbFile": "stations/370000-11-thumb.webp",
+    "sourceNote": "原报道链接本次访问返回404；标题与地域由搜索索引提供，图片原文件可下载，具体县区和电站名待核实。"
+  },
+  {
+    "provinceId": "430000",
+    "province": "湖南",
+    "title": "湖南省郴州市桂阳县：荷叶镇干塘村矿区光伏",
+    "source": "https://www.czxww.cn/content/2024-01/09/content_1357700.html",
+    "sourceImage": "https://www.czxww.cn/pic/2024-01/09/1357700_240ef3b5-37fc-499b-93d4-fb7b1fd4538c.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/12_湖南省郴州市桂阳县_荷叶镇干塘村矿区光伏.jpg",
+    "sha256": "06e19f53506b5c2f6c03b81fff98a6a663097363b47998c82c04c018a6a22cfd",
+    "originalSize": [
+      2000,
+      1498
+    ],
+    "file": "stations/430000-12.webp",
+    "thumbFile": "stations/430000-12-thumb.webp",
+    "sourceNote": ""
+  },
+  {
+    "provinceId": "450000",
+    "province": "广西",
+    "title": "广西壮族自治区梧州市蒙山县：林光互补项目",
+    "source": "http://vip.people.com.cn/albumsDetail?aid=1927704&pid=14278783",
+    "sourceImage": "http://vip-public.people.com.cn/photo/2025/4/18/63b2a96b9e104f02a8f398333ae6bad0K7G5_l.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/13_广西壮族自治区梧州市蒙山县_林光互补项目.jpg",
+    "sha256": "26f69de59866eca5257542a2c7b5db7a1f8432424bfb8c727645f6bc676d3b17",
+    "originalSize": [
+      1024,
+      683
+    ],
+    "file": "stations/450000-13.webp",
+    "thumbFile": "stations/450000-13-thumb.webp",
+    "sourceNote": "带水印的公开展示图；具体电站名称未在检索标题中注明。"
+  },
+  {
+    "provinceId": "460000",
+    "province": "海南",
+    "title": "海南省乐东黎族自治县：莺歌海盐场100MW光伏项目",
+    "source": "http://www.cepca.org.cn/news/show-20130.html",
+    "sourceImage": "https://www.ceec.net.cn/picture/-1/230515153019593292.jpeg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/14_海南省乐东黎族自治县_莺歌海盐场100MW光伏项目.jpg",
+    "sha256": "7952a9937f4e7232d4a9d899c590076564ccd576b87079f2b15dbf9a2a68d2eb",
+    "originalSize": [
+      3796,
+      2132
+    ],
+    "file": "stations/460000-14.webp",
+    "thumbFile": "stations/460000-14-thumb.webp",
+    "sourceNote": "这是100MW项目，区别于同区域的纳潮湖200MW项目。"
+  },
+  {
+    "provinceId": "510000",
+    "province": "四川",
+    "title": "四川省甘孜州雅江县：柯拉一期光伏电站",
+    "source": "http://tjbh.com/c/2023-06-26/1217446.shtml",
+    "sourceImage": "https://img-xhpfm.xinhuaxmt.com/News/202306/20230625162308_0003.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/15_四川省甘孜州雅江县_柯拉一期光伏电站.jpg",
+    "sha256": "a5454309240eccc11101ab28e278d56c36cb3b8fa28003020f01de7a2f80b074",
+    "originalSize": [
+      6000,
+      4000
+    ],
+    "file": "stations/510000-15.webp",
+    "thumbFile": "stations/510000-15-thumb.webp",
+    "sourceNote": "已取得6000×4000原图；保留原文件，未放大插值。"
+  },
+  {
+    "provinceId": "500000",
+    "province": "重庆",
+    "title": "重庆市：嘉利建桥灯具屋顶光伏项目",
+    "source": "https://finance.sina.com.cn/roll/2024-05-31/doc-inaxcfuy3809715.shtml",
+    "sourceImage": "http://n.sinaimg.cn/spider20240531/214/w2048h1366/20240531/5765-22a5c6541376566a069c41cabd465d28.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/16_重庆市_嘉利建桥灯具屋顶光伏项目.jpg",
+    "sha256": "f2495af8f52a920f782025c0169982bf0ee0314eeec6defd4af11a7b8b0050a8",
+    "originalSize": [
+      2048,
+      1366
+    ],
+    "file": "stations/500000-16.webp",
+    "thumbFile": "stations/500000-16-thumb.webp",
+    "sourceNote": "区县未在已核对的图注中明确，保留市级地域。"
+  },
+  {
+    "provinceId": "500000",
+    "province": "重庆",
+    "title": "重庆市：沪渝塑料五金屋顶光伏项目",
+    "source": "https://finance.sina.com.cn/roll/2024-05-31/doc-inaxcfuy3809715.shtml",
+    "sourceImage": "http://n.sinaimg.cn/spider20240531/214/w2048h1366/20240531/1211-06aeffd219574934d02c11e9abe821f8.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/17_重庆市_沪渝塑料五金屋顶光伏项目.jpg",
+    "sha256": "245dcdb56a7164616c8dcbdbd9b2f91a0c924f5fbc3d062bdb6674e2cbcfb79a",
+    "originalSize": [
+      2048,
+      1366
+    ],
+    "file": "stations/500000-17.webp",
+    "thumbFile": "stations/500000-17-thumb.webp",
+    "sourceNote": "区县未在已核对的图注中明确，保留市级地域。"
+  },
+  {
+    "provinceId": "610000",
+    "province": "陕西",
+    "title": "陕西省榆林市：京能国际300MW光伏项目",
+    "source": "http://stock.eastmoney.com/a/202303122659235422.html",
+    "sourceImage": "https://np-newsimg.dfcfw.com/download/D25392079914141282064_w4032h3024.jpg",
+    "sourceArchiveEntry": "剩余17省光伏图片_分享版/images/18_陕西省榆林市_京能国际300MW光伏项目.jpg",
+    "sha256": "8073a68e6c47df51d5555c208b36c646d1c3255790b9a85e72b255ee24f177f1",
+    "originalSize": [
+      1317,
+      987
+    ],
+    "file": "stations/610000-18.webp",
+    "thumbFile": "stations/610000-18-thumb.webp",
+    "sourceNote": "具体县区未在该图片图注中明确。"
+  }
+]

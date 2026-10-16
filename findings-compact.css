@@ -1,0 +1,118 @@
+/* Multi-county comparison: selected results above, metrics left, bars in the centre. */
+.appPage[data-page=findings].multiCountyPage{margin:0;max-width:none;min-width:0}
+.multiLegacy[hidden]{display:none!important}
+#multiCountyWorkspace{margin:0;min-width:0;color:#dfeef3}
+body[data-page=findings] main{max-width:2100px}
+body[data-page=findings] footer{padding:7px 0;font-size:11px}
+.multiPageHead{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:50px;padding-bottom:8px}
+.multiPageHead h2{font-size:21px;font-weight:500;letter-spacing:1px;line-height:1.4;margin:0}
+.multiPageHead p{font-size:13px;line-height:1.5;color:#a9c7d4;margin:3px 0 0}
+.multiHeadActions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+#multiCountyWorkspace button,#multiCountyWorkspace select,#multiCountyPicker button,#multiCountyPicker select,#multiCountyPicker input,#multiMethodsDialog button{font-family:inherit;font-size:13px;border:1px solid #658f9f;border-radius:0;background:#13364a;color:#d9eaf0;min-height:34px;padding:6px 10px;cursor:pointer}
+#multiCountyWorkspace button:disabled{opacity:.4;cursor:default}
+#multiCountyWorkspace .multiPrimary,#multiCountyPicker .multiPrimary{background:#d6b77c;color:#163448;border-color:#d6b77c}
+.multiSelectionBar{display:flex;gap:10px;align-items:center;padding:6px 10px;border:1px solid #7298a9;background:#183d51;min-height:41px;box-sizing:border-box}
+.multiSelectionBar>strong{font-size:14px;font-weight:500;color:#e9d3ab}
+.multiSelectionBar>span{font-size:12px;color:#a8c6d3}
+.multiSelectionBar>label{display:flex;align-items:center;font-size:12px;gap:6px;margin:0 0 0 auto;color:#a8c6d3}
+#multiCountyWorkspace .multiSelectionBar select{min-height:27px;height:27px;padding:2px 5px;font-size:12px}
+#multiCountyWorkspace .multiSelectionBar button{min-height:27px;width:29px;padding:1px 4px}
+#multiStatus{color:#8ed6ce;font-size:12px;max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#multiStatus:empty{display:none}
+#multiCountyCards{display:grid;grid-template-columns:repeat(var(--multi-card-count,2),minmax(0,1fr));gap:8px;margin:8px 0 10px;min-height:86px}
+.multiCountyCard{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 8px;align-content:center;min-width:0;padding:9px 11px;background:linear-gradient(130deg,#234b5d,#16374c);border:1px solid #6d96a7;border-top:3px solid var(--county-color);box-sizing:border-box}
+#multiCountyWorkspace .multiCountyName{grid-column:1/-1;padding:0 18px 1px 0;min-height:19px;line-height:1.35;font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;text-align:left;color:#e0edf2}
+#multiCountyWorkspace .multiRemove{position:absolute;right:5px;top:4px;width:23px;min-height:23px;height:23px;font-size:17px;padding:0;background:none;border:0;color:#9bbcc9}
+.multiCountyGrade{display:flex;align-items:baseline;gap:6px;min-width:0;white-space:nowrap}
+.multiCountyGrade strong{font:25px/1.2 Bahnschrift,'Segoe UI',sans-serif;color:var(--county-color);font-weight:500}
+.multiCountyGrade span{font-size:11px;color:#a9c8d5}
+.multiCountyScore{align-self:end;text-align:right;min-width:0}
+.multiCountyScore b{display:block;font:14px/1.4 Bahnschrift,'Segoe UI',sans-serif;color:#d9d9c6;font-weight:500}
+.multiCountyScore small{display:block;font-size:10px;line-height:1.5;white-space:nowrap;color:#a4c0cf}
+.multiNoCounties{grid-column:1/-1;display:flex;align-items:center;justify-content:center;font-size:15px;color:#a5c2d0;border:1px dashed #5e8a9e;background:#16364a;min-height:86px}
+.multiCompareGrid{display:grid;grid-template-columns:186px minmax(0,1fr) 206px;gap:10px;min-height:340px;height:calc(100dvh - 284px)}
+.multiMetricRail,.multiChartPane,.multiReadout{min-width:0;min-height:0;border:1px solid #6f99ab;border-radius:0;background:linear-gradient(135deg,#1b4054,#112e42)}
+.multiMetricRail{padding:12px 10px;display:flex;flex-direction:column;overflow:hidden}
+.multiMetricRail h3,.multiReadout>h3{font-size:15px;line-height:1.5;font-weight:500;margin:0;color:#dcebf0}
+.multiMetricRail>p{font-size:11px;line-height:1.5;color:#92b8c8;margin:3px 0 10px}
+#multiMetricButtons{display:flex;flex-direction:column;justify-content:space-evenly;gap:3px;flex:1;min-height:0}
+#multiCountyWorkspace #multiMetricButtons button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:0;border-left:2px solid transparent;background:none;min-height:27px;padding:5px 7px;font-size:13px;line-height:1.4;color:#bad1dc}
+#multiMetricButtons button em{font:12px Bahnschrift,'Segoe UI',sans-serif;color:#6d9cab;font-style:normal}
+#multiCountyWorkspace #multiMetricButtons button[aria-pressed=true]{border-left-color:#e5bc7b;color:#ffe1ad;background:linear-gradient(90deg,#d2b07233,transparent)}
+#multiMetricButtons button[aria-pressed=true] em{color:#e3bf82}
+.multiChartPane{display:flex;flex-direction:column;padding:11px 12px 8px;overflow:hidden}
+.multiChartHead{display:flex;justify-content:space-between;align-items:start;gap:12px;padding-bottom:8px;border-bottom:1px solid #6992a465;flex-shrink:0}
+.multiChartHead h3{font-size:18px;line-height:1.5;font-weight:500;margin:0;color:#e9dbc0}
+.multiChartHead p{font-size:12px;line-height:1.6;color:#adc8d6;margin:3px 0 0;max-width:540px}
+.multiChartControls{display:flex;flex-direction:column;align-items:end;gap:6px;flex-shrink:0}
+.multiScale{display:flex;gap:0}
+#multiCountyWorkspace .multiScale button{font-size:12px;line-height:1.4;min-height:29px;padding:4px 8px;white-space:nowrap}
+#multiCountyWorkspace .multiScale button[aria-pressed=true]{background:#d3b47b;color:#12374a;border-color:#d3b47b}
+.multiChartControls>label{display:flex;align-items:center;gap:6px;color:#a2c1cf;font-size:11px;margin:0}
+#multiCountyWorkspace .multiChartControls select{min-height:27px;padding:3px 6px;font-size:11px}
+.multiChartBody{position:relative;flex:1;min-height:0}
+#multiCountyChart{width:100%;height:100%;display:block;min-height:0;overflow:visible}
+#multiEmpty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;color:#a5c5d2;line-height:1.8;margin:0}
+#multiEmpty[hidden]{display:none}
+.multiChartFoot{display:flex;justify-content:space-between;gap:10px;font-size:11px;line-height:1.5;color:#8eb3c5;padding-top:6px;border-top:1px solid #6992a45c;flex-shrink:0}
+#multiChartUnit{color:#c6d9e1;white-space:nowrap}
+.multiReadout{display:flex;flex-direction:column;padding:12px 12px 10px;overflow:hidden}
+.multiReadout>h3{font-size:14px;padding-bottom:9px;border-bottom:1px solid #6c92a368}
+#multiStats{display:flex;flex-direction:column;flex:1;min-height:0;justify-content:space-evenly}
+.multiStatCoverage{padding:6px 0 0}
+.multiStatCoverage>b{font:22px Bahnschrift,'Segoe UI',sans-serif;color:#81d2cc;font-weight:500}
+.multiStatCoverage small{font:12px 'Microsoft YaHei',sans-serif;color:#9bbccc}
+.multiStat{padding:8px 0;border-bottom:1px solid #5a819346}
+.multiStat>span{display:block;font-size:11px;color:#a7c3d2;line-height:1.5}
+.multiStat>strong{display:block;font:21px/1.5 Bahnschrift,'Segoe UI',sans-serif;font-weight:500;color:#e6c38b;overflow-wrap:anywhere}
+.multiStat>small{display:block;font-size:11px;color:#a5c2d0;line-height:1.5}
+.multiReading{padding:8px 0 0}
+.multiReading>span{font-size:12px;color:#86c9cd}
+.multiReading p{font-size:11px;line-height:1.65;color:#a9c4d2;margin:4px 0 8px}
+#multiCountyWorkspace .multiReadout>button{font-size:12px;min-height:31px;width:100%;margin-top:3px}
+.multiScreenReader{position:absolute;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;clip-path:inset(50%)}
+#multiCountyPicker,#multiMethodsDialog{width:min(820px,93vw);max-height:90dvh;padding:18px 20px;background:#15384d;color:#dcebf0;border:1px solid #86a7b7;border-radius:0;overflow:auto}
+#multiCountyPicker::backdrop,#multiMethodsDialog::backdrop{background:#061522b8;backdrop-filter:blur(4px)}
+.multiDialogHead{display:flex;justify-content:space-between;align-items:start;gap:15px;border-bottom:1px solid #7399a977;padding-bottom:11px;margin-bottom:12px}
+.multiDialogHead h2{font-size:22px;font-weight:500;line-height:1.4;color:#ecddbf;margin:0}
+.multiDialogHead p{font-size:13px;line-height:1.6;color:#aec9d8;margin:4px 0 0}
+#multiCountyPicker .multiDialogHead>button,#multiMethodsDialog .multiDialogHead>button{min-height:32px;width:32px;height:32px;padding:0;font-size:23px;background:none;border-color:#6a90a1}
+.multiPickerSearch{display:grid;grid-template-columns:minmax(0,1fr) 185px;gap:10px}
+#multiCountyPicker .multiPickerSearch input,#multiCountyPicker .multiPickerSearch select{font-size:14px;min-height:40px;width:100%;margin:0}
+.multiPickerBulk{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin:10px 0;font-size:12px;color:#aac5d3}
+.multiPickerBulk>label{display:flex;align-items:center;gap:5px;margin:0;font-size:12px}
+#multiCountyPicker .multiPickerBulk input{width:59px;min-height:31px;padding:4px;font-size:13px}
+#multiCountyPicker .multiPickerBulk button{font-size:12px;min-height:31px;padding:5px 8px}
+#multiMatchCount{font-size:11px;flex:1;text-align:right;color:#96b8cb}
+#multiSearchResults{display:grid;grid-template-columns:1fr 1fr;gap:7px;min-height:72px}
+#multiCountyPicker #multiSearchResults>button{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;min-height:64px;text-align:left;background:#1d4255;border:1px solid #577e91}
+#multiSearchResults>button[aria-pressed=true]{border-color:#83c9c2!important;background:#24524f!important}
+#multiSearchResults>button b{font-size:14px;font-weight:500;color:#e0ebef;line-height:1.5}
+#multiSearchResults>button small{display:block;font-size:11px;color:#9ebdcd;line-height:1.5}
+#multiSearchResults>button>span:last-child{text-align:right;flex-shrink:0}
+#multiSearchResults>button strong{font-size:16px;font-weight:500;color:#e7c48a;line-height:1.5;display:block}
+#multiSearchResults>button em{font-size:11px;color:#8fcac7;line-height:1.5;font-style:normal}
+.multiSearchEmpty{grid-column:1/-1;font-size:14px;color:#adcad7}
+.multiPickerFoot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:11px;margin-top:12px;border-top:1px solid #7399a977;font-size:13px;color:#bcd5df}
+#multiMethodsDialog{width:min(1050px,94vw)}
+#multiMethodsDialog details{margin:9px 0;border:1px solid #648b9e;padding:10px 12px;background:#173c50}
+#multiMethodsDialog summary{font-size:15px;color:#dfc597;cursor:pointer;line-height:1.6}
+#multiMethodsDialog p{font-size:14px;line-height:1.85;color:#bdd3df;margin:10px 0}
+#multiMethodsDialog #passport{border:0;background:none;padding:14px 0;margin:0}
+#multiMethodsDialog #passport h2{font-size:20px}
+#multiMethodsDialog #passport .eyebrow{display:none}
+#multiMethodsDialog #passport .passportGrid{grid-template-columns:1fr 1fr;gap:12px}
+#multiMethodsDialog #passport .passportGrid p{font-size:13px;line-height:1.7}
+.multiMath{padding:10px;background:#143348;margin:10px 0}
+.multiMath math{font-size:25px}
+#multiCountyWorkspace :is(button,select):focus-visible,#multiCountyPicker :is(button,input,select):focus-visible,#multiMethodsDialog :is(summary,button):focus-visible{outline:2px solid #f0c986;outline-offset:2px}
+@media(min-width:1600px){.multiCompareGrid{grid-template-columns:205px minmax(0,1fr) 240px}.multiChartHead h3{font-size:20px}.multiChartHead p{font-size:13px}.multiMetricRail h3,.multiReadout>h3{font-size:16px}#multiCountyWorkspace #multiMetricButtons button{font-size:15px}.multiStat>span,.multiStat>small,.multiReading p{font-size:13px}.multiStat>strong{font-size:25px}.multiCountyGrade strong{font-size:28px}.multiCountyName{font-size:16px!important}.multiCountyScore b{font-size:16px}.multiCountyScore small{font-size:12px}}
+@media(min-width:900px) and (max-height:780px){.multiPageHead{min-height:43px;padding-bottom:6px}.multiPageHead h2{font-size:20px}.multiPageHead p{font-size:12px}.multiSelectionBar{padding:4px 9px;min-height:36px}#multiCountyCards{margin:7px 0 8px;min-height:76px}.multiCountyCard{padding:7px 9px}.multiCountyGrade strong{font-size:23px}.multiCountyGrade span{display:none}.multiChartPane{padding:9px 10px 7px}.multiChartHead{padding-bottom:6px}.multiChartHead h3{font-size:16px}.multiChartHead p{font-size:11px;max-width:390px}.multiMetricRail{padding:9px 8px}.multiMetricRail>p{margin-bottom:5px}#multiCountyWorkspace #multiMetricButtons button{padding:3px 5px;min-height:25px;font-size:12px}.multiStat{padding:5px 0}.multiStat>strong{font-size:19px}.multiReadout{padding:9px 10px 8px}.multiReading p{font-size:10px;margin-bottom:5px}.multiChartFoot{font-size:10px}.multiStatCoverage>b{font-size:19px}}
+@media(min-width:900px) and (max-width:1250px){.multiCompareGrid{grid-template-columns:167px minmax(0,1fr) 175px;gap:8px}.multiCountyGrade span{display:none}.multiCountyScore b{font-size:13px}.multiCountyScore small{font-size:10px}.multiPageHead p{font-size:12px}.multiHeadActions{gap:5px}#multiCountyWorkspace .multiHeadActions button{font-size:12px;padding-inline:7px}.multiChartHead{display:block}.multiChartControls{flex-direction:row;align-items:center;justify-content:space-between;margin-top:6px}.multiChartFoot>span:last-child{display:none}.multiStat>strong{font-size:19px}.multiChartHead p{font-size:11px}}
+@media(max-width:899px){.multiPageHead{display:block;min-height:0}.multiPageHead h2{font-size:20px}.multiHeadActions{margin-top:9px;flex-wrap:wrap}#multiCountyWorkspace .multiHeadActions button{font-size:12px;min-height:32px}.multiSelectionBar{flex-wrap:wrap;gap:7px}#multiStatus{max-width:100%;flex-basis:100%}.multiSelectionBar>label{margin-left:auto}#multiCountyCards{grid-template-columns:repeat(3,minmax(0,1fr));min-height:0}.multiCountyGrade span{display:none}.multiCompareGrid{grid-template-columns:minmax(0,1fr);height:auto;min-height:0}.multiMetricRail{padding:9px 10px;display:block}.multiMetricRail h3{font-size:14px;display:inline}.multiMetricRail>p{display:inline;margin-left:10px;font-size:11px}#multiMetricButtons{display:flex;flex-flow:row wrap;gap:5px;margin-top:7px}#multiCountyWorkspace #multiMetricButtons button{width:auto;min-height:31px;padding:4px 7px;font-size:12px;border:1px solid #527b8e}#multiMetricButtons button em{display:none}#multiCountyWorkspace #multiMetricButtons button[aria-pressed=true]{border-color:#d6b77c}.multiChartPane{height:420px;box-sizing:border-box}.multiReadout{display:grid;grid-template-columns:minmax(0,1fr) auto;padding:10px 12px;gap:8px}.multiReadout>h3{grid-column:1/-1;margin:0;padding:0;border:0}#multiStats{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.multiStatCoverage{display:none}.multiStat{border:0;padding:0}.multiStat>strong{font-size:18px}.multiStat>span,.multiStat>small{font-size:11px}.multiReading{padding:0}.multiReading p{margin-bottom:0}.multiReadout>button{align-self:end}.multiChartHead h3{font-size:18px}.multiChartHead p{font-size:12px}.multiCountyGrade strong{font-size:22px}.multiCountyScore small{font-size:10px}.multiCountyScore b{font-size:13px}.multiChartFoot>span:last-child{display:none}}
+@media(max-width:620px){.multiPageHead h2{font-size:19px}.multiPageHead p{font-size:12px}.multiHeadActions{gap:5px}#multiCountyWorkspace .multiHeadActions button{font-size:11px;padding:5px 7px}#multiSelected{display:none}#multiCountyCards{grid-template-columns:1fr 1fr;gap:6px;margin:7px 0}.multiCountyCard{padding:7px 9px}.multiCountyName{font-size:13px!important}.multiCountyGrade strong{font-size:22px}.multiCountyScore b{font-size:12px}.multiCountyScore small{font-size:9px}.multiSelectionBar>strong{font-size:13px}.multiSelectionBar>span{font-size:11px}.multiSelectionBar label{font-size:11px}#multiPageRange{display:none}.multiChartPane{height:390px;padding:10px 9px 8px}.multiChartHead{display:block}.multiChartHead h3{font-size:17px}.multiChartHead p{font-size:11px}.multiChartControls{flex-direction:row;align-items:center;justify-content:space-between;margin-top:7px;gap:6px}#multiCountyWorkspace .multiScale button{font-size:11px;padding:4px 6px}.multiChartControls>label{font-size:0}#multiCountyWorkspace .multiChartControls select{font-size:10px;max-width:128px}.multiCompareGrid{gap:7px}.multiReadout{display:block}#multiStats{grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}.multiReading{padding-top:10px}.multiReadout>button{margin-top:7px!important}.multiStat>strong{font-size:20px}.multiMetricRail{padding:8px}#multiCountyWorkspace #multiMetricButtons button{font-size:11px;padding:4px 6px}.multiMetricRail>p{display:none}.multiChartFoot{font-size:10px}#multiCountyPicker,#multiMethodsDialog{width:94vw;max-height:91dvh;padding:13px 12px}.multiDialogHead h2{font-size:20px}.multiDialogHead p{font-size:12px}.multiPickerSearch{grid-template-columns:1fr;gap:7px}#multiSearchResults{grid-template-columns:1fr;max-height:43dvh;overflow:auto}.multiPickerBulk{gap:6px}#multiMatchCount{flex-basis:100%;text-align:left}.multiPickerFoot{margin-top:9px}#multiMethodsDialog #passport .passportGrid{grid-template-columns:1fr}.multiDialogHead{margin-bottom:9px}.multiPickerBulk>label{font-size:11px}#multiCountyPicker .multiPickerBulk button{font-size:11px;padding-inline:6px}}
+
+.multiSelectionBar>label,.multiChartControls>label{white-space:nowrap;flex-shrink:0}#multiCountyWorkspace .multiSelectionBar select,#multiCountyWorkspace .multiChartControls select{width:auto}.multiReadout .multiStat{flex-shrink:0}.multiReadout .multiReading{flex-shrink:0}
+#multiAccessibleTable{position:fixed;left:0;top:0;display:block;max-width:1px;table-layout:fixed;contain:strict}
+
+#multiCountyChart[hidden]{display:none}

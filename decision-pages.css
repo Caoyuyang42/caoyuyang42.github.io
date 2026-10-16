@@ -1,0 +1,122 @@
+.appPage.candidatePage,.appPage.decisionPage{max-width:none;margin:0;min-width:0}
+.candidatePage #analysisStudio{height:calc(100dvh - 112px);min-height:550px;margin:0;padding:14px 16px;display:flex;flex-direction:column;gap:9px;border:1px solid #88bdca;border-radius:0;overflow:hidden;background:linear-gradient(135deg,#193c50,#102b3d)}
+.candidatePage #analysisStudio[hidden],.candidatePage [hidden],.decisionPage [hidden]{display:none!important}
+.candidatePage .studioHeading{align-items:center;flex:none;gap:15px}
+.candidatePage .studioHeading .eyebrow{font-size:10px;margin:0;color:#9cd7de;letter-spacing:1.5px}
+.candidatePage .studioHeading h2{font-size:21px;margin:4px 0 0;line-height:1.4}
+.candidatePage .studioHeading p,.candidatePage #analysisStudio>.studioDefinition{display:none}
+.candidateHeaderActions{display:flex;gap:9px;margin-left:auto}
+.candidateHeaderActions button{font-size:12px;min-height:32px;padding:5px 11px;border-radius:0}
+.candidateFilterTools{display:grid;grid-template-columns:1fr repeat(3,minmax(0,1fr));gap:18px;align-items:end;flex:none}
+.candidateFilterTools>label{margin:0;color:#ccdee5;font-size:13px;line-height:1.5;min-width:0}
+.candidateFilterTools output{float:right;color:#ffcf87;font-variant-numeric:tabular-nums;font-size:16px}
+.candidateFilterTools input[type=range]{display:block;padding:0;width:100%;margin:3px 0 0;height:25px;min-height:25px;border:0;background:transparent;accent-color:#ffd08a}
+.candidateFilterTools select{padding:6px 8px;min-height:33px;font-size:13px;border-radius:0;margin-top:3px;background:#102a3c}
+.candidateFilterActions{flex:none;min-height:28px}
+.candidateFilterActions .studioSwitch{display:flex;align-items:center;gap:10px}
+.candidateFilterActions .studioSwitch label{font-size:12px;display:flex;align-items:center;gap:6px;margin:0;margin-right:auto}
+.candidateFilterActions .studioSwitch input{width:14px;min-height:0;height:14px;padding:0;margin:0}
+.candidateFilterActions .studioSwitch button{font-size:12px;padding:5px 9px;margin:0;min-height:30px;border-radius:0}
+.candidatePage .studioStats{margin:0;gap:10px;flex:none;grid-template-columns:repeat(4,minmax(0,1fr))}
+.candidatePage .studioStats>div{padding:8px 11px;background:#0b263783;border:1px solid #6a9aaa66;border-left:2px solid #76cbc9}
+.candidatePage .studioStats small{font-size:12px;line-height:1.4}
+.candidatePage .studioStats strong{font-size:23px;line-height:1.2;margin-top:4px}
+.candidatePageTabs{display:flex;align-items:center;gap:0;flex:none;border-bottom:1px solid #739daa88;min-height:36px}
+.candidatePageTabs button{font-size:14px;border:0;border-radius:0;border-bottom:2px solid transparent;padding:7px 15px;background:none}
+.candidatePageTabs button[aria-selected=true]{color:#ffda9a;border-bottom-color:#ffcf87;background:#d3af6414}
+.candidatePageTabs>span{margin-left:auto;font-size:12px;color:#a6cbd8}
+.candidateListView{display:flex;flex-direction:column;gap:6px;flex:1;min-height:0}
+.candidatePage .candidateHeading{margin:0;flex:none;align-items:center}
+.candidatePage .candidateHeading h3{display:none}
+.candidatePage .candidateHeading>div{display:flex;gap:9px;margin-left:auto}
+.candidatePage .candidateHeading button{font-size:12px;min-height:30px;padding:5px 10px;border-radius:0}
+.candidatePage .candidateBrowse{grid-template-columns:1.3fr 1fr 1.3fr .5fr;gap:12px;margin:0;flex:none}
+.candidatePage .candidateBrowse label{font-size:12px}
+.candidatePage .candidateBrowse input,.candidatePage .candidateBrowse select{padding:6px 7px;min-height:32px;font-size:13px;margin-top:3px;border-radius:0}
+.candidatePage #candidateNote{font-size:11px;line-height:1.5;margin:0;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.candidatePage .candidateTable{flex:1;min-height:85px;max-height:none;overflow:auto;margin:0;border:1px solid #567f9366;scrollbar-width:thin;overscroll-behavior:contain}
+.candidatePage .candidateTable table{width:100%;border-collapse:collapse}
+.candidatePage .candidateTable th{font-size:12px;line-height:1.4;padding:8px 9px;background:#21495b}
+.candidatePage .candidateTable td{font-size:13px;padding:7px 9px;line-height:1.4;white-space:nowrap}
+.candidatePage .candidateTable td small{font-size:10px;line-height:1.3;margin-top:2px}
+.candidatePage .candidateTable button{font-size:12px;min-height:25px;padding:3px 7px;border-radius:0}
+.candidatePage .candidateTable td:first-child>button{font-size:14px;min-height:22px}
+.candidatePage .candidatePagination{font-size:12px;gap:8px;margin:0;flex:none;min-height:30px}
+.candidatePage .candidatePagination button{font-size:12px;min-height:30px;padding:5px 10px;border-radius:0}
+.candidatePage .candidatePagination #candidateSelectionStatus{margin-left:auto;font-size:11px}
+.candidatePage .studioCharts{flex:1;min-height:0;gap:12px;grid-template-columns:1.2fr 1fr}
+.candidatePage .studioCharts>article{padding:11px;min-height:0;display:flex;flex-direction:column;border-radius:0;border-color:#739eae88;overflow:hidden}
+.candidatePage .studioCharts .chartHeading{flex:none;gap:8px}
+.candidatePage .studioCharts h3{font-size:14px;line-height:1.5}
+.candidatePage .studioCharts .chartHeading>span{font-size:11px}
+.candidatePage #resourcePlot{display:block;flex:1;min-height:0;max-height:100%;width:100%;height:100%}
+.candidatePage .studioCharts .studioDefinition{font-size:11px;line-height:1.5;margin-top:5px}
+.candidatePage #provinceProfiles{overflow:auto;min-height:0;flex:1;scrollbar-width:thin}
+.candidatePage .provinceProfile{gap:8px;padding:7px 0}
+.candidatePage .provinceProfile>strong{font-size:13px;width:85px;min-width:70px}
+.candidatePage .provinceProfile small,.candidatePage .provinceProfile em{font-size:11px}
+
+.decisionPage{height:calc(100dvh - 112px);min-height:550px;display:flex;flex-direction:column;gap:8px}
+.decisionPage .modelDiagnostics.decisionHeading{margin:0;padding:11px 15px;flex:none;border:1px solid #88bdca;border-radius:0}
+.decisionHeading .sectionHeading{align-items:center}
+.decisionHeading .eyebrow{font-size:10px;letter-spacing:1.5px;margin:0 0 3px;color:#9cd7de}
+.decisionHeading h2{font-size:21px;line-height:1.4;margin:0}
+.decisionHeading .sectionHeading p,.decisionHeading #openModelLab{display:none}
+.decisionLoadState{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:15px;padding:30px;border:1px solid #88bdca;background:#17394d}
+.decisionLoadState strong{font-size:22px;color:#ffcf87;font-weight:500}
+.decisionLoadState p{font-size:14px}
+.decisionLoadState button{padding:8px 17px;border-radius:0;font-size:14px}
+.decisionPage #modelLab{min-height:0;flex:1;margin:0;padding:12px 15px;border:1px solid #88bdca;border-radius:0;display:flex;flex-direction:column;overflow:hidden}
+.decisionPage #modelLab .labTabs{flex:none;margin:0 0 12px;gap:8px;border-bottom:1px solid #6b95a5;padding-bottom:9px}
+.decisionPage .labTabs button{font-size:14px;min-height:36px;padding:6px 19px;border-radius:0}
+.decisionPage .labPane{flex:1;min-height:0;display:flex;flex-direction:column;gap:11px}
+.decisionPage .labStats{flex:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:0}
+.decisionPage .labStats>div{padding:11px 13px;border-color:#7697a577}
+.decisionPage .labStats small{font-size:12px;line-height:1.5}
+.decisionPage .labStats strong{font-size:27px;line-height:1.3;margin-top:6px}
+.decisionPage .labClusterBars{max-width:none;flex:1;min-height:0;margin:0;padding:10px 16px;display:flex;flex-direction:column;justify-content:space-evenly;border:1px solid #5d8b9b77;background:#15384b77}
+.decisionPage .labClusterBars>div{font-size:14px;gap:15px;margin:4px 0}
+.decisionPage .labClusterBars>div>span{width:80px;font-size:14px}
+.decisionPage .labClusterBars i,.decisionPage .labClusterBars i b{height:11px}
+.decisionPage .labClusterBars strong{font-size:16px;min-width:55px;text-align:right}
+.decisionPage .labClusterBars small{font-size:13px;width:76px;text-align:right}
+.decisionPage .labWeights{margin:0;padding:18px 15px;gap:25px;border:1px solid #7097a777;background:#15384b77;flex:1;align-items:center;min-height:94px}
+.decisionPage .labWeights label{font-size:14px;line-height:1.7}
+.decisionPage .labWeights output{font-size:21px;line-height:1.2;display:block;float:none;margin:6px 0;color:#ffcf87}
+.decisionPage .labWeights input{height:30px;margin-top:7px;min-height:30px}
+.decisionPage .currentPreferenceLabel{font-size:14px;line-height:1.5;margin:0}
+.decisionPage .fixedScenarioLabel{font-size:12px;line-height:1.5;padding:6px 10px;margin:0;flex:none}
+.decisionPage #labWeightNote{font-size:12px;line-height:1.5;margin:0;flex:none}
+.decisionPage .labPane>.tableWrap{flex:1;min-height:0;overflow:auto;margin:0;border:1px solid #6f98a755}
+.decisionPage .tableWrap table{width:100%;border-collapse:collapse}
+.decisionPage .tableWrap th,.decisionPage .tableWrap td{font-size:14px;padding:12px 18px}
+.decisionPage .tableWrap th{background:#21495b;font-size:13px}
+.decisionPaneFooter{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none}
+.decisionPage .decisionPaneFooter button,.decisionPage .decisionPaneFooter .labActions button{font-size:13px;padding:7px 13px;min-height:35px;margin:0;border-radius:0}
+.decisionPage .decisionPaneFooter .labActions{display:flex;gap:9px}
+.decisionPage .decisionMethodButton{background:transparent;border-color:#709faf;color:#b8d8e1}
+.decisionSelection{flex:none;margin-top:12px;padding-top:8px;border-top:1px solid #7396a477}
+.decisionSelection>summary{font-size:13px;cursor:pointer;line-height:1.7;color:#c6dce5}
+.decisionSelection>summary b{font-size:13px;color:#ffcf87;margin-left:8px;font-weight:500}
+.decisionSelection #labSelected{margin:8px 0 0;padding:0;border:0;max-height:180px;overflow:auto}
+.decisionSelection #labSelected h3{display:none}
+.decisionSelection #labSelected .labStats{gap:8px}
+.decisionSelection #labSelected .labStats strong{font-size:20px}
+.decisionSelection #labSelected .labStats>div{padding:7px}
+.decisionSelection #labSelected p{font-size:11px;line-height:1.5;margin-top:7px}
+.decisionDownloads{flex:none;display:flex;gap:18px;align-items:center;min-height:25px}
+.decisionPage .decisionDownloads a{font-size:11px;line-height:1.4;margin:6px 0 0}
+.decisionPage .labStatus:empty{display:none}
+#decisionMethodDialog{width:min(870px,92vw);max-height:85dvh;background:#153648;border:1px solid #a0c5ce;border-radius:0;padding:0;color:#e0edf1}
+.decisionDialogHeading{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 20px;border-bottom:1px solid #7099a8;background:#20485b}
+.decisionDialogHeading h2{font-size:21px;line-height:1.5;margin:0}
+.decisionDialogHeading button{width:35px;height:35px;padding:0;border-radius:0;font-size:25px}
+.decisionMethodBody{padding:18px 20px;max-height:65dvh;overflow:auto}
+.decisionMethodBody p,.decisionMethodBody .labNotice{font-size:14px;line-height:1.9;margin:0 0 14px}
+.decisionMethodBody .modelRoles{grid-template-columns:1fr;gap:12px}
+.decisionMethodBody .modelRoles>div{padding:12px 15px}
+.decisionMethodBody .modelRoles b{font-size:16px}
+.decisionMethodBody .modelRoles p{margin:6px 0 0;font-size:14px}
+@media(min-width:1050px) and (max-height:780px){.candidatePage #analysisStudio,.decisionPage{height:calc(100dvh - 112px);min-height:0}.candidatePage #analysisStudio{padding:9px 12px;gap:6px}.candidatePage .studioHeading h2,.decisionHeading h2{font-size:19px}.candidatePage .studioStats>div{padding:6px 10px}.candidatePage .studioStats strong{font-size:20px}.candidatePage .studioStats small{font-size:11px}.candidatePage .candidateBrowse input,.candidatePage .candidateBrowse select{min-height:29px;padding:5px 7px}.candidatePage .candidateFilterTools>label{font-size:12px}.candidateFilterActions .studioSwitch button{min-height:26px;padding:4px 7px}.candidatePage .candidateTable td{padding:6px 8px}.candidatePage .candidateHeading button{min-height:26px;padding:4px 8px}.candidatePageTabs button{padding:5px 13px}.candidatePage .candidatePagination button{min-height:28px;padding:4px 8px}.decisionPage #modelLab{padding:10px 12px}.decisionPage .labStats>div{padding:8px 11px}.decisionPage .labStats strong{font-size:24px;margin-top:3px}.decisionPage .labWeights{padding:12px}.decisionPage .labPane{gap:8px}.decisionPage .labTabs{margin-bottom:9px!important;padding-bottom:7px!important}.decisionPage .labTabs button{min-height:33px}.decisionPage .decisionPaneFooter button{min-height:31px;padding:5px 10px}.decisionPage .decisionSelection{margin-top:8px;padding-top:6px}}
+@media(max-width:1049px){.candidatePage #analysisStudio,.decisionPage{height:auto;min-height:0;overflow:visible}.candidatePage .candidateTable{height:45dvh;flex:none;min-height:220px}.candidatePage .studioCharts{min-height:430px}.candidatePage .studioCharts>article{min-height:330px}.candidateFilterTools{gap:12px;grid-template-columns:1fr 1fr}.candidatePage .candidateBrowse{grid-template-columns:1fr 1fr}.decisionPage #modelLab{overflow:visible;min-height:520px}.decisionPage .labPane{min-height:420px}.decisionPage .labClusterBars{min-height:230px}.decisionPage .labWeights{min-height:130px}.decisionPage .labStats{grid-template-columns:1fr 1fr}.candidatePageTabs>span{font-size:11px}.candidatePage .candidatePagination #candidateSelectionStatus{display:none}}
+@media(max-width:620px){.candidatePage #analysisStudio{padding:12px 9px}.candidateFilterTools{gap:12px}.candidateFilterTools>label{font-size:12px}.candidateFilterTools output{font-size:15px}.candidateFilterActions .studioSwitch{flex-wrap:wrap}.candidateFilterActions .studioSwitch label{flex-basis:100%;font-size:12px}.candidatePage .studioStats{grid-template-columns:1fr 1fr}.candidatePageTabs{flex-wrap:wrap}.candidatePageTabs button{font-size:12px;padding:7px 9px}.candidatePageTabs>span{margin:0 0 5px;flex-basis:100%}.candidatePage .studioCharts{display:flex;flex-direction:column}.candidatePage .candidateBrowse{gap:8px}.candidatePage .candidateBrowse label{font-size:11px}.candidatePage .candidateHeading button{font-size:11px;padding:5px 7px}.decisionPage .modelDiagnostics.decisionHeading{padding:11px}.decisionHeading h2{font-size:18px}.decisionPage #modelLab{padding:10px}.decisionPage .labTabs button{font-size:12px;padding:7px 10px}.decisionPage .labWeights{grid-template-columns:1fr;gap:12px;min-height:290px}.decisionPage .labWeights output{display:inline;float:right;font-size:19px}.decisionPage .labWeights input{margin-top:3px}.decisionPage .decisionPaneFooter{align-items:stretch;flex-wrap:wrap}.decisionPage .decisionPaneFooter .labActions{flex-wrap:wrap}.decisionDownloads{flex-wrap:wrap;gap:3px 15px}.decisionPage .labClusterBars{padding:8px}.decisionPage .labClusterBars>div{gap:8px}.decisionPage .labClusterBars>div>span{width:50px;font-size:12px}.decisionPage .labClusterBars small{width:60px;font-size:12px}.decisionPage .labClusterBars strong{font-size:14px;min-width:44px}.decisionPage .tableWrap th,.decisionPage .tableWrap td{padding:10px 8px;font-size:12px}.decisionSelection #labSelected .labStats{grid-template-columns:1fr 1fr}}

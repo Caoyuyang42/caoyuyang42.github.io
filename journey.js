@@ -139,4 +139,4 @@
 })();
 
 // ONLINE_STUDIO_LOADER
-const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=30";document.body.append(studioScript);
+const studioScript=document.createElement("script");studioScript.src="analysis-studio.js?v=31";document.body.append(studioScript);

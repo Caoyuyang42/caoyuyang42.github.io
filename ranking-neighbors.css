@@ -1,0 +1,28 @@
+/* Focused nearby counties, with metric-consistent numeric rankings. */
+#inspector-tab-relations,#inspector-relations{display:none!important}
+.inspectorTabs button[hidden]{display:none!important}
+#linksLayer{pointer-events:none}
+#linksLayer .selectedNeighborOutline{fill:#74d9d215;stroke:#9be8dc;stroke-width:1.7;stroke-dasharray:5 2.5;vector-effect:non-scaling-stroke;pointer-events:none}
+.selectedCountyNeighbors{margin-top:13px;border-top:1px solid #7797a366;padding-top:12px;color:#bcd4df}
+.selectedCountyNeighbors[hidden]{display:none!important}
+.selectedCountyNeighbors>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;color:#95e4d7;cursor:pointer;list-style:none;min-height:30px}
+.selectedCountyNeighbors>summary:before{content:'▸';font-size:12px;margin-right:2px}
+.selectedCountyNeighbors[open]>summary:before{content:'▾'}
+.selectedCountyNeighbors>summary>span{flex:1}
+.selectedCountyNeighbors>summary>small{font-size:12px;color:#b9cdd6}
+.selectedCountyNeighbors .selectedNeighborIntro,.selectedCountyNeighbors .neighborMethod p{font-size:12px;line-height:1.75;margin:8px 0 10px;color:#b8cfd8}
+#selectedNeighborList>button{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:10px 0;border:0;border-bottom:1px solid #5f829544;border-radius:0;background:none;text-align:left}
+#selectedNeighborList>button>span{font-size:14px;line-height:1.5;min-width:0;color:#ecf4f5}
+#selectedNeighborList>button small{display:block;font-size:11px;line-height:1.6;color:#a9c5d2;margin-top:2px}
+#selectedNeighborList>button>b{font-size:17px;font-weight:500;color:#ffd08a;text-align:right;font-variant-numeric:tabular-nums}
+#selectedNeighborList>button:hover{background:#6abdbf10}
+.selectedCountyNeighbors .frameNeighbors{width:100%;padding:8px 10px;min-height:36px;border:1px solid #74b5b877;border-radius:0;background:#67c7be14;font-size:12px;color:#a4e3db;margin-top:10px}
+.selectedCountyNeighbors .neighborMethod{margin-top:11px}
+.selectedCountyNeighbors .neighborMethod>summary{font-size:12px;line-height:1.7;cursor:pointer;color:#b9d2df}
+#ranking .rank{min-width:0;display:grid;grid-template-columns:25px minmax(0,1fr) auto;gap:9px;padding:13px 0}
+#ranking .rank:before{align-self:start;line-height:1.5}
+#ranking .rank>span{white-space:normal;overflow:visible;font-size:14px;line-height:1.6}
+#ranking .rank small{white-space:normal;font-size:11px;line-height:1.6;display:block;color:#a9c7d4;margin-top:3px}
+#ranking .rank>b{max-width:112px;text-align:right;font-weight:500;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+#ranking .rank>b small{font-size:11px}
+.rankingEmpty{font-size:13px;line-height:1.8;margin-top:12px}

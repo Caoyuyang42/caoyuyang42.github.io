@@ -1,14 +1,16 @@
 'use strict';
 (()=>{
  const main=document.querySelector('main'),pages={};
- for(const key of ['atlas','context','findings']){const p=document.createElement('div');p.className='appPage';p.dataset.page=key;main.prepend(p);pages[key]=p;}
+ for(const key of ['context','priority','atlas','findings','gdp','candidates','decision']){const p=document.createElement('div');p.className='appPage';p.dataset.page=key;main.append(p);pages[key]=p;}
  function move(node,page){if(!node)return;const fold=node.closest('.supportingFold');pages[page].append(node);if(fold&&fold!==node)fold.remove();}
  for(const node of [...main.children])if(!node.classList.contains('appPage')&&node.tagName!=='FOOTER')move(node,'atlas');
  move($('contextSection'),'context');move($('evidenceSection'),'findings');move($('passport'),'findings');move(document.querySelector('.caseJourney'),'findings');
  move($('modelSection'),'atlas');
- const nav=document.querySelector('header nav');nav.innerHTML='<button id="atlasNav" data-page-link="atlas">地图与模型</button><button id="networkNav">区域关联</button><button data-page-link="context">背景与政策</button><button data-page-link="findings">发现与对照</button>';
- let page='atlas';
- function showPage(key,scroll=true){page=key in pages?key:'atlas';for(const [k,p] of Object.entries(pages))p.hidden=k!==page;for(const b of nav.querySelectorAll('[data-page-link]')){b.classList.toggle('navActive',b.dataset.pageLink===page);b.setAttribute('aria-current',b.dataset.pageLink===page?'page':'false');}document.body.dataset.page=page;if(scroll)window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{layout();if(page==='atlas'){fit();renderOverlays();renderModel();}});}
+ main.append(main.querySelector('footer'));
+ const nav=document.querySelector('header nav');nav.innerHTML='<button data-page-link="context">背景与政策</button><button data-page-link="priority">开发优先级</button><button id="atlasNav" data-page-link="atlas">地图与模型</button><button data-page-link="findings">发现与对照</button><button data-page-link="gdp">GDP 估计</button><button data-page-link="candidates">候选筛选</button><button data-page-link="decision">决策推演</button><button id="networkNav" hidden>区域关联</button>';
+ let page='context';
+ function showPage(key,scroll=true){page=key in pages?key:'context';for(const [k,p] of Object.entries(pages))p.hidden=k!==page;for(const b of nav.querySelectorAll('[data-page-link]')){b.classList.toggle('navActive',b.dataset.pageLink===page);b.setAttribute('aria-current',b.dataset.pageLink===page?'page':'false');}document.body.dataset.page=page;window.ATLAS_PAGE_LAYOUT?.activate(page);window.dispatchEvent(new CustomEvent('atlas:page-changed',{detail:{page}}));if(scroll)window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{layout();if(page==='atlas'||page==='priority'){fit();renderOverlays();}if(page==='gdp')renderModel();});}
+ window.ATLAS_NAVIGATION={show:showPage,pages};
  for(const b of nav.querySelectorAll('[data-page-link]'))b.onclick=()=>{history.pushState(null,'','#'+b.dataset.pageLink);showPage(b.dataset.pageLink);};
  document.addEventListener('click',e=>{const link=e.target.closest('a[href^="#"]');if(!link)return;const target=$(link.hash.slice(1));if(target){const p=target.closest('.appPage');if(p){e.preventDefault();showPage(p.dataset.page,false);requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth'}));}}},true);
  for(const id of ['goToCompare','caseCompare'])$(id)?.addEventListener('click',()=>showPage('findings'));
@@ -22,7 +24,7 @@
  fit=function(){if(pid||selected||selectedProv){originalFit();return;}const b={x:0,y:5,width:868,height:575},r=$('map').getBoundingClientRect(),aspect=r.width/Math.max(r.height,1);const h=Math.max(b.height,b.width/aspect)/.92;view=[b.x+b.width/2-h*aspect/2,b.y+b.height/2-h/2,h*aspect,h];setView();};
  const inset=svg('svg',{viewBox:'390 560 350 290',class:'southSeaInset','aria-label':'南海诸岛位置示意，沿用所给边界'});for(const p of provinces)inset.append(svg('path',{d:p.path,fill:'#72a79e',stroke:'#bad0d6','stroke-width':1}));const insetBox=document.createElement('div');insetBox.className='southSeaBox';insetBox.append(inset);const insetLabel=document.createElement('small');insetLabel.textContent='南海诸岛 · 边界示意';insetBox.append(insetLabel);document.querySelector('.mapCanvas').append(insetBox);
  const originalRestore=restoreNational;restoreNational=function(){originalRestore();fit();};
- function layout(){if(page!=='atlas')return;const canvas=document.querySelector('.mapCanvas');canvas.style.height=(innerWidth<900?Math.max(340,Math.min(470,innerHeight-410)):Math.max(430,Math.min(600,innerHeight-380)))+'px';}
+ function layout(){if(page!=='atlas'&&page!=='priority')return;const canvas=document.querySelector('.mapCanvas');canvas.style.height=(innerWidth<900?Math.max(340,Math.min(470,innerHeight-410)):Math.max(430,Math.min(600,innerHeight-380)))+'px';}
  window.addEventListener('resize',()=>requestAnimationFrame(()=>{layout();if(!pid&&!selected&&!selectedProv)fit();}));
  document.querySelector('.intro h1').textContent='县域光伏 · 资源、约束与开发优先级';
  const relationship=document.createElement('section');relationship.id='relationshipPanel';relationship.className='networkCard';relationship.innerHTML='<div class="chartHeading"><h3>地区之间：相似与空间接近</h3><span id="networkLevel"></span></div><div class="networkControls"><label>显示密度<select id="relationDensity"><option value="overview">概览 · 每省1条</option><option value="focus">焦点 · 最近邻4条</option><option value="regional">区域 · 最多40条</option></select></label><label>关联强度至少 <output id="relationThresholdValue">0.00</output><input id="relationThreshold" type="range" min="0" max="1" step="0.05" value="0"></label></div><p id="relationExplanation"></p><div id="networkNumbers"></div><p class="networkImpact"><b>发现可比较的地区。</b>连线综合指标相似与空间接近，帮助选择对照对象、观察区域格局；研究排名由七指标正则马氏 TOPSIS 计算。</p><details><summary>如何计算？与县域协调度有什么区别？</summary><p>指标相似度 = exp(−2×七项同向归一化指标的均方根欧氏距离)；空间接近度 = exp(−直线距离/带宽)。综合关联 = 0.65×相似度 + 0.35×空间接近度。县域带宽300km，省级800km；参数是研究展示设定。县域从最近8个县域质心、省份从最近5个省域质心中取关联最高4个，体现距离邻近关系。</p><p>耦合协调度描述一个县内资源与低碳相关两系统的联合状态；地图连线描述两个地区的指标相近与距离接近。两类结果分别呈现县域内部的系统协调与地区之间的比较关系。连线阈值控制显示密度，县域得分和等级采用统一计算结果。</p></details>';
@@ -38,11 +40,11 @@
  $('showLinks').onchange=()=>renderOverlays();$('showReserves').onchange=()=>renderOverlays();
  // Twelve perturbations are diagnostics, not an alternative published ranking.
  const diagnostics=document.createElement('section');diagnostics.className='modelDiagnostics';diagnostics.innerHTML='<div class="sectionHeading"><div><div class="eyebrow">DECISION / 从资源条件到区域选择</div><h2>多目标决策推演</h2><p>调整资源、经济与低碳偏好，识别稳健候选与空间集聚。</p></div></div>';$('modelSection').before(diagnostics);
- function routeHash(){const key=location.hash.slice(1),target=$(key),section=target?.closest('.appPage');showPage(['context','findings'].includes(key)?key:section?.dataset.page||'atlas',false);}
+ function routeHash(){const key=location.hash.slice(1),target=$(key),section=target?.closest('.appPage');showPage(Object.keys(pages).includes(key)?key:section?.dataset.page||(!key?'context':'atlas'),false);}
  window.addEventListener('popstate',routeHash);window.addEventListener('hashchange',routeHash);
  renderDetail();routeHash();window.ATLAS_DASHBOARD_READY=true;
 })();
 
 // ONLINE_MODEL_LAB_LOADER
-const labScript=document.createElement('script');labScript.src='model-lab.js?v=30';document.body.append(labScript);
-labScript.onload=()=>{const usability=document.createElement('script');usability.src='usability.js?v=30';usability.onload=()=>{for(const file of ['scoring-guide.js','province-gallery.js','visual-dashboard.js','difference-attribution.js']){const script=document.createElement('script');script.src=file+'?v=30';if(file==='visual-dashboard.js')script.onload=()=>{const contextScript=document.createElement('script');contextScript.src='context-dashboard.js?v=30';document.body.append(contextScript);};document.body.append(script);}};document.body.append(usability);};
+const labScript=document.createElement('script');labScript.src='model-lab.js?v=31';document.body.append(labScript);
+labScript.onload=async()=>{for(const file of ['usability.js','scoring-guide.js','province-gallery.js','visual-dashboard.js','difference-attribution.js','context-dashboard.js','findings-compact.js','ranking-neighbors.js','portrait-refinement.js','page-layout.js','gdp-page.js','decision-pages.js']){await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=file+'?v=31';script.onload=resolve;script.onerror=()=>reject(new Error('页面组件未能加载：'+file));document.body.append(script);});}window.ATLAS_REFINEMENTS_READY=true;};

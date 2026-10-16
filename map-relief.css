@@ -3,8 +3,8 @@
 html{background:#102b43}
 body.visualDashboard{isolation:isolate;color:#edf8ff;background:radial-gradient(ellipse at 48% 12%,#5487aa66,transparent 65%),linear-gradient(145deg,#1a3f60,#112e48 60%,#0d263b);background-attachment:fixed}
 .priorityPagePhotograph{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(180deg,#163d65a6,#0a315272 45%,#082b4691),var(--atlas-map-photo);background-size:cover;background-position:center,center 58%;background-repeat:no-repeat}
-body[data-page=priority] .priorityPagePhotograph{display:block}
-body[data-page=priority].visualDashboard{background:#143651}
+body.mapPhotoPage .priorityPagePhotograph{display:block}
+body.mapPhotoPage.visualDashboard{background:#143651}
 body header{background:linear-gradient(110deg,#32618ab3,#1b4267bd);border-bottom:1px solid #64c7e6a8;box-shadow:inset 0 1px #d5edff24,0 2px 14px #00182d26;backdrop-filter:blur(7px)}
 body header nav button{background:linear-gradient(140deg,#5683a333,#244b7333);color:#d2e8f6;border-color:#80b7d82b}
 body header nav button:hover{background:linear-gradient(130deg,#3c7ba3a3,#2d5d8599);border-color:#91d6edb3}
@@ -13,8 +13,8 @@ body header .quiet{background:#29547680;border-color:#75afd27d;color:#d6edfb}
 body :is(p,label),body .subtle{color:#bfd9ea}
 body :is(h1,h2,h3){color:#eff9ff}
 body :is(.workspace>.mapPanel,.dashboardRail,.workspace>.detailFold,.mapInsights>.panel),body #contextSection .ctxPanel,body #modelSection.gdpDashboard,body .gdpPanel,body .candidatePage #analysisStudio,body #multiCountyWorkspace :is(.multiMetricRail,.multiChartPane,.multiReadout),body :is(.modelLab,.analysisStudio,.wbPanel,.workbenchSide>section,.wbChart){background:var(--glass-surface);border-color:var(--glass-edge);box-shadow:inset 0 1px #e1f5ff26,inset 0 -1px #001b3926,0 5px 18px #001b3014;border-radius:0}
-body[data-page=priority] .countyWorkbench>.mapPanel{background:linear-gradient(135deg,#3d6b8b47,#14365229);box-shadow:inset 0 1px #e1f5ff26}
-body[data-page=priority] .potentialPortrait{background:linear-gradient(140deg,#315c7a91,#0a2943b3)}
+body.mapPhotoPage .countyWorkbench>.mapPanel{background:linear-gradient(135deg,#3d6b8b47,#14365229);box-shadow:inset 0 1px #e1f5ff26}
+body.mapPhotoPage .potentialPortrait{background:linear-gradient(140deg,#315c7a91,#0a2943b3)}
 body :is(.panel,.mapPanel):before,body #contextSection .ctxPanel:before{background:linear-gradient(#b1eaff,#b1eaff) left top/22px 2px no-repeat,linear-gradient(#b1eaff,#b1eaff) left top/2px 19px no-repeat,linear-gradient(#68b7d9,#68b7d9) right bottom/22px 2px no-repeat,linear-gradient(#68b7d9,#68b7d9) right bottom/2px 19px no-repeat;opacity:.82}
 body :is(.wbHeading,.mapInsights .sectionHeading,.multiChartHead,.multiReadout>h3,.advisorPlace,.advisorSummary,.candidatePageTabs,.multiChartFoot),body #contextSection .ctxPanelHead{border-color:#83b7d14f}
 body input:not([type=range]):not([type=checkbox]),body select,body #multiCountyWorkspace select,body #multiCountyPicker :is(input,select),body .candidatePage .candidateFilterTools select{background-color:#163b5ac7;border-color:#74aacf8c;color:#e4f4ff;box-shadow:inset 0 1px #c3e6fa0d}
@@ -26,14 +26,14 @@ body .analysisMetricBar #metrics button.active,body #multiCountyWorkspace #multi
 body .mapViewport>.mapHUD{background:linear-gradient(90deg,#1c466da6,#32638680);border-color:#7bb8d57a}
 body .mapHUD :is(.legend span,.hudTop span){color:#d8eafa}
 body .mapCanvas.raisedMap,body .nightMapCanvas.raisedMap{background:radial-gradient(ellipse at 50% 55%,#20648742,transparent 70%),linear-gradient(180deg,#163a5a6b,#0c2b456b);isolation:isolate}
-body[data-page=priority] .mapCanvas.raisedMap{background:transparent}
+body.mapPhotoPage .mapCanvas.raisedMap{background:transparent}
 body .mapCanvas.raisedMap:before,body .nightMapCanvas.raisedMap:before{opacity:.16}
 body .mapCanvas.raisedMap:after{opacity:.16;transform:perspective(500px) rotateX(55deg);bottom:-32%}
-body[data-page=priority] .mapCanvas.raisedMap:before,body[data-page=priority] .mapCanvas.raisedMap:after{display:none}
+body.mapPhotoPage .mapCanvas.raisedMap:before,body.mapPhotoPage .mapCanvas.raisedMap:after{display:none}
 body .orbital,body .pvPhotoBackdrop{display:none!important}
 .mapRingStage{position:absolute;left:12%;width:76%;bottom:3%;height:24%;z-index:0;pointer-events:none;opacity:.85}
 .mapRingStage svg{display:block;width:100%;height:100%;overflow:visible}
-body[data-page=priority] .mapRingStage{display:none}
+body.mapPhotoPage .mapRingStage{display:none}
 body .raisedMap>#map,body .raisedMap>#nightMap{z-index:1;filter:drop-shadow(0 8px 5px #00132b9c)!important}
 .mapRelief,.mapRelief *{pointer-events:none!important;transition:none!important}
 body #map .outline{stroke:#b3eaf1;stroke-opacity:.8;stroke-width:.75}
@@ -107,3 +107,6 @@ body .brand .sun.goldSun{display:inline-flex;align-items:center;justify-content:
  #contextSection.contextSymmetric .ctxTrend>.ctxChartNote,#contextSection.contextSymmetric .ctxFilmCaption span,#contextSection.contextSymmetric .ctxFieldImage>span{font-size:calc(12 * var(--ctx-unit))!important}
  #contextSection.contextSymmetric .ctxFieldGallery .ctxPanelHead button,#contextSection.contextSymmetric #contextGoAtlas{font-size:calc(11 * var(--ctx-unit))}
 }
+
+body.mapPhotoPage .nightMapCanvas.raisedMap{background:transparent}
+body.mapPhotoPage #modelSection.gdpDashboard,body.mapPhotoPage .candidatePage #analysisStudio{background:linear-gradient(135deg,#3d6b8b47,#14365229)}

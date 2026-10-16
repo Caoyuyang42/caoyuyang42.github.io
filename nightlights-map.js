@@ -15,7 +15,7 @@
  const value=id=>data?(data.aggregates[id]?data.aggregates[id][field][yearIndex]:index.has(id)?data.series[field][yearIndex][index.get(id)]:null):null;
  const datum=id=>countyById.get(id)||provinceById.get(id),isAggregate=id=>!!data?.aggregates[id];
  function color(v){if(!valid(v))return'url(#nightMissing)';if(v===0)return zeroColor;return lightColors[data.thresholds[field].filter(t=>v>t).length];}
- function applyView(){chart.setAttribute('viewBox',viewBox.join(' '));tooltip.hidden=true;}
+ function applyView(){chart.setAttribute('viewBox',viewBox.join(' '));tooltip.hidden=true;window.ATLAS_MAP_RELIEF?.sync('night');}
  function fitBox(bounds){const r=chart.getBoundingClientRect(),aspect=r.width/Math.max(1,r.height),width=Math.max(bounds.width,1),height=Math.max(bounds.height,1),h=Math.max(height,width/aspect)/.84;viewBox=[bounds.x+width/2-h*aspect/2,bounds.y+height/2-h/2,h*aspect,h];applyView();}
  function fitNational(){focus=null;for(const n of nodes.values())n.classList.remove('nightSelected');fitBox({x:0,y:5,width:868,height:575});renderSelection();}
  function select(id){const n=nodes.get(id);if(!n)return;focus=id;for(const[key,node]of nodes)node.classList.toggle('nightSelected',key===id);fitBox(n.getBBox());renderSelection();}

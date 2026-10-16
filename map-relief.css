@@ -1,0 +1,16 @@
+/* The supplied photovoltaic landscape sits behind the map, with restrained contrast. */
+body .mapCanvas.photographicMap,body .nightMapCanvas.photographicMap{background:#0a1b3d;isolation:isolate}
+.pvPhotoBackdrop{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(180deg,#071c3f7a 0%,#08234028 45%,#051b352e 100%),var(--atlas-map-photo);background-position:center,center 60%;background-size:cover;background-repeat:no-repeat;opacity:.29;filter:saturate(.72);}
+body .mapCanvas.photographicMap:before{opacity:.26;mask-image:radial-gradient(ellipse at 50% 65%,#000 10%,#0009 55%,transparent 88%)}
+body .mapCanvas.photographicMap:after{opacity:.2}
+.photographicMap>.orbital{opacity:.38!important;border-color:#38d5e132!important}
+body .photographicMap>#map,body .photographicMap>#nightMap{z-index:1;filter:drop-shadow(0 8px 5px #00132bbe)!important}
+.mapRelief,.mapRelief *{pointer-events:none!important;transition:none!important}
+body #map .outline{stroke:#91e6eb;stroke-opacity:.8;stroke-width:.75}
+body #nightMap .nightProvinceOutline{stroke:#9ce9ed;opacity:.76;stroke-width:.6}
+body #map #regions .county{stroke:#092c4b;stroke-opacity:.78}
+body #map #regions .selected{stroke:#fff0b0!important;stroke-width:1.7!important}
+.photographicMap .mapMeaning,.photographicMap .nightMapTip{background:#071b3bcf!important;border-color:#39749c;color:#dcf2ff!important}
+body .brand .sun.goldSun{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;font-size:0;line-height:0;color:#ddbd7b}
+.goldSun svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 3px #d4b76720)}
+@media(max-width:760px){body .brand .sun.goldSun{width:32px;height:32px}.pvPhotoBackdrop{opacity:.25;background-position:center,55% 60%}body .photographicMap>#map,body .photographicMap>#nightMap{filter:drop-shadow(0 5px 4px #00132ba6)!important}}

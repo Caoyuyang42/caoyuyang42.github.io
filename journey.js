@@ -85,16 +85,8 @@
  document.addEventListener('click',e=>{const link=e.target.closest('a[href^="#"]');if(link){const target=$(link.getAttribute('href').slice(1));if(target){e.preventDefault();revealSection(target);}}},true);
  $('modelJump').onclick=()=>revealSection($('modelSection'));$('findingCoverage').onclick=()=>revealSection($('passport'));$('startGuide').onclick=()=>showCase(0);
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(caseActive)exitCase();if(document.body.classList.contains('projectionMode'))$('projectionToggle').click();}if(caseActive&&!e.target.closest('input,select,textarea,button,summary')&&!$('about').open){if(e.key==='ArrowRight'&&caseIndex<3){e.preventDefault();showCase(caseIndex+1);}if(e.key==='ArrowLeft'&&caseIndex>0){e.preventDefault();showCase(caseIndex-1);}}});
- $('prepareOffline').onclick=async()=>{
-  const status=$('offlineStatus');if(location.protocol==='file:'){status.textContent='当前为独立离线版，已内置数据与边界。';return;}
-  if(!('serviceWorker' in navigator)){status.textContent='此浏览器可通过独立离线版查看图谱，请点击下载。';return;}
-  $('prepareOffline').disabled=true;status.textContent='正在准备离线资源…';
-  try{await navigator.serviceWorker.register('sw.js?v=43');const registration=await navigator.serviceWorker.ready;const channel=new MessageChannel();
-   await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('准备超时，可重试或下载离线版')),120000);channel.port1.onmessage=e=>{const d=e.data;if(d.type==='progress')status.textContent='离线准备 '+d.done+' / '+d.total;if(d.type==='done'){clearTimeout(timer);resolve();}if(d.type==='error'){clearTimeout(timer);reject(new Error(d.message));}};
-    const suffix=typeof DecompressionStream==='function'?'.gz':'';registration.active.postMessage({type:'PREPARE',assets:[ATLAS_ASSETS.core.url+suffix,ATLAS_ASSETS.reserves.url+suffix,ATLAS_ASSETS.detail[caseA.pid].url+suffix,...(ATLAS_ASSETS.nightlights?[ATLAS_ASSETS.nightlights.url+suffix]:[])]},[channel.port2]);});
-   status.textContent='离线资源已备妥：全国概览、案例精细县界及保护区。其他省份精细县界仍按需联网。';
-  }catch(error){status.textContent='离线准备未完成：'+error.message+'。也可下载独立离线版。';}finally{$('prepareOffline').disabled=false;}
- };
+ $('prepareOffline').textContent='下载独立离线版 ↓';$('prepareOffline').onclick=()=>{const a=document.createElement('a');a.href='downloads/逐光-离线演示.html';a.download='逐光-离线演示.html';a.click();$('offlineStatus').textContent='独立离线版内置地图与数据，在线页面不再使用离线缓存拦截。';};
+
  const share=document.createElement('button');share.textContent='复制这组对照链接';compareTools.append(share);
  share.onclick=async()=>{const url=new URL(location.href);url.search='';url.searchParams.set('a',$('compareA').value);url.searchParams.set('b',$('compareB').value);url.hash='compareSection';try{await navigator.clipboard.writeText(url.href);$('compareStatus').textContent=location.protocol==='file:'?'已复制本机离线对照地址。':'已复制公开对照链接，无需登录即可打开。';}catch{$('compareStatus').replaceChildren(document.createTextNode('可复制此链接：'));const link=document.createElement('a');link.href=url.href;link.textContent=url.href;$('compareStatus').append(link);}};
  const initialQuery=new URLSearchParams(location.search),qa=initialQuery.get('a'),qb=initialQuery.get('b');

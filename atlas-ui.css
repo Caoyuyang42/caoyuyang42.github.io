@@ -1157,10 +1157,10 @@ body #countyAdvisor[hidden]{display:none!important}
 .provinceEvidenceRows{flex:1;display:grid;grid-template-rows:repeat(8,minmax(42px,1fr));gap:7px;min-height:360px}
 .provinceEvidenceRows>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 8px;align-content:center;font-size:15.6px;border-bottom:1px solid #71abc02f}
 .provinceEvidenceRows strong{font:19.2px Bahnschrift,'Segoe UI',sans-serif;color:#ffdc8c}
-.provinceEvidenceRows i{grid-column:1/-1;position:relative;display:block;height:7px;background:#092c4766}
+.provinceEvidenceRows i{grid-column:1/-1;position:relative;display:block;height:10px;background:#092c4766}
 .provinceEvidenceRows i b{display:block;height:100%;background:#4ed5cc}
 .provinceEvidenceRows .provinceConstraint b{background:#e8bd78}
-.provinceEvidenceRows i em{position:absolute;top:-3px;height:13px;width:2px;background:#d4edf6}
+
 .provinceAllocation{min-width:0;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:10px}
 .provinceGradeRow{display:grid;grid-template-columns:30px minmax(20px,1fr) 48px 56px;gap:7px;align-items:center;min-height:30px;font-size:15.6px}
 .provinceGradeRow i{height:7px;background:#082c4977}.provinceGradeRow i b{height:100%;display:block}
@@ -1229,3 +1229,5 @@ body header .brandCopy>b{font-size:13.2px;font-weight:400;margin:0;padding:0;bor
 .filterThresholds>span{gap:8px;align-items:baseline}
 .filterThresholds>span>b{flex:none}
 .filterExtraSummary[aria-expanded=true]{color:#e6ffff;border-color:#9cd9de}
+
+#hudMeta[hidden]{display:none!important}

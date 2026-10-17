@@ -487,6 +487,15 @@ body[data-page=findings] footer{padding:7px 0;font-size:13.2px}
 .multiMetricRail>p{line-height:1.6}
 @media(max-width:620px){.multiChartPane .multiChartControls{gap:6px;justify-content:space-between;width:100%}}
 
+/* v47: explain the selected indicator in the currently selected scale. */
+.multiChartPane>.multiChartHead{justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px 14px}
+.multiChartDescription{flex:1 1 235px;min-width:0}
+.multiChartDescription h3{color:#e5f2f8}
+.multiChartDescription p{max-width:none;overflow-wrap:anywhere}
+.multiChartPane .multiChartControls{flex:0 1 auto;align-self:center}
+.multiChartFoot{justify-content:flex-start}
+@media(max-width:620px){.multiChartDescription{flex-basis:100%}.multiChartPane .multiChartControls{justify-content:space-between}.multiChartPane{height:450px}}
+
 /* Focused nearby counties, with metric-consistent numeric rankings. */
 #inspector-tab-relations,#inspector-relations{display:none!important}
 .inspectorTabs button[hidden]{display:none!important}
@@ -1175,6 +1184,14 @@ body #countyAdvisor[hidden]{display:none!important}
 .provincePolicyIntro{font-size:13.2px;color:#b8d8e8;line-height:1.5}.provincePolicy{padding:12px 0;border-bottom:1px solid #85b7c866}.provincePolicy small{display:block;font-size:13.2px;color:#afd0df;margin-bottom:5px}.provincePolicy a{font-size:16.8px;color:#89eee4;line-height:1.6;display:block}.provincePolicy p,.provincePolicyMissing{font-size:14.4px!important;line-height:1.8!important;color:#c7dfec!important;margin:7px 0!important}.provincePolicy strong{font-size:14.4px;color:#ffe0a0}
 @media(max-width:1099px){#provinceDecision{height:auto;min-height:700px}#provinceDecisionBody{grid-template-columns:1fr 1fr;flex:none}.provinceStrategy{grid-column:1/-1;max-height:650px}.provinceAllocation{min-height:600px}.candidatePage .studioCharts{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 @media(max-width:760px){#provinceDecisionBody{display:flex;flex-direction:column}.provinceDecisionHead>span{display:none}.provinceDecisionHead h2{font-size:22.8px}.provinceDecisionHead label{flex:1}.provinceDecisionHead select{flex:1;min-width:0}.provinceDecisionHead>button{margin-left:0}.provinceAllocation{min-height:700px}.provinceCountyList{max-height:300px}.provinceStrategy{max-height:750px}.candidatePage .provinceProfile>div>span{grid-template-columns:76px minmax(10px,1fr) 62px}.candidatePage .studioCharts{display:flex;flex-direction:column}}
+
+/* v47: province-specific conclusions and actionable stages fill the right column. */
+.provinceRouteConclusion{display:block;font-size:18px;line-height:1.65;color:#91e5db;margin-bottom:8px;font-weight:500}
+.provinceRouteLead{padding-bottom:8px;border-bottom:1px solid #88b4c04d}
+.provinceRouteLead>p,.provinceThreeSteps p{overflow-wrap:anywhere}
+.provinceThreeSteps article:last-child{border-bottom:0}
+.provinceThreeSteps p+p{margin-top:10px!important}
+#provinceStrategyContent{padding-right:5px;scrollbar-gutter:stable;overscroll-behavior:contain}
 
 /* v45: readable product title, inline legends, and complete dataset provenance. */
 body header .brand{gap:9px;flex:none;min-width:0}

@@ -122,3 +122,12 @@ body[data-page=findings] footer{padding:7px 0;font-size:11px}
 .multiChartPane .multiChartControls{flex-direction:row;align-items:center;gap:12px;margin-top:0;flex-wrap:wrap;justify-content:flex-end}
 .multiMetricRail>p{line-height:1.6}
 @media(max-width:620px){.multiChartPane .multiChartControls{gap:6px;justify-content:space-between;width:100%}}
+
+/* v47: explain the selected indicator in the currently selected scale. */
+.multiChartPane>.multiChartHead{justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px 14px}
+.multiChartDescription{flex:1 1 235px;min-width:0}
+.multiChartDescription h3{color:#e5f2f8}
+.multiChartDescription p{max-width:none;overflow-wrap:anywhere}
+.multiChartPane .multiChartControls{flex:0 1 auto;align-self:center}
+.multiChartFoot{justify-content:flex-start}
+@media(max-width:620px){.multiChartDescription{flex-basis:100%}.multiChartPane .multiChartControls{justify-content:space-between}.multiChartPane{height:450px}}

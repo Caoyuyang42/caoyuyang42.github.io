@@ -272,3 +272,12 @@ body header .brandCopy>b{font-size:11px;font-weight:400;margin:0;padding:0;borde
  .provinceMapCanvas{flex:none;height:260px;min-height:260px}
  .provinceEvidenceRows{flex:none;min-height:320px}
 }
+
+/* v51: initial province analysis guide. */
+.provinceIntro{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:400px}
+.provinceIntro h3{font-size:clamp(30px,2.5vw,48px);font-weight:500;color:#ffe0a0;margin:0 0 24px;line-height:1.5;max-width:95%}
+.provinceIntro p{font-size:clamp(20px,1.4vw,26px)!important;line-height:1.85!important;margin:0 0 32px!important;color:#d9edf5!important;max-width:95%}
+.provinceIntro>div{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.provinceIntro button{padding:13px 28px;font-size:20px;border-color:#78bbcc;color:#a2f1e5;background:#285d7377}
+#exportProvinceAdvice[hidden]{display:none!important}
+@media(max-width:760px){.provinceIntro{padding:28px 16px!important;min-height:450px}.provinceIntro h3{font-size:26px}.provinceIntro p{font-size:18px!important}.provinceIntro p br{display:none}.provinceIntro button{font-size:18px;padding:10px 20px}}

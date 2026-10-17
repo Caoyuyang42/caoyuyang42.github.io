@@ -69,5 +69,5 @@
  let resizeFrame=0;const resize=()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{responsive();});};window.addEventListener('resize',resize);new ResizeObserver(resize).observe(workspace);
  document.querySelector('header nav').addEventListener('click',e=>{if(e.target.closest('#networkNav'))showInspector('relations');else requestAnimationFrame(responsive);});
  window.addEventListener('hashchange',()=>requestAnimationFrame(responsive));window.addEventListener('atlas:filters-changed',()=>{if($('mapFilterCount'))$('mapFilterCount').title=$('mapFilterCount').textContent;});
- condenseDetail();hasPhoto=!$('provincePhoto').hidden&&!!$('provincePhoto').querySelector('.photoOpen');setPortraitView('profile');responsive();window.ATLAS_DASHBOARD_INSPECTOR={show:showInspector,responsive,drawAnalytics,drawRosette};window.ATLAS_VISUAL_DASHBOARD_READY=true;
+ condenseDetail();hasPhoto=!$('provincePhoto').hidden&&!!$('provincePhoto').querySelector('.photoOpen');setPortraitView('profile');requestAnimationFrame(responsive);window.ATLAS_DASHBOARD_INSPECTOR={show:showInspector,responsive,drawAnalytics,drawRosette};window.ATLAS_VISUAL_DASHBOARD_READY=true;
 })();

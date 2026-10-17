@@ -13,11 +13,6 @@ window.cleanAtlasCaches=async function(){
  return true;
 };
 window.finishAtlasBoot=async function(){
- if(document.body.classList.contains('mapPhotoPage')){
-  const photograph=new Image();photograph.src=window.ATLAS_PHOTOS?.['stations/510000-15.webp']||'photos/stations/510000-15.webp';
-  await Promise.race([photograph.decode().catch(()=>{}),new Promise(resolve=>setTimeout(resolve,1600))]);
- }
- if(document.fonts)await Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,500))]);
  cleanAtlasCaches();
  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
  document.getElementById('atlas').removeAttribute('inert');document.querySelector('main').removeAttribute('inert');document.querySelector('main').removeAttribute('aria-busy');
@@ -25,7 +20,15 @@ window.finishAtlasBoot=async function(){
 };
 window.loadAtlasAsset=async function(asset){
  const urls=[asset.url+'.gz',asset.url];let failure;
- for(const url of urls){let timer;try{const response=await Promise.race([fetch(url,{cache:'default'}),new Promise((_,reject)=>timer=setTimeout(()=>reject(Error('网络请求超时')),15000))]);if(!response.ok)throw Error('数据请求未完成');const bytes=new Uint8Array(await response.arrayBuffer());return bytes[0]===31&&bytes[1]===139?JSON.parse(window.pako.ungzip(bytes,{to:'string'})):JSON.parse(new TextDecoder().decode(bytes));}catch(error){failure=error;}finally{clearTimeout(timer);}}
+ for(const url of urls){let timer;const controller=typeof AbortController==='function'?new AbortController():null;try{
+  const bytes=await Promise.race([(async()=>{const response=await fetch(url,{cache:'default',...(controller?{signal:controller.signal}:{})});if(!response.ok)throw Error('数据请求未完成');return new Uint8Array(await response.arrayBuffer());})(),new Promise((_,reject)=>timer=setTimeout(()=>{controller?.abort();reject(Error('网络请求超时'));},15000))]);
+  let decoded;
+  if(bytes[0]===31&&bytes[1]===139){
+   if(typeof DecompressionStream==='function')try{decoded=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text();}catch{}
+   if(decoded===undefined)decoded=window.pako.ungzip(bytes,{to:'string'});
+  }else decoded=new TextDecoder().decode(bytes);
+  return JSON.parse(decoded);
+ }catch(error){failure=error;}finally{clearTimeout(timer);}}
  throw failure||Error('数据请求未完成');
 };
 // ONLINE_START

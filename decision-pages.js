@@ -6,7 +6,7 @@
  pages.candidates.append(studio);pages.decision.append(diagnostics,lab);
  pages.candidates.classList.add('candidatePage');pages.decision.classList.add('decisionPage');
  const navigate=page=>{if(location.hash!=='#'+page)history.pushState(null,'','#'+page);ATLAS_NAVIGATION.show(page);};
- const heading=studio.querySelector('.studioHeading');heading.querySelector('h2').textContent='候选县域 · 条件筛选';heading.querySelector('.eyebrow').textContent='光域智图 / CANDIDATE EXPLORER';heading.querySelector('p').textContent='设定资源与土地门槛，浏览满足条件的全部县域。';$('closeStudio').hidden=true;
+ const heading=studio.querySelector('.studioHeading');heading.querySelector('h2').textContent='候选县域 · 条件筛选';heading.querySelector('.eyebrow').textContent='逐光 / CANDIDATE EXPLORER';heading.querySelector('p').textContent='设定资源与土地门槛，浏览满足条件的全部县域。';$('closeStudio').hidden=true;
  const filterTools=document.createElement('div');filterTools.className='candidateFilterTools';
  const filterConfig=[['sun','太阳辐射至少','sunFilter',false],['land','土地可用至少','landFilter',true],['reserve','保护区覆盖至多','reserveFilter',true]];
  filterTools.innerHTML='<label class="candidateScopeLabel">研究范围<select id="candidateScope"><option value="">全国</option>'+provinces.map(p=>'<option value="'+p.id+'">'+esc(p.name)+'</option>').join('')+'</select></label>'+filterConfig.map(([key,label,id,pct])=>'<label>'+label+'<output id="candidateFilterValue-'+key+'"></output><input id="candidateFilter-'+key+'" type="range" min="0" max="1" step="0.01" aria-label="'+label+'"></label>').join('');heading.after(filterTools);
@@ -29,7 +29,7 @@
  studio.addEventListener('click',e=>{const button=e.target.closest('[data-locate]');if(button){requestAnimationFrame(()=>setCandidateView('map'));return;}if(e.target.closest('[data-province]'))requestAnimationFrame(syncCandidateControls);});
  window.addEventListener('atlas:filters-changed',syncCandidateControls);
 
- diagnostics.classList.add('decisionHeading');diagnostics.querySelector('h2').textContent='决策推演 · 偏好、稳健性与空间结构';diagnostics.querySelector('.eyebrow').textContent='光域智图 / DECISION STUDIO';
+ diagnostics.classList.add('decisionHeading');diagnostics.querySelector('h2').textContent='决策推演 · 偏好、稳健性与空间结构';diagnostics.querySelector('.eyebrow').textContent='逐光 / DECISION STUDIO';
  const loadState=document.createElement('section');loadState.className='decisionLoadState';loadState.hidden=true;loadState.innerHTML='<strong>正在准备决策数据…</strong><p>资源偏好、情景频率与空间检验将显示在这里。</p><button type="button" hidden>重新载入</button>';diagnostics.after(loadState);loadState.querySelector('button').onclick=()=>openDecision();
  const methodDialog=document.createElement('dialog');methodDialog.id='decisionMethodDialog';methodDialog.innerHTML='<div class="decisionDialogHeading"><h2 id="decisionMethodTitle">方法说明</h2><button type="button" aria-label="关闭方法说明">×</button></div><div class="decisionMethodBody"></div>';document.body.append(methodDialog);
  let methodReturn=null;function closeMethod(){methodDialog.close();}

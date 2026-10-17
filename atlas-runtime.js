@@ -363,7 +363,7 @@ const passport=document.createElement('section');passport.className='passport pa
 passport.innerHTML=`<div class="sectionHeading"><div><div class="eyebrow">DATA PASSPORT / 每个结论都有来处</div><h2>每项数据，都有清晰依据。</h2><p>区分统计记录、模型估计、空间计算与研究假设。</p></div><button id="passportMethods" class="textButton">完整计算方法 ↗</button></div><div class="passportGrid"><div><span class="passportMark">统计记录</span><strong>2,662<small> 个县域</small></strong><p>已有正值 GDP 保留原值；地图口径共 2,891 个县域。县代码匹配源表与边界，详情标明 GDP 来源。</p></div><div><span class="passportMark">模型补缺</span><strong>229<small> 个县域</small></strong><p>214 个缺失与 15 个零值采用灯光模型估计，详情标明估计来源。模型效果由独立留出验证呈现。</p></div><div><span class="passportMark">空间计算</span><strong>1,028<small> 个要素</small></strong><p>所给保护区与县域相交，转换到等积投影计算面积，并合并去重；地图提供实际边界与县域覆盖率。</p></div><div><span class="passportMark">研究假设</span><strong>多年份<small> 快照</small></strong><p>辐射为 2016 年，部分经济土地数据为 2023 年；不可用土地占比越大，土地约束越强；评分按负向处理。</p></div></div><div class="evidencePipeline" aria-label="数据处理流程"><span>源表与边界<br><small>县代码匹配</small></span><b>→</b><span>GDP 补缺<br><small>地级市分组验证</small></span><b>→</b><span>协调与分级<br><small>七指标正则马氏评分</small></span><b>→</b><span>地图与对照<br><small>口径随图呈现</small></span></div><p class="evidenceNote">数据源为研究团队的论文、县域表格和矢量文件。源表指标、空间计算、GDP补缺与模型结果通过统一县代码关联；指标含义、年份、计算方法和来源随图呈现。</p>`;
 $('modelSection').after(passport);$('passportMethods').onclick=()=>$('about').showModal();
 // A short, user-controlled presentation path retains the full working map.
-const guide=document.createElement('div');guide.className='guidedEntry';guide.innerHTML='<span>第一次来到光域智图？</span><button id="startGuide">四步读懂这张地图 <b>↗</b></button><small>资源 → 生态 → 对照 → 依据</small>';document.querySelector('.intro').after(guide);
+const guide=document.createElement('div');guide.className='guidedEntry';guide.innerHTML='<span>第一次来到逐光？</span><button id="startGuide">四步读懂这张地图 <b>↗</b></button><small>资源 → 生态 → 对照 → 依据</small>';document.querySelector('.intro').after(guide);
 const guidePanel=document.createElement('aside');guidePanel.className='guidePanel';guidePanel.hidden=true;guidePanel.setAttribute('aria-label','作品导览');guidePanel.innerHTML='<div><span id="guideStep"></span><button id="closeGuide" aria-label="关闭导览">×</button></div><h3 id="guideTitle"></h3><p id="guideText"></p><div><button id="guidePrev">上一步</button><button id="guideNext">下一步 →</button></div>';document.body.append(guidePanel);
 const guidedSteps=[['看见资源','先看太阳辐射的空间差异，以归一化指数比较县域光照条件。',()=>exploreMetric('radiation')],['看见边界','将保护区实际边界放在县域背景中，观察空间位置与覆盖比例。',()=>exploreMetric('protected',true)],['解释差异','使用两县同刻度条形图比较具体条件，结合指标方向解释差异。',()=>$('compareSection').scrollIntoView({behavior:'smooth'})],['追溯依据','已有统计 GDP 直接采用，缺失与零值由灯光模型补估。区分统计记录、模型估计和空间计算。',()=>$('passport').scrollIntoView({behavior:'smooth'})]];
 let guideIndex=0;
@@ -484,7 +484,7 @@ function renderRankingExplanation(a,b){
  const years={priority:'多年份综合模型',score:'多年份综合模型',coord:'多年份综合模型',solar:'源表未统一标年',radiation:'2016 年',slope:'源表未统一标年',land3:'源表未统一标年',gdp:'多年份统计 · 缺失补估',carbonTotal:'2023 年 / 部分 2022 年',land6:'源表未统一标年',protected:'所给保护区版本 · 未统一标年'};
  const originalMap=renderMap;
  renderMap=function(){originalMap();$('hudLayer').textContent=$('mapTitle').textContent;
-   $('hudMeta').textContent=(metric==='priority'?(mode==='county'?'等级 1–5':'最高等级县域占比 %'):defs[metric][2]==='percent'?'单位：%':isTotal(metric)?'单位：吨 CO₂':'单位：归一化指数')+' · '+years[metric];
+   $('hudMeta').textContent=(metric==='priority'?(mode==='county'?'等级 1–5':'最高等级县域占比 %'):defs[metric][2]==='percent'?'单位：%':isTotal(metric)?'单位：吨 CO₂':'单位：归一化指数')+(metric==='radiation'?'':' · '+years[metric]);
    meaning.textContent=metric==='land3'?'金色 = 不可用土地占比较低，土地约束较少':metric==='slope'?'蓝色 → 青绿 → 金色：坡度适宜性由低到高':metric==='protected'?(protectedView==='footprint'?'橙金色 = 所给保护区实际边界范围':'橙金色 = 保护区覆盖比例较高'):metric==='priority'?(mode==='county'?'金色 = 综合开发优先级最高（5级）':'金色 = 本省5级县域占比较高'):'金色 = 当前指标数值较高';
  };
  const teamExamples={
@@ -1223,7 +1223,7 @@ window.ATLAS_ANALYSIS_STATE={snapshot,restore,encode,decode};window.addEventList
    if(priority){priorityPage.prepend(intro,workspace);workspace.append(insights);insights.hidden=false;metric='priority';}
    else{introAnchor.after(intro);workspaceAnchor.after(workspace);chartHome.append(insights);insights.hidden=true;if(metric==='priority')metric=lastAtlasMetric;}
    intro.querySelector('h1').textContent=priority?'中国县域光伏 · 开发优先级':'中国县域光伏 · 统计分析';
-   intro.querySelector('.eyebrow').textContent=priority?'光域智图 / PRIORITY ATLAS':'光域智图 / MULTIDIMENSIONAL ATLAS';
+   intro.querySelector('.eyebrow').textContent=priority?'逐光 / PRIORITY ATLAS':'逐光 / MULTIDIMENSIONAL ATLAS';
    for(const b of $('metrics').querySelectorAll('[data-metric]'))b.classList.toggle('active',b.dataset.metric===metric);
    lastMapPage=page;
    ATLAS_DASHBOARD_INSPECTOR.responsive();
@@ -1278,7 +1278,7 @@ window.ATLAS_ANALYSIS_STATE={snapshot,restore,encode,decode};window.addEventList
  pages.candidates.append(studio);pages.decision.append(diagnostics,lab);
  pages.candidates.classList.add('candidatePage');pages.decision.classList.add('decisionPage');
  const navigate=page=>{if(location.hash!=='#'+page)history.pushState(null,'','#'+page);ATLAS_NAVIGATION.show(page);};
- const heading=studio.querySelector('.studioHeading');heading.querySelector('h2').textContent='候选县域 · 条件筛选';heading.querySelector('.eyebrow').textContent='光域智图 / CANDIDATE EXPLORER';heading.querySelector('p').textContent='设定资源与土地门槛，浏览满足条件的全部县域。';$('closeStudio').hidden=true;
+ const heading=studio.querySelector('.studioHeading');heading.querySelector('h2').textContent='候选县域 · 条件筛选';heading.querySelector('.eyebrow').textContent='逐光 / CANDIDATE EXPLORER';heading.querySelector('p').textContent='设定资源与土地门槛，浏览满足条件的全部县域。';$('closeStudio').hidden=true;
  const filterTools=document.createElement('div');filterTools.className='candidateFilterTools';
  const filterConfig=[['sun','太阳辐射至少','sunFilter',false],['land','土地可用至少','landFilter',true],['reserve','保护区覆盖至多','reserveFilter',true]];
  filterTools.innerHTML='<label class="candidateScopeLabel">研究范围<select id="candidateScope"><option value="">全国</option>'+provinces.map(p=>'<option value="'+p.id+'">'+esc(p.name)+'</option>').join('')+'</select></label>'+filterConfig.map(([key,label,id,pct])=>'<label>'+label+'<output id="candidateFilterValue-'+key+'"></output><input id="candidateFilter-'+key+'" type="range" min="0" max="1" step="0.01" aria-label="'+label+'"></label>').join('');heading.after(filterTools);
@@ -1301,7 +1301,7 @@ window.ATLAS_ANALYSIS_STATE={snapshot,restore,encode,decode};window.addEventList
  studio.addEventListener('click',e=>{const button=e.target.closest('[data-locate]');if(button){requestAnimationFrame(()=>setCandidateView('map'));return;}if(e.target.closest('[data-province]'))requestAnimationFrame(syncCandidateControls);});
  window.addEventListener('atlas:filters-changed',syncCandidateControls);
 
- diagnostics.classList.add('decisionHeading');diagnostics.querySelector('h2').textContent='决策推演 · 偏好、稳健性与空间结构';diagnostics.querySelector('.eyebrow').textContent='光域智图 / DECISION STUDIO';
+ diagnostics.classList.add('decisionHeading');diagnostics.querySelector('h2').textContent='决策推演 · 偏好、稳健性与空间结构';diagnostics.querySelector('.eyebrow').textContent='逐光 / DECISION STUDIO';
  const loadState=document.createElement('section');loadState.className='decisionLoadState';loadState.hidden=true;loadState.innerHTML='<strong>正在准备决策数据…</strong><p>资源偏好、情景频率与空间检验将显示在这里。</p><button type="button" hidden>重新载入</button>';diagnostics.after(loadState);loadState.querySelector('button').onclick=()=>openDecision();
  const methodDialog=document.createElement('dialog');methodDialog.id='decisionMethodDialog';methodDialog.innerHTML='<div class="decisionDialogHeading"><h2 id="decisionMethodTitle">方法说明</h2><button type="button" aria-label="关闭方法说明">×</button></div><div class="decisionMethodBody"></div>';document.body.append(methodDialog);
  let methodReturn=null;function closeMethod(){methodDialog.close();}
@@ -1582,7 +1582,7 @@ window.ATLAS_ANALYSIS_STATE={snapshot,restore,encode,decode};window.addEventList
  for(const canvas of document.querySelectorAll('.mapCanvas,.nightMapCanvas'))canvas.classList.add('raisedMap');
  function syncBackdrop(){const page=document.body.dataset.page,visible=['priority','atlas','gdp'].includes(page)||(page==='candidates'&&window.ATLAS_WORKBENCH?.getState().candidateMap);document.body.classList.toggle('mapPhotoPage',!!visible);}
  window.addEventListener('atlas:page-changed',syncBackdrop);const candidates=document.querySelector('.candidatePage');if(candidates)new MutationObserver(syncBackdrop).observe(candidates,{attributes:true,attributeFilter:['class']});syncBackdrop();
- const sun=document.querySelector('.brand .sun');if(sun){sun.innerHTML='<svg viewBox="64 64 384 384" role="img" aria-label="光域智图太阳标志"><g fill="#ddbd7b" stroke="#f1d68e" stroke-width="1">'+Array.from({length:8},(_,i)=>'<path d="M250 74H262L267 138H245Z" transform="rotate('+i*45+' 256 256)"/>').join('')+'<circle cx="256" cy="256" r="86"/></g></svg>';sun.classList.add('goldSun');}
+ const sun=document.querySelector('.brand .sun');if(sun){sun.innerHTML='<svg viewBox="64 64 384 384" role="img" aria-label="逐光太阳标志"><g fill="#ddbd7b" stroke="#f1d68e" stroke-width="1">'+Array.from({length:8},(_,i)=>'<path d="M250 74H262L267 138H245Z" transform="rotate('+i*45+' 256 256)"/>').join('')+'<circle cx="256" cy="256" r="86"/></g></svg>';sun.classList.add('goldSun');}
  const maps=new Map();let frame=0;
  function create(id){const chart=$(id);if(!chart)return;const root=svg('g',{class:'mapRelief','aria-hidden':'true','pointer-events':'none'}),layers=[],selectedLayers=[];
   for(const[depth,color]of [[9,'#062443'],[6,'#0b4564'],[3,'#13768c']]){const group=svg('g',{class:'mapReliefStep',fill:color}),paths=new Map();for(const p of provinces){const node=svg('path',{d:p.path,'fill-rule':'evenodd',stroke:depth===9?'#3ebacc':'none','stroke-width':'.55','vector-effect':'non-scaling-stroke'});paths.set(p.id,node);group.append(node);}root.append(group);layers.push({group,paths,depth});}
@@ -1817,7 +1817,7 @@ window.ATLAS_PROVINCE_POLICIES={checked:'2026-10-16',national:[
   for(const b of panel.querySelectorAll('[data-province-county]'))b.onclick=()=>{const c=a.rows.find(c=>c.id===b.dataset.provinceCounty);if(!c)return;chosenCounty=c.id;ATLAS_NAVIGATION.show('atlas');history.replaceState(null,'','#atlas');pid=c.pid;$('province').value=pid;metric='solar';selectCounty(c);};
  }
  $('decisionProvince').onchange=e=>{current=e.target.value;chosenCounty=null;render();};
- $('exportProvinceAdvice').onclick=()=>{const a=analyze(current),policies=[...(policyData.local[current]?[policyData.local[current]]:[]),...policyData.national],text='# '+a.p.name+' · 光伏开发分析\n\n'+a.conclusion+'\n\n'+a.route.map((t,i)=>['重点区域','次优区域','推进安排'][i]+'\n'+t).join('\n\n')+'\n\n## 建议先调研的县\n'+a.ranked.slice(0,8).map(c=>c.name+'（'+val(c,'priority')+'级）：'+scenario(c).action+'；'+gradeActions[val(c,'priority')]).join('\n')+'\n\n## 政策依据（核验 '+policyData.checked+'）\n'+policies.map(p=>p.title+' · '+p.date+'\n'+p.url+'\n'+p.note+'\n'+p.action).join('\n\n'),url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download='光域智图-'+a.p.name+'-开发分析.md';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+ $('exportProvinceAdvice').onclick=()=>{const a=analyze(current),policies=[...(policyData.local[current]?[policyData.local[current]]:[]),...policyData.national],text='# '+a.p.name+' · 光伏开发分析\n\n'+a.conclusion+'\n\n'+a.route.map((t,i)=>['重点区域','次优区域','推进安排'][i]+'\n'+t).join('\n\n')+'\n\n## 建议先调研的县\n'+a.ranked.slice(0,8).map(c=>c.name+'（'+val(c,'priority')+'级）：'+scenario(c).action+'；'+gradeActions[val(c,'priority')]).join('\n')+'\n\n## 政策依据（核验 '+policyData.checked+'）\n'+policies.map(p=>p.title+' · '+p.date+'\n'+p.url+'\n'+p.note+'\n'+p.action).join('\n\n'),url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download='逐光-'+a.p.name+'-开发分析.md';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
  const analyzeProvince=id=>{if(available.some(p=>p.id===id)){current=id;render();}};
  ATLAS_WORKBENCH.analyzeCounty=id=>{const c=counties.find(c=>c.id===id);if(c){chosenCounty=id;analyzeProvince(c.pid);}};
  window.ATLAS_PROVINCE_ADVISOR={analyze:analyzeProvince,getState:()=>({province:current,tab,county:chosenCounty}),summary:analyze};render();

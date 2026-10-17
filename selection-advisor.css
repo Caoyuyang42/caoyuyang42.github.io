@@ -230,3 +230,45 @@ body header .brandCopy>b{font-size:11px;font-weight:400;margin:0;padding:0;borde
 .filterExtraSummary[aria-expanded=true]{color:#e6ffff;border-color:#9cd9de}
 
 #hudMeta[hidden]{display:none!important}
+
+/* v50: horizontal filters only in the resource view; province map above conditions. */
+.filterMapLayout #protectedControls{display:none!important}
+.candidateResourceMode .candidateScreen{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+.candidateResourceMode #inlineIndicatorFilters{height:auto;min-height:0;overflow:visible;padding:6px 8px}
+.candidateResourceMode .inlineFilterHeading{display:flex;align-items:center;gap:18px;padding-bottom:4px}
+.candidateResourceMode .inlineFilterHeading h3{gap:12px}
+.candidateResourceMode .inlineFilterHeading p{margin:0!important}
+.candidateResourceMode .inlineFilterHeading br{display:none}
+.candidateResourceMode #inlineIndicatorFilters>form{margin-top:5px;flex:none}
+.candidateResourceMode #inlineIndicatorFilters #allIndicatorRows{grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(2,auto);gap:5px}
+.candidateResourceMode #inlineIndicatorFilters .allIndicatorRow{grid-template-columns:minmax(0,1fr) 102px;min-height:49px;padding:3px 7px 2px}
+.candidateResourceMode .candidateResults{min-height:0}
+.provinceEvidence{gap:0}
+.provinceMapHeading{flex:none;margin-bottom:0!important}
+.provinceMapCanvas{position:relative;flex:1 1 40%;min-height:145px;overflow:hidden;background:radial-gradient(ellipse at center,#27607955,transparent 72%)}
+#provinceDecisionMap{display:block;width:100%;height:100%;position:absolute;inset:0;filter:drop-shadow(0 4px 1px #0a394d99)}
+.provinceMapCounty{stroke:#a1e6e0;stroke-width:.55;vector-effect:non-scaling-stroke;cursor:pointer;transition:fill .12s}
+.provinceMapCounty:hover,.provinceMapCounty:focus{fill:#ffe5a0;stroke:#fff4d4;stroke-width:1.5;outline:none}
+.provinceMapLegend{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;flex:none;padding:3px 0 7px;font-size:11px}
+.provinceMapLegend span{display:flex;align-items:center;gap:4px}
+.provinceMapLegend i{display:inline-block;width:10px;height:8px}
+.provinceConditionsHeading{flex:none;margin:0!important;padding-top:6px;border-top:1px solid #7eb4c866}
+.provinceEvidenceRows{flex:1 1 60%;min-height:264px;grid-template-rows:repeat(8,minmax(30px,1fr));gap:2px}
+.provinceEvidenceRows>div{gap:3px 8px;font-size:12px}
+.provinceEvidenceRows strong{font-size:14px}
+.provinceEvidenceRows i{height:7px}
+@media(min-width:761px) and (max-width:1099px){
+ .candidateResourceMode .candidateResults{min-height:650px}
+ .candidateResourceMode #candidateResourceView{display:grid!important;grid-template-columns:1fr 1fr}
+ .candidateResourceMode #inlineIndicatorFilters .allIndicatorRow{grid-template-columns:minmax(0,1fr) 85px}
+ .provinceEvidence{min-height:650px}
+}
+@media(max-width:760px){
+ .candidateResourceMode #inlineIndicatorFilters #allIndicatorRows{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(4,auto)}
+ .candidateResourceMode #inlineIndicatorFilters .allIndicatorRow{grid-template-columns:minmax(0,1fr);min-height:75px}
+ .candidateResourceMode #inlineIndicatorFilters .indicatorRange{grid-column:1}
+ .candidateResourceMode .inlineFilterHeading{flex-wrap:wrap;gap:3px}
+ .candidateResourceMode .candidateResults{min-height:950px}
+ .provinceMapCanvas{flex:none;height:260px;min-height:260px}
+ .provinceEvidenceRows{flex:none;min-height:320px}
+}

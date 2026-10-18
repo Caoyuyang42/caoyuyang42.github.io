@@ -1282,3 +1282,43 @@ body header .brandCopy>b{font-size:13.2px;font-weight:400;margin:0;padding:0;bor
 .provinceIntro button{padding:13px 28px;font-size:24px;border-color:#78bbcc;color:#a2f1e5;background:#285d7377}
 #exportProvinceAdvice[hidden]{display:none!important}
 @media(max-width:760px){.provinceIntro{padding:28px 16px!important;min-height:450px}.provinceIntro h3{font-size:31.2px}.provinceIntro p{font-size:21.6px!important}.provinceIntro p br{display:none}.provinceIntro button{font-size:21.6px;padding:10px 20px}}
+
+/* v52: readable county cards and policy text, with independent scrolling. */
+#provinceDecision .provinceCountyPanel,
+#provinceDecision .provincePolicy,
+#provinceDecision .provincePolicyIntro {
+ font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif;
+ font-size-adjust:none;
+ text-size-adjust:100%;
+ -webkit-text-size-adjust:100%;
+}
+#provinceDecision .provinceCountyPanel>.wbHeading h3 {font-size:clamp(1.4rem,2.26dvh,2.1rem);line-height:1.5}
+#provinceDecision .provinceCountyPanel>.wbHeading>span {font-size:clamp(1rem,1.62dvh,1.5rem);line-height:1.5}
+#provinceDecision .provinceCountyList {
+ min-height:0;align-content:stretch;grid-auto-rows:minmax(150px,1fr);
+ overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;overscroll-behavior:contain;
+}
+#provinceDecision .provinceCounty {
+ min-height:150px;padding:10px;gap:8px;justify-content:flex-start;line-height:1.5;
+}
+#provinceDecision .provinceCounty b {font-size:clamp(1.25rem,2.02dvh,1.875rem);line-height:1.4}
+#provinceDecision .provinceCounty em {font-size:clamp(1.125rem,1.82dvh,1.6875rem);line-height:1.4}
+#provinceDecision .provinceCounty strong {font-size:clamp(1.125rem,1.82dvh,1.6875rem);line-height:1.65}
+#provinceDecision .provinceCounty small {font-size:clamp(1rem,1.62dvh,1.5rem);line-height:1.65;overflow-wrap:anywhere}
+#provinceDecision .provinceCountyPanel>.provinceChartNote {font-size:clamp(1rem,1.62dvh,1.5rem)!important;line-height:1.6;margin-top:10px}
+#provinceDecision .provincePolicyIntro {font-size:clamp(1.0625rem,1.72dvh,1.59375rem);line-height:1.6}
+#provinceDecision .provincePolicy {padding:18px 0}
+#provinceDecision .provincePolicy small {font-size:clamp(1.0625rem,1.72dvh,1.59375rem);line-height:1.6;margin-bottom:8px}
+#provinceDecision .provincePolicy a {font-size:clamp(1.4rem,2.26dvh,2.1rem);line-height:1.65;overflow-wrap:anywhere}
+#provinceDecision .provincePolicy p,
+#provinceDecision .provincePolicyMissing {font-size:clamp(1.2rem,1.94dvh,1.8rem)!important;line-height:1.7!important;margin:12px 0!important}
+#provinceDecision .provincePolicy strong {font-size:clamp(1.2rem,1.94dvh,1.8rem);line-height:1.65}
+@media(max-width:760px){
+ #provinceDecision .provinceCountyList{max-height:470px;grid-template-columns:1fr}
+ #provinceDecision .provinceCounty{min-height:150px}
+}
+
+#provinceDecision .provinceCountyList,#provinceStrategyContent{scrollbar-color:#8ca4af #173347;scrollbar-gutter:stable}
+#provinceDecision .provinceCountyList::-webkit-scrollbar,#provinceStrategyContent::-webkit-scrollbar{width:8px}
+#provinceDecision .provinceCountyList::-webkit-scrollbar-track,#provinceStrategyContent::-webkit-scrollbar-track{background:#173347}
+#provinceDecision .provinceCountyList::-webkit-scrollbar-thumb,#provinceStrategyContent::-webkit-scrollbar-thumb{background:#8ca4af;border-radius:4px}

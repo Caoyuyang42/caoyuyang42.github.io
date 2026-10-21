@@ -605,8 +605,23 @@ function renderRankingExplanation(a,b){
  move($('modelSection'),'atlas');
  main.append(main.querySelector('footer'));
  const nav=document.querySelector('header nav');nav.innerHTML='<button data-page-link="context">背景与政策</button><button data-page-link="priority">开发优先级</button><button id="atlasNav" data-page-link="atlas">统计分析</button><button data-page-link="findings">发现与对照</button><button data-page-link="gdp">GDP 估计</button><button data-page-link="candidates">县域筛选</button><button data-page-link="decision">决策推演</button><button id="networkNav" hidden>区域关联</button>';
- let page='context';
- function showPage(key,scroll=true){page=key in pages?key:'context';for(const [k,p] of Object.entries(pages))p.hidden=k!==page;for(const b of nav.querySelectorAll('[data-page-link]')){b.classList.toggle('navActive',b.dataset.pageLink===page);b.setAttribute('aria-current',b.dataset.pageLink===page?'page':'false');}document.body.dataset.page=page;window.ATLAS_PAGE_LAYOUT?.activate(page);window.dispatchEvent(new CustomEvent('atlas:page-changed',{detail:{page}}));if(scroll)window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{layout();if(page==='atlas'||page==='priority'){fit();renderOverlays();}if(page==='gdp')renderModel();});}
+ const contextButton=nav.querySelector('[data-page-link="context"]');
+ contextButton.id='contextBtn';contextButton.className='quiet';contextButton.setAttribute('aria-haspopup','dialog');contextButton.setAttribute('aria-controls','contextDialog');contextButton.setAttribute('aria-expanded','false');
+ $('aboutBtn').before(contextButton);
+ const contextDialog=document.createElement('dialog');contextDialog.id='contextDialog';contextDialog.setAttribute('aria-labelledby','contextDialogTitle');
+ contextDialog.innerHTML='<div class="dialogHead"><h2 id="contextDialogTitle">背景与政策</h2><button id="closeContext" aria-label="关闭背景与政策">×</button></div><div class="contextDialogBody"></div>';
+ document.body.append(contextDialog);contextDialog.lastElementChild.append(pages.context);pages.context.hidden=true;
+ let page='priority';
+ function openContext(){
+  if(!document.body.dataset.page)showPage('priority',false);
+  pages.context.hidden=false;contextButton.setAttribute('aria-expanded','true');
+  if(!contextDialog.open)contextDialog.showModal();
+  requestAnimationFrame(()=>window.ATLAS_CONTEXT_DASHBOARD?.redraw(true));
+ }
+ contextButton.onclick=openContext;$('closeContext').onclick=()=>contextDialog.close();
+ contextDialog.addEventListener('click',e=>{if(e.target!==contextDialog)return;const r=contextDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)contextDialog.close();});
+ contextDialog.addEventListener('close',()=>{pages.context.hidden=true;contextButton.setAttribute('aria-expanded','false');$('contextVideo')?.pause();if(['#context','#contextSection'].includes(location.hash))history.replaceState(null,'','#'+page);});
+ function showPage(key,scroll=true){if(key==='context'){openContext();return;}if(contextDialog.open)contextDialog.close();page=key in pages?key:'priority';for(const [k,p] of Object.entries(pages))p.hidden=k!==page;for(const b of nav.querySelectorAll('[data-page-link]')){b.classList.toggle('navActive',b.dataset.pageLink===page);b.setAttribute('aria-current',b.dataset.pageLink===page?'page':'false');}document.body.dataset.page=page;window.ATLAS_PAGE_LAYOUT?.activate(page);window.dispatchEvent(new CustomEvent('atlas:page-changed',{detail:{page}}));if(scroll)window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{layout();if(page==='atlas'||page==='priority'){fit();renderOverlays();}if(page==='gdp')renderModel();});}
  window.ATLAS_NAVIGATION={show:showPage,pages};
  for(const b of nav.querySelectorAll('[data-page-link]'))b.onclick=()=>{history.pushState(null,'','#'+b.dataset.pageLink);showPage(b.dataset.pageLink);};
  document.addEventListener('click',e=>{const link=e.target.closest('a[href^="#"]');if(!link)return;const target=$(link.hash.slice(1));if(target){const p=target.closest('.appPage');if(p){e.preventDefault();showPage(p.dataset.page,false);requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth'}));}}},true);
@@ -637,7 +652,7 @@ function renderRankingExplanation(a,b){
  $('showLinks').onchange=()=>renderOverlays();$('showReserves').onchange=()=>renderOverlays();
  // Twelve perturbations are diagnostics, not an alternative published ranking.
  const diagnostics=document.createElement('section');diagnostics.className='modelDiagnostics';diagnostics.innerHTML='<div class="sectionHeading"><div><div class="eyebrow">DECISION / 从资源条件到区域选择</div><h2>多目标决策推演</h2><p>调整资源、经济与低碳偏好，识别稳健候选与空间集聚。</p></div></div>';$('modelSection').before(diagnostics);
- function routeHash(){const key=location.hash.slice(1),target=$(key),section=target?.closest('.appPage');showPage(Object.keys(pages).includes(key)?key:section?.dataset.page||(!key?'context':'atlas'),false);}
+ function routeHash(){const key=location.hash.slice(1),target=$(key),section=target?.closest('.appPage');showPage(Object.keys(pages).includes(key)?key:section?.dataset.page||(!key?'priority':'atlas'),false);}
  window.addEventListener('popstate',routeHash);window.addEventListener('hashchange',routeHash);
  renderDetail();routeHash();window.ATLAS_DASHBOARD_READY=true;
 })();

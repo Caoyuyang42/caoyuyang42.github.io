@@ -1,0 +1,14 @@
+/* Background reading is optional, alongside Data and Methods. */
+#contextDialog{box-sizing:border-box;width:min(1800px,96vw);max-width:96vw;height:min(980px,94dvh);max-height:94dvh;padding:0;overflow:hidden}
+#contextDialog[open]{display:flex;flex-direction:column}
+#contextDialog>.dialogHead{flex:none;padding:10px 18px;gap:15px}
+#contextDialog>.dialogHead h2{font-size:22px;line-height:1.5;margin:0}
+#contextDialog>.dialogHead button{font-size:24px;min-width:40px;min-height:40px}
+#contextDialog .contextDialogBody{flex:1;min-height:0;overflow:auto;padding:14px 18px;overscroll-behavior:contain}
+#contextDialog .appPage[data-page="context"]{margin:0;max-width:none}
+#contextDialog #contextSection{margin:0;padding:0;border:0;background:transparent}
+#contextDialog .ctxPolicyCard{overflow:hidden}
+#contextDialog #contextSection.contextSymmetric .ctxPolicyCard>p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+#contextDialog #contextSection.contextSymmetric .ctxGoals>.ctxChartNote{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+@media(min-width:1100px){#contextDialog #contextSection.contextSymmetric .contextDashboardGrid{height:calc(min(980px,94dvh) - 152px);min-height:440px;max-height:none}}
+@media(max-width:760px){#contextDialog{width:96vw;max-width:96vw;height:94dvh}#contextDialog .contextDialogBody{padding:12px}#contextDialog>.dialogHead{padding:8px 12px}}
